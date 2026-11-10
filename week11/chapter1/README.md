@@ -2,7 +2,14 @@
 
 A narrated, animated chapter for PHQM830 Quantitative Research Methods and Statistics (HBMSU, Fall 2026), in the style of VoiceLearn. It covers Part 1 of the Week 11 deck "Introduction to Machine Learning".
 
-- **What it is:** 11 scenes, about 7 minutes. Each spoken sentence reveals one step of the picture, and captions are shown. It ends with a two-question check.
+- **Open it:** https://b-jarboui.github.io/voicelearn-qrms/week11/chapter1/
+- **What it is:** 16 scenes, about 12 minutes. Each spoken sentence reveals one step of the picture, and captions are shown.
+- **Hands-on activities:**
+  - Guess where the complaint risk jumps.
+  - Try any cut-off on a slider, with real numbers.
+  - The accuracy trap: choose between a lazy model and a 90-minute rule.
+  - Understanding or predicting?
+  - A five-question quiz with explanations and a score, then four takeaways.
 - **Data:** the complaint rates and the rule table come from the course dataset (5,204 visits with a valid waiting time).
 - **Voice:** Google Gemini text-to-speech (`gemini-3.1-flash-tts-preview`, voice "Charon"). The audio is pre-generated as MP3 files, so students need no key and no account.
 - **Files:**
