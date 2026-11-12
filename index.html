@@ -16,9 +16,9 @@
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible","Segoe UI",Arial,sans-serif}
 a{color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px 48px}
+.wrap{max-width:1132px;margin:0 auto;padding:0 16px 48px}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
-.brand{display:flex;align-items:center;gap:10px;font:800 21px/1 Manrope,sans-serif;text-decoration:none}
+.brand{display:flex;align-items:center;gap:10px;min-height:44px;font:800 21px/1 Manrope,sans-serif;text-decoration:none}
 .brand svg{flex:none}
 .course-tag{font:700 14px/1.2 Manrope,sans-serif;color:var(--muted);text-align:right}
 .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:12px 20px;font:700 17px/1.2 "Atkinson Hyperlegible",sans-serif;cursor:pointer;text-decoration:none;border:1px solid var(--primary)}
@@ -35,10 +35,10 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 .welcome .btn{margin-top:14px}
 
 /* Hero */
-.hero{background:var(--hero);color:var(--hero-ink);border-radius:24px;padding:34px 36px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:24px;padding:32px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;min-height:329px}
 .hero .eyebrow{color:var(--hero-soft)}
-.hero h1{font:400 clamp(30px,4.4vw,42px)/1.1 "DM Serif Display",serif;margin:10px 0 10px}
-.hero p{margin:0;color:#d9e6dc}
+.hero h1{font:400 clamp(32px,4.4vw,51px)/1.08 "DM Serif Display",serif;margin:12px 0 14px;max-width:512px}
+.hero p{margin:0;color:#d9e6dc;font-size:16px;max-width:415px}
 .stats{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;padding-top:16px;border-top:1px solid rgba(243,247,236,.18);font-size:15px}
 .stats b{font-size:17px}
 .steps{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(243,247,236,.18);border-radius:18px;padding:18px 22px}
@@ -47,17 +47,18 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 .step.on span{background:#cfe9b8;color:var(--hero);border-color:#cfe9b8}
 .arrow{color:var(--hero-soft)}
 
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 26px}
-.resume{background:var(--soft);border-color:var(--soft-line);display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+.resume{background:var(--soft);border-color:var(--soft-line);display:flex;align-items:center;justify-content:space-between;gap:16px;margin:20px 0;padding:24px 28px}
+.resume .btn{padding:12px 24px;min-height:52px}
 .resume h2{font:700 21px/1.3 Manrope,sans-serif;margin:4px 0 0}
 .label{font:800 12px/1.3 Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--primary)}
-.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}
+.grid{display:grid;grid-template-columns:672fr 408fr;gap:20px;align-items:start}
 .card h2{font:700 22px/1.3 Manrope,sans-serif;margin:6px 0 14px}
-.lesson{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.lesson{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 0;min-height:100px;border-top:1px solid var(--line)}
 .lesson:first-of-type{border-top:0}
 .lesson h3{margin:0;font:700 17px/1.35 "Atkinson Hyperlegible",sans-serif}
 .lesson small{color:var(--muted);font-size:14px}
-.play{flex:none;background:var(--soft);color:var(--primary);border:1px solid var(--line);border-radius:10px;padding:8px 16px;font:800 13px/1 "Atkinson Hyperlegible",sans-serif;text-decoration:none}
+.play{flex:none;background:var(--soft);color:var(--primary);border:1px solid var(--line);border-radius:10px;padding:8px 14px;min-height:44px;display:inline-flex;align-items:center;font:800 13px/1 "Atkinson Hyperlegible",sans-serif;text-decoration:none}
 .play:hover{background:#dfeee3}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{background:var(--chip);border-radius:999px;padding:5px 12px;font-size:14px}
