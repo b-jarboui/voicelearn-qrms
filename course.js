@@ -6,9 +6,9 @@ window.VL_COURSE = {
     { n: 1, week: 11, title: "What machine learning is", href: "week11/chapter1/", minutes: 12, live: true,
       meta: "Week 11 · 16 scenes · about 12 minutes · interactive activities and a quiz",
       targets: ["Define machine learning", "Understanding versus predicting", "Cut-offs and rules", "The accuracy trap"] },
-    { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 15, live: true,
-      meta: "Week 12 · 18 scenes · about 15 minutes · run k-means yourself, five activities and a quiz",
-      targets: ["How k-means works", "Standardise before distance", "The noise floor", "Name clusters defensibly"] },
+    { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 23, live: true,
+      meta: "Week 12 · 26 scenes · about 23 minutes · run k-means yourself, seven activities and a quiz",
+      targets: ["How k-means works", "Standardise before distance", "The noise floor", "Elbow and silhouette", "Hierarchical and DBSCAN", "From clusters to segments"] },
     { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 18, live: true,
       meta: "Week 13 · 20 scenes · about 18 minutes · TF-IDF by hand, a leak hunt, five activities and a quiz",
       targets: ["Text as variables", "TF-IDF", "Read the sentences", "Fit on train only"] }
