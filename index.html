@@ -74,6 +74,10 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 .weeksel:focus-visible{outline:3px solid #f2b84b;outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 [hidden]{display:none!important}
+.pickwrap{flex:1;min-width:0;display:grid;gap:8px}
+.pick{width:100%;max-width:520px;min-height:52px;padding:10px 14px;border:1px solid var(--soft-line);border-radius:12px;background:var(--card);color:var(--ink);font:700 18px/1.3 "Atkinson Hyperlegible",sans-serif;cursor:pointer}
+.pick:focus-visible{outline:3px solid #f2b84b;outline-offset:2px}
+.resume .btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
 
 @media (max-width:820px){
   .hero{grid-template-columns:1fr;padding:26px 22px}
@@ -131,11 +135,11 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
     </section>
 
     <section class="card resume" id="resume">
-      <div>
-        <div class="label" id="resumeLabel">Start here</div>
-        <h2 id="resumeTitle">Chapter 1: What machine learning is</h2>
+      <div class="pickwrap">
+        <label class="label" for="pickCh">Choose a chapter</label>
+        <select id="pickCh" class="pick"><option value="" selected>Select a chapter…</option></select>
       </div>
-      <a class="btn primary" id="resumeBtn" href="week11/chapter1/">▶ Start chapter 1</a>
+      <a class="btn primary" id="resumeBtn" aria-disabled="true">▶ Start</a>
     </section>
 
     <div class="grid">
@@ -189,14 +193,19 @@ function render(){
     var w = el(live?"a":"div","week"); if(live) w.href=c.href; w.appendChild(el("span",null,"Week "+c.week)); w.appendChild(el("b",null,"Chapter "+c.n+(live?"":" · soon"))); map.appendChild(w);
   });
 
-  // resume: the first chapter not yet opened (or chapter 1 when all have been opened)
-  var next = COURSE.filter(function(c){ return c.live!==false && seen.indexOf(String(c.n))<0; })[0];
-  var any = COURSE.some(function(c){ return seen.indexOf(String(c.n))>=0; });
-  var r = next || COURSE[0];
-  document.getElementById("resumeLabel").textContent = next && any ? "Continue the course" : "Start here";
-  document.getElementById("resumeTitle").textContent = label(r);
-  var b = document.getElementById("resumeBtn"); b.href = r.href; b.textContent = "▶ Start chapter " + r.n;
-  b.addEventListener("click", function(){ store("vl-qrms-seen", seen.concat(String(r.n)).filter(Boolean).join(",")); });
+  // chapter picker: nothing is chosen until the student selects a chapter
+  var pick = document.getElementById("pickCh"), b = document.getElementById("resumeBtn");
+  pick.length = 1; pick.value = "";
+  COURSE.forEach(function(c){
+    var o = el("option", null, label(c) + (c.live!==false ? "" : " (coming soon)")); o.value = String(c.n); o.disabled = c.live===false; pick.appendChild(o);
+  });
+  var sync = function(){
+    var c = COURSE.filter(function(x){ return String(x.n)===pick.value; })[0];
+    if (c) { b.href = c.href; b.textContent = "▶ Start chapter " + c.n; b.removeAttribute("aria-disabled"); }
+    else { b.removeAttribute("href"); b.textContent = "▶ Start"; b.setAttribute("aria-disabled","true"); }
+  };
+  pick.onchange = sync; sync();
+  b.onclick = function(e){ if (!pick.value) { e.preventDefault(); pick.focus(); return; } store("vl-qrms-seen", seen.concat(pick.value).filter(Boolean).join(",")); };
 }
 
 function showHome(){
