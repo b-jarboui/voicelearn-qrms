@@ -145,19 +145,19 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
   .stat b{font-size:21px}
   #controls button{padding:8px 11px}
 }
-</style>
-<script>
-/* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
-(function(c,l,a,r,i,t,y){
-  if(/[?&]qa=1/.test(location.search)||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:")return;
-  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window,document,"clarity","script","zd6pg60ru9");
-</script>
+header .nav a{margin-left:0;color:var(--navy);font-size:13px}
+.chmenu{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 20px 0;font-size:14px}
+.chmenu a,.chmenu span{display:inline-flex;align-items:center;min-height:36px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--navy);text-decoration:none;font-weight:700}
+.chmenu a:hover{border-color:var(--navy)}
+.chmenu .cur{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chmenu .soon{color:var(--muted);font-weight:400;border-style:dashed}
+.chmenu .home{margin-right:6px}
+@media (max-width:760px){.chmenu{padding:8px 16px 0}.chmenu a,.chmenu span{font-size:13px;padding:5px 10px}}
+@media (prefers-color-scheme:dark){.chmenu .cur{color:#12161D}}</style>
 </head>
 <body>
 <header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 11</span><h1>Chapter 1 · What machine learning is</h1></header>
+<nav class="chmenu" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a><span class="cur" aria-current="page" title="What machine learning is">Chapter 1</span><a href="../../week12/chapter1/" title="Finding groups nobody labelled">Chapter 2</a><span class="soon" title="Turning written reviews into variables">Chapter 3 · coming soon</span></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
@@ -266,7 +266,7 @@ au.addEventListener('ended',()=>{
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=s.kind==='trap'?'Your turn: choose model A or model B. The narration continues after your choice.':'Choose an answer for A and for B. The narration continues when both are answered.';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 1. Well done. You can replay any scene with the bar at the top.'; prog.children[si].firstChild.style.width='100%' }
+  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 1. Well done. Use the menu at the top for Chapter 2, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
 });
 function play(){ if(waitingQuiz) return; if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
 function pause(){ playing=false; au.pause(); updBtn() }
@@ -360,5 +360,6 @@ load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks
 })();
 </script>
+<script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('1')<0){v.push('1');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 </body>
 </html>
