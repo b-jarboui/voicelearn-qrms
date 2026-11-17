@@ -339,7 +339,6 @@ function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==
 function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
 /* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
 let silent=false, clock=0, ticker=null;
-delete T.s17;   // TEMPORARY: the recorded line still says 'five questions'; remove this line once s17 is re-recorded
 S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
   parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
 const nowT=()=>silent?clock:au.currentTime;

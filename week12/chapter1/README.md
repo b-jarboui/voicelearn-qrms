@@ -76,4 +76,4 @@ Real figures added (4,729 complete rows after removing duplicates):
 
 Player upgrades: scenes menu, resume, replay, full screen, time left, karaoke captions, scene title cards, "your turn" badge, end-of-chapter summary.
 
-Read-along mode: a scene with no recorded narration runs on a silent clock with captions. On 17 November only s19 of the new scenes has voice; s20 to s26 and s17 are read-along until they are recorded. When s17 is re-recorded, remove the `delete T.s17` line in `index.html`.
+Read-along mode: a scene with no recorded narration runs on a silent clock with captions. All 26 scenes now have recorded narration (Gemini 3.1 Flash TTS, voice Charon), so it is only a safety net.
