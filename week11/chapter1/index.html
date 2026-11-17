@@ -5,6 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Week 11 · What machine learning is</title>
 <style>
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row .lab{font-weight:700;color:var(--muted);font-size:15px;margin-right:4px}
+.chip{font:inherit;font-size:15px;font-weight:700;border:2px solid var(--navy);background:var(--card);color:var(--navy);border-radius:999px;padding:7px 14px;cursor:pointer;min-height:40px}
+.chip.sel{background:var(--navy);color:#fff}
+.chip.go{border-color:var(--terra);color:var(--terra)}
+.chip.go.sel,.chip.go:active{background:var(--terra);color:#fff}
+.chip:disabled{opacity:.45;cursor:default}
+.chip,.cta,.qopts button{transition:transform .15s ease,background .2s,border-color .2s}
+.chip:hover:not(:disabled),.qopts button:hover:not(:disabled){transform:translateY(-1px)}
+/* ---------- experience upgrades ---------- */
+#prog button.act{background:#EBCFC3}
+#prog button.act i{background:var(--terra)}
+#prog button.seen:not(.cur){background:#C9D6E4}
+#prog button.cur{outline:2px solid var(--navy);outline-offset:2px}
+.stage svg.enter{animation:stin .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stin{from{opacity:0;transform:scale(.965) translateY(10px)}to{opacity:1;transform:none}}
+.badge{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;background:var(--terra);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;vertical-align:middle}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:var(--card);box-shadow:-12px 0 40px rgba(20,30,50,.25);z-index:30;transform:translateX(105%);transition:transform .35s cubic-bezier(.3,.8,.25,1);display:flex;flex-direction:column}
+#drawer.open{transform:none}
+#drawer header{padding:16px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+#drawer header h2{margin:0;font-size:19px;color:var(--navy)}
+#drawer header button{font:inherit;font-size:22px;line-height:1;border:0;background:none;color:var(--muted);cursor:pointer;padding:4px 8px}
+#drawer .sum{padding:10px 18px;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+#drawer ol{list-style:none;margin:0;padding:8px;overflow:auto;flex:1}
+#drawer li button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;font:inherit;font-size:15px;line-height:1.3;border:0;background:none;color:var(--ink);padding:9px 10px;border-radius:10px;cursor:pointer}
+#drawer li button:hover{background:var(--soft)}
+#drawer li button.cur{background:var(--hl);font-weight:700}
+#drawer li .n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--navy);font-weight:800;font-size:13px}
+#drawer li button.seen .n{background:var(--good);color:#fff}
+#drawer li .tg{margin-left:auto;flex:none;font-size:11px;font-weight:800;color:var(--terra);border:1px solid var(--terra);border-radius:999px;padding:1px 8px}
+#shade{position:fixed;inset:0;background:rgba(20,30,50,.35);z-index:25;opacity:0;pointer-events:none;transition:opacity .3s}
+#shade.open{opacity:1;pointer-events:auto}
+#controls .ico{min-width:44px;padding:8px 12px}
+.keys{text-align:center;font-size:12.5px;color:var(--muted);padding:0 20px 12px}
+.keys kbd{font:inherit;font-weight:700;border:1px solid var(--line);border-radius:5px;padding:0 5px;background:var(--card)}
+#start .cta.ghost{background:var(--card);color:var(--navy);box-shadow:none;border:2px solid var(--navy);margin-left:8px}
+.endcard{max-width:640px;margin:0 auto;text-align:center}
+.endcard .g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+:fullscreen body,:fullscreen{background:var(--paper)}
+@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}#caption.ra::before{content:"Read-along · narration coming soon";display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);margin-bottom:2px}
+/* ---------- motion polish ---------- */
+.stagewrap{position:relative}
+.stage{position:relative}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;background:radial-gradient(60% 50% at 15% 0%,rgba(232,176,75,.13),transparent 70%),radial-gradient(55% 45% at 100% 100%,rgba(31,78,121,.11),transparent 70%);animation:amb 12s ease-in-out infinite alternate}
+@keyframes amb{from{opacity:.55;transform:scale(1)}to{opacity:1;transform:scale(1.04)}}
+.copy .m .w{display:inline-block;opacity:0;transform:translateY(12px);animation:win .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes win{to{opacity:1;transform:none}}
+#caption .w{transition:color .25s,opacity .25s;opacity:.55}
+#caption .w.said{opacity:1;color:var(--ink)}
+#caption .w.now{color:var(--terra);opacity:1}
+#toast{position:absolute;left:14px;top:14px;z-index:3;pointer-events:none;display:flex;align-items:center;gap:10px;background:rgba(26,31,43,.92);color:#fff;border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;font-weight:700;opacity:0;max-width:calc(100% - 28px)}
+#toast b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1A1F2B;font-size:14px}
+#toast span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#toast.show{animation:toast 2.6s ease both}
+@keyframes toast{0%{opacity:0;transform:translateY(-10px)}12%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
+#turn{position:absolute;right:14px;top:14px;z-index:3;pointer-events:none;background:var(--terra);color:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;letter-spacing:.08em;box-shadow:0 0 0 0 rgba(192,80,42,.5);animation:turn 1.8s ease-out infinite}
+#turn[hidden]{display:none}
+@keyframes turn{70%{box-shadow:0 0 0 12px rgba(192,80,42,0)}100%{box-shadow:0 0 0 0 rgba(192,80,42,0)}}
+#controls button{transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
+#controls button:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(20,30,50,.12)}
+#controls button:active{transform:translateY(1px);box-shadow:none}
+.chip,.cta,.qopts button{transition:transform .15s ease,background .2s,border-color .2s}
+.chip:hover:not(:disabled),.qopts button:hover:not(:disabled){transform:translateY(-1px)}
+.card{animation:cardin .45s ease both}
+@keyframes cardin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.qopts button.right{animation:pop .45s ease}
+@keyframes pop{40%{transform:scale(1.03)}}
+.qopts button.wrong{animation:nope .4s ease}
+@keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (max-width:760px){#turn{top:auto;bottom:44px}#toast{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#toast.show,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}#toast{display:none}}
+</style>
+<style>
 :root{--navy:#1F4E79;--terra:#C0502A;--ink:#1A1F2B;--muted:#5A6373;--paper:#F4F0E8;--card:#FFFFFF;--line:#DDE3EA;--soft:#F4F6F8;--good:#2E7D4F;--hl:#FCEFE9;--gold:#E8B04B}
 @media (prefers-color-scheme:dark){:root{--navy:#8DB8E3;--terra:#F08A62;--ink:#ECEFF4;--muted:#A9B2C0;--paper:#12161D;--card:#1B212B;--line:#2E3746;--soft:#202835;--good:#6CCB92;--hl:#3A2A24}}
 *{box-sizing:border-box}
@@ -160,32 +233,40 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <main>
   <section class="scene" id="scene">
     <div class="copy" id="copy" aria-live="polite"><p class="k" id="ck"></p><p class="m" id="cm"></p><p class="s" id="cs"></p></div>
-    <div class="stagewrap"><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
+    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
   </section>
   <div id="ui"></div>
   <div id="caption"></div>
 </main>
 <div id="controls">
+  <button id="menu" aria-haspopup="dialog">☰ Scenes</button>
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time">1 / 16</span>
+  <span class="t" id="time" style="min-width:150px">1 / 25</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
   <button id="cc" aria-pressed="true">Captions on</button>
+  <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
+  <button id="full" class="ico" aria-label="Full screen" title="Full screen">⛶</button>
 </div>
+<p class="keys"><kbd>Space</kbd> play or pause · <kbd>←</kbd> <kbd>→</kbd> previous or next scene · <kbd>M</kbd> scenes menu · <kbd>R</kbd> replay</p>
+<div id="shade"></div>
+<aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>What machine learning is</h2>
-  <p>Week 11 · Chapter 1 · about 12 minutes of animated, narrated scenes, with four hands-on activities using real data from the Al Waha clinic and a five-question quiz. Turn your sound on.</p>
-  <button class="cta" id="go">▶ Start the chapter</button>
+  <p>Week 11 · Chapter 1 · about 22 minutes of animated, narrated scenes, with six hands-on activities using real data from the Al Waha clinic and an eight-question quiz. Turn your sound on.</p>
+  <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
 <script src="chapter.js"></script>
 <script src="timings.js"></script>
 <script src="scenes-a.js"></script>
+<script src="data2.js"></script>
 <script src="scenes-b.js"></script>
+<script src="scenes-c.js"></script>
 <script>
 (function(){
-const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC;
+const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, X11 = window.W11X;
 const S = C.scenes, au = document.getElementById('au');
 const $ = id => document.getElementById(id);
 let si = 0, step = -1, playing = false, part = 'a', waitingQuiz = false, aDone = false, pendingB = false, quizScore = null;
@@ -211,13 +292,27 @@ const UI = {
   quiz: () => `<div class="card qz"><div class="qhead"><span id="qn"></span><span class="dotsq" id="qdots"></span></div>
     <h3 id="qq"></h3><div id="qo" class="qopts"></div><div id="qwhy" class="why" aria-live="polite"></div>
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
-  takeaways: () => `<div class="center" id="endbox" style="display:none"><p id="final" style="font-size:17px;margin:0 0 8px"></p><button class="cta" id="again">↻ Replay the chapter</button></div>`
+  depth: () => `<div class="card"><label class="sl" for="dep">Tree depth: <b><span id="dv">1</span></b> <span style="font-size:15px;color:var(--muted)">(questions in a row)</span></label>
+    <input type="range" id="dep" min="0" max="${X11.readmitted_30d.depth.length-1}" step="1" value="0">
+    <div class="g4"><div class="stat"><b id="d1"></b><span>leaves (final groups)</span></div><div class="stat"><b id="d2"></b><span>training AUC</span></div><div class="stat good"><b id="d3"></b><span>test AUC · what counts</span></div><div class="stat warn"><b id="d4"></b><span>gap (overfitting)</span></div></div>
+    <p class="verdict" id="dverd"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  winner: () => `<div class="card">
+    <div class="row"><span class="lab">My pick:</span>${X11.readmitted_30d.models.map((m,i)=>`<button class="chip wp" data-i="${i}">${m[0].replace(' (depth 4)','')}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><span class="lab">Outcome:</span><button class="chip wt sel" data-t="readmitted_30d" disabled>30-day readmission</button><button class="chip wt" data-t="complaint_filed" disabled>Complaint filed</button></div>
+    <p class="verdict" id="wverd"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
+    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
+    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../week12/chapter1/" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">Chapter 2 ▶</a></div></div>`
 };
-const waitMsg = {guess:'Your turn: tap the waiting band you choose.',slider:'Your turn: move the slider, then press Continue.',quiz:'Answer the questions at your own pace.'};
+const waitMsg = {guess:'Your turn: tap the waiting band you choose.',slider:'Your turn: move the slider, then press Continue.',depth:'Your turn: grow the tree, then press Continue.',winner:'Your turn: make your pick, then press Continue.',quiz:'Answer the questions at your own pace.'};
 
 /* ---------- player ---------- */
 const prog = $('prog');
-S.forEach((s,i)=>{const b=document.createElement('button');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
+const KEY='vl-qrms-w11', seen=new Set(), tried=new Set();
+const isAct=s=>!!(s.wait||s.split||s.quiz);
+S.forEach((s,i)=>{const b=document.createElement('button'); if(isAct(s)) b.classList.add('act');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
 function unitId(){const s=S[si];return splitN(s)?s.id+part:s.id}
 function load(i,auto){
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
@@ -226,13 +321,36 @@ function load(i,auto){
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
   stage._fresh = true;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
-  $('time').textContent=(si+1)+' / '+S.length;
+  seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
+  [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
+  updTime(); drawList(); toast();
+  const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
   if(wire[s.kind]) wire[s.kind]();
   setUnit(); setStep(0);
   if(auto) play(); else pause();
 }
-function setUnit(){const t=T[unitId()]; if(t){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
+/* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
+let silent=false, clock=0, ticker=null;
+S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
+  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
+const nowT=()=>silent?clock:au.currentTime;
+function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
+function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
+function drawList(){ const L=$('dlist'); if(!L) return;
+  L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
+  L.querySelectorAll('button').forEach(b=>b.onclick=()=>{ openMenu(false); load(+b.dataset.k,true) });
+  $('dsum').textContent=seen.size+' of '+S.length+' scenes opened · '+S.filter(isAct).length+' interactive'; }
+function openMenu(on){ $('drawer').classList.toggle('open',on); $('shade').classList.toggle('open',on); $('drawer').setAttribute('aria-hidden',String(!on)); if(on){ const c=$('dlist').querySelector('.cur'); if(c) c.scrollIntoView({block:'center'}) } }
+const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let capEnds=[];
+function capWords(text){ const ws=text.split(' '); let n=0; capEnds=ws.map(w=>(n+=w.length+1)); const tot=n||1; capEnds=capEnds.map(v=>v/tot);
+  $('caption').innerHTML=ws.map(w=>`<span class="w">${esc(w)}</span>`).join(' '); }
+function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==capEnds.length) return; f=Math.max(0,Math.min(1,f));
+  for(let i=0;i<el.length;i++){ const start=i?capEnds[i-1]:0; el[i].classList.toggle('said',capEnds[i]<=f); el[i].classList.toggle('now',start<=f&&f<capEnds[i]); } }
+function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
+function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.silent); clock=0; $('caption').classList.toggle('ra',silent);
+  if(t&&!silent){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
   const sc=SC[S[si].id]; if(!sc||sc.full) return;
@@ -243,38 +361,51 @@ function renderScene(k){
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
   const c=sc.copy[k]||sc.copy[sc.copy.length-1]||{};
-  $('ck').textContent=c.k||''; $('cm').textContent=c.m||s.heading; $('cs').textContent=c.s||'';
+  $('ck').textContent=c.k||''; $('cs').textContent=c.s||'';
+  $('cm').innerHTML=esc(c.m||s.heading).split(' ').map((w,i)=>`<span class="w" style="animation-delay:${(i*.045).toFixed(2)}s">${w}</span>`).join(' ');
   const cp=$('copy'); cp.classList.remove('in'); void cp.offsetWidth; cp.classList.add('in');
   $('status').textContent=c.l||''; $('beatbar').style.width=((k+1)/s.lines.length*100)+'%';
   renderScene(k);
   if(s.kind==='check'&&k>=1) showAnswers(k);
   if(s.kind==='takeaways'&&k>=5) $('endbox').style.display='block';
-  $('caption').textContent=s.lines[k]||'';
+  capWords(s.lines[k]||'');
 }
-au.addEventListener('timeupdate',()=>{
-  const t=T[unitId()]; if(!t) return; const c=t.cues; let k=0;
-  for(let j=0;j<c.length;j++) if(au.currentTime>=c[j]) k=j;
+function onTime(){
+  const t=T[unitId()]; if(!t) return; const c=t.cues, CT=nowT(); let k=0;
+  for(let j=0;j<c.length;j++) if(CT>=c[j]) k=j;
   setStep(lineIndex(k));
-  const frac=Math.min(1,au.currentTime/(t.dur||au.duration||1)); const s=S[si];
+  karaoke((CT-c[k])/Math.max(.5,((k+1<c.length?c[k+1]:(t.dur||au.duration||c[k]+4))-c[k])-.35));
+  const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
   prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
-});
-au.addEventListener('ended',()=>{
+}
+au.addEventListener('timeupdate',onTime);
+au.addEventListener('ended',onEnd);
+function onEnd(){
   const s=S[si];
   if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=s.kind==='trap'?'Your turn: choose model A or model B. The narration continues after your choice.':'Choose an answer for A and for B. The narration continues when both are answered.';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
   if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 1. Well done. Use the chapter menu at the top to continue, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
-});
-function play(){ if(waitingQuiz) return; if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
-function pause(){ playing=false; au.pause(); updBtn() }
+}
+function play(){ if(waitingQuiz) return;
+  if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
+    ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
+  if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
+function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
 function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
 $('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
 $('speed').onchange=()=>au.playbackRate=+$('speed').value;
+$('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
+$('replay').onclick=()=>load(si,true);
+$('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select,input')) tried.add(S[si].id) }); $('ui').addEventListener('input',()=>tried.add(S[si].id));
+setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click() });
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
 $('go').onclick=()=>{ $('start').remove(); load(0,true) };
+(function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
 
 /* ---------- interactions ---------- */
 function wireQuiz(){
@@ -295,6 +426,25 @@ function showAnswers(k){
 }
 const CUT = C.cutoffs, QZ = C.quiz;
 const wire = {
+  depth(){
+    const r=$('dep'), DP=X11.readmitted_30d.depth;
+    const upd=()=>{ const i=+r.value, d=SC.s21.update(stage,i); if(!d) return; const best=DP.reduce((b,x,j)=>x[2]>DP[b][2]?j:b,0);
+      $('dv').textContent=d[0]===99?'fully grown':d[0]; $('d1').textContent=d[3].toLocaleString('en-US'); $('d2').textContent=d[1].toFixed(3); $('d3').textContent=d[2].toFixed(3); $('d4').textContent=(d[1]-d[2]>=0?'+':'')+(d[1]-d[2]).toFixed(3);
+      $('dverd').innerHTML = i===best ? `<b class="ok">The best test score: ${d[2].toFixed(3)}.</b> Four questions in a row, ${d[3]} final groups. Simple enough to learn the pattern, not the noise.`
+        : i<best ? `<b class="no">Too simple.</b> Training and test scores are close, but both are low: the tree has not learned enough yet. Grow it.`
+        : `<b class="no">Overfitting.</b> The training score keeps rising (${d[1].toFixed(3)}), but the test score has fallen to ${d[2].toFixed(3)}. The tree is memorising patients, not learning a pattern.`;
+      r.style.setProperty('--p',(i/(DP.length-1)*100)+'%'); };
+    r.oninput=upd; upd(); $('cont').onclick=()=>load(si+1,true);
+  },
+  winner(){
+    const ui=$('ui'); let pick=null, target='readmitted_30d';
+    const why={readmitted_30d:'On readmissions, plain logistic regression wins. The random forest scores a perfect 1.000 on training but drops on new patients: it memorised. Simple models often win when the signal is weak.',complaint_filed:'On complaints, the signal is strong (waiting time), and the four algorithms finish within 0.02 of each other. With strong signal, the choice of algorithm matters much less than you might think.'};
+    const upd=()=>{ const best=SC.s24.update(stage,target,pick!==null,pick); if(pick===null) return; const M=X11[target].models;
+      $('wverd').innerHTML=(pick===best&&target==='readmitted_30d'?'<b class="ok">You picked the winner.</b> ':target==='readmitted_30d'?`<b class="no">The winner is ${M[best][0].replace(' (depth 4)','')}</b> (${M[best][2].toFixed(3)}), not ${M[pick][0].replace(' (depth 4)','')} (${M[pick][2].toFixed(3)}). `:'')+why[target]+(target==='readmitted_30d'?' Now try <b>Complaint filed</b>.':''); };
+    ui.querySelectorAll('.wp').forEach(b=>b.onclick=()=>{ pick=+b.dataset.i; ui.querySelectorAll('.wp').forEach(x=>x.classList.toggle('sel',x===b)); ui.querySelectorAll('.wt').forEach(x=>x.disabled=false); upd() });
+    ui.querySelectorAll('.wt').forEach(b=>b.onclick=()=>{ target=b.dataset.t; ui.querySelectorAll('.wt').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
+    $('cont').onclick=()=>load(si+1,true);
+  },
   check: wireQuiz,
   guess(){
     const ui=$('ui');
@@ -335,24 +485,25 @@ const wire = {
       $('qq').textContent=q.q; $('qwhy').innerHTML=''; $('qnext').hidden=true;
       $('qo').innerHTML=q.o.map((o,j)=>`<button data-j="${j}"><span>${'ABCD'[j]}</span>${o}</button>`).join('');
       $('qo').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-        const ok=+b.dataset.j===q.a; if(ok) score++; marks.push(ok);
+        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok);
         $('qo').querySelectorAll('button').forEach(x=>{x.disabled=true; if(+x.dataset.j===q.a) x.classList.add('right')}); if(!ok) b.classList.add('wrong');
         $('qwhy').innerHTML=`<b class="${ok?'ok':'no'}">${ok?'Correct.':'Not quite.'}</b> ${q.why}`; $('qdots').innerHTML=dots();
         $('qnext').textContent= qi<QZ.length-1?'Next question ▶':'See my score ▶'; $('qnext').hidden=false; });
     };
     $('qnext').onclick=()=>{ if(qi<QZ.length-1){qi++;show();return}
-      quizScore=score; const msg=score===5?'Perfect score. You are ready for Chapter 2.':score>=3?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on the accuracy trap and the cut-off rule, then try again.';
-      $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/5*100}%"><b>${score}/5</b></div><p>${msg}</p></div>`;
-      $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=4) burst();
+      quizScore=score; const msg=score===QZ.length?'Perfect score. You are ready for Chapter 2.':score>=Math.ceil(QZ.length*.6)?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on the accuracy trap and the cut-off rule, then try again.';
+      $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/QZ.length*100}%"><b>${score}/${QZ.length}</b></div><p>${msg}</p></div>`;
+      $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=QZ.length-1) burst();
       $('qnext').textContent='Continue ▶'; $('qnext').onclick=()=>load(si+1,true); };
     show();
   },
   takeaways(){
-    $('final').textContent = quizScore===null ? '' : `Your quiz score: ${quizScore} out of 5.`;
-    $('again').onclick=()=>{ quizScore=null; load(0,true) };
+    const acts=S.filter(x=>isAct(x)&&x.kind!=='quiz'); $('final').textContent='Well done. Here is what you did in this chapter.';
+    $('eS').textContent=seen.size+' / '+S.length; $('eA').textContent=acts.filter(x=>tried.has(x.id)).length+' / '+acts.length; $('eQ').textContent=quizScore===null?'not taken':quizScore+' / '+QZ.length;
+    $('again').onclick=()=>{ quizScore=null; seen.clear(); tried.clear(); load(0,true) };
   }
 };
-function burst(){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<40;i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
+function burst(n){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<(n||40);i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
 
 load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks

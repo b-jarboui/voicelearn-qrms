@@ -1,4 +1,4 @@
-// PHQM830 Week 11 · Chapter 1 "What machine learning is"
+// PHQM830 Week 11 · Chapter 1 of the course: "What machine learning is" (25 scenes)
 // One scene = one audio file. One sentence = one animation step.
 window.CHAPTER = {
   course: "PHQM830 Quantitative Research Methods and Statistics",
@@ -65,6 +65,64 @@ window.CHAPTER = {
       "The ninety-minute rule scores ninety-three percent, and it catches six hundred and five of the seven hundred and fifty-eight complaints.",
       "So always ask two questions: how often is the model right, and how many of the cases that matter does it actually catch?"
     ]},
+    { id: "s17", kind: "kinds", heading: "Three kinds of machine learning", lines: [
+      "Machine learning comes in three main kinds. The difference is what the computer is given to learn from.",
+      "In supervised learning, every past case comes with its answer, like a teacher marking homework. Our complaint data is exactly this: each visit is labelled complaint, or no complaint.",
+      "In unsupervised learning, there are no answers at all. The computer looks for structure on its own, such as groups of similar patients. That is Week 12.",
+      "In reinforcement learning, a program learns by trial and error, collecting rewards for good moves, as game-playing programs do.",
+      "In quality research, you will mostly meet the first two kinds. This chapter is about supervised learning."
+    ]},
+    { id: "s18", kind: "features", heading: "Features and labels: the shape of every problem", lines: [
+      "Every supervised problem has the same shape. Here are five real visits from the file. One row is one example.",
+      "The columns we use to predict are called features: waiting time, staff ratio, training hours, occupancy, handoffs, and earlier visits.",
+      "The column we want to predict is called the label. When the label is a category, like complaint or no complaint, the task is called classification.",
+      "When the label is a number, like a satisfaction score, the task is called regression.",
+      "In Python, the features are usually called capital X, and the label is called small y."
+    ]},
+    { id: "s19", kind: "split", heading: "Split before you fit", lines: [
+      "Here is the most important habit in machine learning. Before training anything, we split the data.",
+      "Three quarters of the visits, three thousand nine hundred, go into the training set. The model learns only from these.",
+      "The other quarter, thirteen hundred visits, is locked away as the test set. The model never sees them while it learns.",
+      "At the end, we unlock the test set, and ask the model to predict it. That score tells us how the model will do on tomorrow's patients.",
+      "A score measured on the training data is like a student marking their own exam."
+    ]},
+    { id: "s20", kind: "overfit", heading: "Overfitting: when a model memorises the past", lines: [
+      "Now we can see the biggest danger in machine learning. We predict which patients come back to hospital within thirty days, using a decision tree. We score it with the AUC: one means perfect, and zero point five means no better than a coin.",
+      "A tree asks yes or no questions. The deeper it grows, the more questions it asks. On the training data, the score climbs and climbs, until the fully grown tree scores a perfect one.",
+      "But look at the test data. The score peaks at depth four, at zero point seven one, and then it falls. The fully grown tree scores only zero point five six on new patients, barely better than a coin.",
+      "This is overfitting. The deep tree memorised the training patients, including their noise, instead of learning the pattern.",
+      "So we always choose a model by its test score, never by its training score."
+    ]},
+    { id: "s21", kind: "depth", heading: "Try it: grow the tree yourself", wait: true, lines: [
+      "Your turn. Grow the tree yourself, from a single question to a fully grown tree.",
+      "Watch the training score and the test score, find the depth you would choose, and then press Continue."
+    ]},
+    { id: "s22", kind: "confusion", heading: "The confusion matrix: four boxes", lines: [
+      "When the label is yes or no, every prediction lands in one of four boxes. This table is called the confusion matrix. Here it is for the ninety minute rule.",
+      "Six hundred and five real complaints were predicted: these are the hits. One hundred and fifty three real complaints were missed.",
+      "Two hundred and nine patients were called for nothing: false alarms. And four thousand two hundred and thirty seven quiet patients were correctly left alone.",
+      "From these boxes come two key numbers. Recall: of all the real complaints, we caught eighty percent. Precision: of the patients we called, seventy four percent really complained.",
+      "Accuracy mixes all four boxes together. Recall and precision tell the manager what they actually need to know."
+    ]},
+    { id: "s23", kind: "algos", heading: "Four algorithms you will meet", lines: [
+      "You will meet a handful of algorithms again and again. Here are four.",
+      "Logistic regression, from Week 10, draws a smooth curve that turns the features into a probability.",
+      "A decision tree asks a chain of yes or no questions, such as: did the patient wait more than ninety minutes?",
+      "A random forest grows hundreds of different trees, and lets them vote.",
+      "And k nearest neighbours looks at the most similar past patients, and copies what happened to them.",
+      "None of them is best everywhere. The only way to know is to test them on data they have not seen."
+    ]},
+    { id: "s24", kind: "winner", heading: "Try it: which algorithm wins?", wait: true, lines: [
+      "Your turn. Which of the four predicts thirty day readmissions best, on patients it has never seen?",
+      "Make your pick, compare the real test results, and then press Continue."
+    ]},
+    { id: "s25", kind: "cv", heading: "Cross-validation, and the workflow in Python", lines: [
+      "One split can be lucky, or unlucky. Cross-validation repeats the test five times.",
+      "Cut the data into five folds. Train on four, test on the fifth, and move the test fold each round, so that every visit is tested once.",
+      "For readmissions, the five test scores run from zero point seven zero to zero point seven four. Their average, zero point seven two, is more honest than any single split.",
+      "In Python, the workflow is the same for every model: split the data, fit the model on the training rows, predict the test rows, and score them.",
+      "Fit learns, and predict applies. Those two words are the heart of scikit learn, and you will type them again and again."
+    ]},
     { id: "s08", kind: "uses", heading: "Where machine learning already works in quality", lines: [
       "Where does this already work in quality management? Here are six examples.",
       "In predictive maintenance, sensor readings warn that a machine is likely to fail, so the repair is planned instead of urgent. Your Assessment 3 is exactly this kind of problem.",
@@ -92,16 +150,16 @@ window.CHAPTER = {
       "The first question asks whether a longer wait is linked to more complaints. So it is about understanding a relationship.",
       "The second question asks which patients tomorrow are most likely to complain. So it is about prediction."
     ]},
-    { id: "s15", kind: "quiz", heading: "Chapter quiz: five questions", wait: true, lines: [
-      "Let us finish with five quick questions. Take your time, and read the explanation after each answer."
+    { id: "s15", kind: "quiz", heading: "Chapter quiz: eight questions", wait: true, lines: [
+      "Let us finish with eight quick questions. Take your time, and read the explanation after each answer."
     ]},
     { id: "s16", kind: "takeaways", heading: "Four ideas to keep", lines: [
       "Well done. Here are the four ideas to keep from this chapter.",
       "First, machine learning finds rules in past cases, instead of having a person write them.",
       "Second, a flexible model can follow real shapes in the data, like the jump in complaints after eighty minutes.",
       "Third, every rule trades complaints caught against false alarms, so accuracy alone can fool you.",
-      "Fourth, your research question decides whether you want to understand a relationship or to predict an outcome.",
-      "In the next chapter, we will see how a machine actually learns from data, and how we make sure it has not simply memorised the past."
+      "Fourth, always judge a model on data it has never seen, because a model that memorises the past fails on the future.",
+      "In the next chapter, we take the answer key away, and look for groups in the data that nobody has labelled."
     ]}
   ],
   // Real figures from the course dataset (5,204 visits, 758 complaints): rule "call every patient who waits longer than X minutes"
@@ -122,6 +180,15 @@ window.CHAPTER = {
       why: "A model that always says \"no complaint\" is 85.4% accurate and catches no complaint at all. When the event is rare, check how many real cases the model catches." },
     { q: "\"Which patients tomorrow are most likely to complain?\" is a question about…",
       o: ["Understanding a relationship", "Prediction", "Cleaning the data", "The history of machine learning"], a: 1,
-      why: "It asks about future cases, so it is about prediction. A question such as \"is a longer wait linked to more complaints?\" is about understanding a relationship." }
+      why: "It asks about future cases, so it is about prediction. A question such as \"is a longer wait linked to more complaints?\" is about understanding a relationship." },
+    { q: "A decision tree scores AUC 1.00 on the training data and 0.56 on the test data. What happened?",
+      o: ["It is an excellent model", "It overfitted: it memorised the training patients", "The test data must be wrong", "AUC cannot be used for trees"], a: 1,
+      why: "A perfect training score with a near-coin test score is the signature of overfitting. On the Al Waha readmissions, the best test score (0.71) came from a tree only four questions deep." },
+    { q: "Why do we lock away a test set before training?",
+      o: ["To make training faster", "To get an honest score on cases the model has never seen", "Because scikit-learn requires it", "To remove outliers"], a: 1,
+      why: "A score on the training data is a student marking their own exam. Only rows the model never saw tell you how it will do on tomorrow's patients." },
+    { q: "The 90-minute rule catches 605 of 758 real complaints. What is that number called?",
+      o: ["Accuracy", "Precision", "Recall", "AUC"], a: 2,
+      why: "Recall = complaints caught ÷ all real complaints = 605 ÷ 758 = 80%. Precision would be 605 ÷ 814 patients called = 74%." }
   ]
 };
