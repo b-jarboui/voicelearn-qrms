@@ -286,7 +286,7 @@ au.addEventListener('ended',()=>{
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=splitMsg[s.kind]||'';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent=''; prog.children[si].firstChild.style.width='100%' }
+  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 3. Well done. Use the chapter menu at the top to open another chapter, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
 });
 function play(){ if(waitingQuiz) return; if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
 function pause(){ playing=false; au.pause(); updBtn() }
