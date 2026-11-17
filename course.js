@@ -9,9 +9,9 @@ window.VL_COURSE = {
     { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 23, live: true,
       meta: "Week 12 · 26 scenes · about 23 minutes · run k-means yourself, seven activities and a quiz",
       targets: ["How k-means works", "Standardise before distance", "The noise floor", "Elbow and silhouette", "Hierarchical and DBSCAN", "From clusters to segments"] },
-    { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 25, live: true,
-      meta: "Week 13 · 27 scenes · about 25 minutes · TF-IDF by hand, topic modelling, a leak hunt, six activities and a quiz",
-      targets: ["Text as variables", "TF-IDF", "Stemming and topics", "Read the sentences", "Fit on train only", "Language models"] }
+    { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 29, live: true,
+      meta: "Week 13 · 30 scenes · about 29 minutes · TF-IDF, transformers and attention, BERTopic, a leak hunt, six activities and a quiz",
+      targets: ["Text as variables", "TF-IDF", "Topics and BERTopic", "Tokens and transformers", "Fit on train only", "Read the sentences"] }
   ]
 };
 
