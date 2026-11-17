@@ -258,12 +258,12 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
-<script src="chapter.js"></script>
-<script src="timings.js"></script>
-<script src="scenes-a.js"></script>
-<script src="data2.js"></script>
-<script src="scenes-b.js"></script>
-<script src="scenes-c.js"></script>
+<script src="chapter.js?v=20261117d"></script>
+<script src="timings.js?v=20261117d"></script>
+<script src="scenes-a.js?v=20261117d"></script>
+<script src="data2.js?v=20261117d"></script>
+<script src="scenes-b.js?v=20261117d"></script>
+<script src="scenes-c.js?v=20261117d"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, X11 = window.W11X;
@@ -510,6 +510,7 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 })();
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('1')<0){v.push('1');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
-<script src="../../course.js"></script>
+<script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
+<script src="../../course.js?v=20261117d"></script>
 </body>
 </html>
