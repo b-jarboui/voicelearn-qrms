@@ -23,6 +23,18 @@ window.CHAPTER = {
       "Then it can keep pairs of neighbouring words as well, called bigrams, like staff outstanding.",
       "Each word or pair that survives becomes a column, and this review becomes one row of numbers. A text feature is a variable like any other."
     ]},
+    { id: "s21", kind: "dtm", heading: "The document-term matrix", lines: [
+      "Here is what all five thousand two hundred reviews look like after that step: one giant table, called the document term matrix.",
+      "Each row is a review, and each column is one of about three hundred terms. Each cell holds that term's weight in that review.",
+      "Almost every cell is empty. Only about four percent are filled: roughly thirteen terms per review.",
+      "A table like this is called sparse. And it is exactly what the models of Weeks 9 to 11 need: rows of numbers."
+    ]},
+    { id: "s22", kind: "stem", heading: "Stemming: helpful, and dangerous", lines: [
+      "One more preparation choice is called stemming. It cuts words back to their root.",
+      "Waited and waiting both become wait. In our reviews, that joins three hundred and nineteen uses and three hundred and ninety one uses into one feature.",
+      "But watch what it does to complain and complaint. Both become complain, and the happy patients who had nothing to complain about are merged with the patients who are making a complaint.",
+      "So stemming can help, and it can hurt. Like every preparation choice, record it, and check what it merged."
+    ]},
     { id: "s04", kind: "choices", heading: "Try it: four choices, and the results move", wait: true, lines: [
       "Between the raw sentence and the variable, there are four decisions, and every one of them is yours.",
       "Switch them on and off: lower case, stop words, word pairs, and dropping rare words. Each setting is a real model, scored on thirteen hundred reviews it has never seen.",
@@ -52,6 +64,22 @@ window.CHAPTER = {
       "So read the sentences. Seven hundred and twenty eight reviews say: Nothing to complain about. Those patients average eighty five point eight.",
       "Four hundred and thirty five say: I will be making a complaint. They average fifty two point five, and the computer counts that as a different word, complaint.",
       "And remember the stop words: the word nothing was thrown away. So the model only sees complain, and here that word means a happy patient. A single coefficient from a text model is never the meaning of a word."
+    ]},
+    { id: "s23", kind: "distinct", heading: "Words that separate complaints", lines: [
+      "Which words separate the visits that ended in a complaint from the ones that did not? Compare how often each word appears in each group.",
+      "Long appears in forty nine percent of the reviews from patients who complained, and in only eight percent of the others. Far, delay, told, and waiting follow.",
+      "On the other side are thank, kindness, and excellent: found in thirteen to eighteen percent of the happy reviews, and in only two or three percent of the complaints.",
+      "Together, the words tell a story: complaints are about waiting without information. That is a finding you can check, by reading the reviews themselves."
+    ]},
+    { id: "s24", kind: "topics", heading: "Topic modelling: what are the reviews about?", lines: [
+      "A different question: what are the reviews about? Topic modelling groups the words that tend to appear together into topics. It needs no labels, so it is unsupervised, like Week 12.",
+      "Here we asked for four topics, with a method called non negative matrix factorisation. Each topic is a list of words, and each review gets a share of each topic.",
+      "The four topics are: kindness and the team, pressure in the emergency department, excellent care, and appointment timing.",
+      "Like the number of clusters in Week 12, the number of topics is your choice, and the names are your interpretation. Read the reviews behind each topic before you name it."
+    ]},
+    { id: "s25", kind: "explore", heading: "Try it: explore the four topics", wait: true, lines: [
+      "Your turn. Open each topic, and read its words, a real example review, and how its patients scored.",
+      "Notice that a topic is what people talk about, not whether they are happy. Then press Continue."
     ]},
     { id: "s09", kind: "assume1", heading: "The assumptions, part one", lines: [
       "Text analytics has six assumptions. Here are the first three.",
@@ -100,6 +128,13 @@ window.CHAPTER = {
       "In fact, all five thousand two hundred reviews are built from just thirty sentences. No score and no coefficient would ever tell you that.",
       "That is why reading comes first. Mejia and colleagues did exactly this before their operations analysis. It is standard practice, not a precaution."
     ]},
+    { id: "s26", kind: "embed", heading: "Beyond word counts: embeddings and language models", lines: [
+      "Everything so far counts words. Modern language models do something different.",
+      "They turn every word, and every sentence, into a list of numbers called an embedding, so that sentences with similar meanings sit close together.",
+      "In that space, nothing to complain about sits near very impressed, and far from making a complaint, because the model reads the words together, in context.",
+      "Large language models such as ChatGPT are built on this idea. They can label sentiment or topics without any training data from you.",
+      "But the rules of this chapter still apply. Check the model against thirty reviews you read yourself, report the agreement, and never let it read the data for you."
+    ]},
     { id: "s17", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
       "Here are four sentences that often appear in reports about text. Decide for each one: may you write it, or not?",
       "Patients care most about complain. No. A coefficient is not a topic, and this one is not even about complaining.",
@@ -112,8 +147,15 @@ window.CHAPTER = {
       "A good helper question is this one: explain what min d f equals five removes, and what n gram range one to two adds.",
       "A bad one is this: what are patients complaining about? That is a reading of qualitative data, and it starts with you reading some. Reading thirty reviews by hand is the one step in this course that cannot be delegated at all."
     ]},
-    { id: "s19", kind: "quiz", heading: "Chapter quiz: five questions", wait: true, lines: [
-      "Let us finish with five quick questions. Take your time, and read the explanation after each answer."
+    { id: "s27", kind: "workflow", heading: "The whole workflow in six steps", lines: [
+      "Here is the whole text analytics workflow, in six steps.",
+      "First, read a sample of reviews. Second, prepare the text, and record every choice.",
+      "Third, split the data. Fourth, fit the vectoriser on the training rows only, and build your model.",
+      "Fifth, inspect the result: the top terms, the errors, possible leaks, and negation.",
+      "Sixth, report what the text adds, whose voices it represents, and what it cannot tell you."
+    ]},
+    { id: "s19", kind: "quiz", heading: "Chapter quiz: eight questions", wait: true, lines: [
+      "Let us finish with eight quick questions. Take your time, and read the explanation after each answer."
     ]},
     { id: "s20", kind: "takeaways", heading: "Four ideas to keep", lines: [
       "Well done. Here are the four ideas to keep from this chapter.",
@@ -139,6 +181,15 @@ window.CHAPTER = {
       why: "These reviews use only 30 sentences, so the vocabulary hardly moves. You cannot know in advance that a check will cost nothing, which is why you always run it." },
     { q: "Which sentence may you write?",
       o: ["\"Sentiment analysis shows patients are dissatisfied.\"", "\"The most common themes were team, hospital and visit.\"", "\"On thirty reviews I read by hand, the word list agreed with my labels on 21.\"", "\"The reviews confirm the satisfaction scores.\""], a: 2,
-      why: "It names the check, the sample and the agreement rate. The others claim themes, sentiment or corroboration that the method cannot support." }
+      why: "It names the check, the sample and the agreement rate. The others claim themes, sentiment or corroboration that the method cannot support." },
+    { q: "You apply stemming to the Al Waha reviews. Which merge is misleading?",
+      o: ["waited + waiting → wait", "complain + complaint → complain", "team + teams → team", "None: stemming is always safe"], a: 1,
+      why: "“complain” comes from “Nothing to complain about” (happy patients, 85.8) and “complaint” from “I will be making a complaint” (unhappy, 52.5). Stemming merges opposite meanings into one feature." },
+    { q: "What does topic modelling give you?",
+      o: ["The sentiment of each review", "Groups of words that tend to appear together; the names are your interpretation", "A prediction of complaints", "The true number of topics"], a: 1,
+      why: "Topics are word groups. A topic is what people talk about, not how they feel: the “appointment timing” topic still had 27.5% complaints. You choose the number and the names." },
+    { q: "Only 4.4% of the cells in the document-term matrix are filled. What does that mean?",
+      o: ["The data are broken", "Each review uses only a few of the possible terms: the matrix is sparse", "Most reviews are empty", "TF-IDF failed"], a: 1,
+      why: "About 13 of the 296 terms appear in a typical review. Sparse matrices are normal in text analytics, and models handle them well." }
   ]
 };

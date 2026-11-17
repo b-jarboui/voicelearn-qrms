@@ -59,3 +59,19 @@ All figures come from the Al Waha episodes file (`PHQM830_Week11_Dataset.csv`). 
 - `tools/` holds the narration, alignment and local preview scripts. The key is read from the user profile and is never stored here.
 
 One sentence cue in `timings.js` was corrected by hand after a check: s14, the 5th sentence, at 38.67 s. Re-running the TTS tool rewrites `timings.js`, so check it again after any re-run.
+
+## Upgrade of 17 November 2026
+
+The chapter grew from 20 to 27 scenes to cover the topic "NLP and text analytics for customer reviews".
+
+New scenes (s21 to s27, in `scenes-c.js`, figures in `data2.js`):
+
+- s21 The document-term matrix: 5,200 × 296, 4.4% filled, about 13 terms per review.
+- s22 Stemming: waited + waiting → wait (319 + 391). But complain (728, happy) + complaint (435, unhappy) → complain.
+- s23 Words that separate complaints: "long" in 49% of complaint reviews against 8% of the others. Thank, kindness and excellent are on the other side.
+- s24 Topic modelling: NMF with 4 topics on TF-IDF. The topics are kindness and the team, emergency pressure, excellent care, and appointment timing.
+- s25 Activity: topic explorer. The "appointment timing" topic has 27.5% complaints: a topic is not a sentiment.
+- s26 Embeddings and language models. This scene is an illustration, not a real embedding, and is marked on screen.
+- s27 The six-step workflow.
+
+The quiz now has 8 questions. The player gets the same upgrades as Chapters 1 and 2. The new narration uses Gemini 2.5 Flash TTS, voice Charon, like the rest of this chapter.
