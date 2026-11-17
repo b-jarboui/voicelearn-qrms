@@ -1,9 +1,9 @@
-# Generate narration for chapter.js with Gemini TTS, convert to MP3, and write timings.js.
+﻿# Generate narration for chapter.js with Gemini TTS, convert to MP3, and write timings.js.
 # - Only the narration text is sent (no style instructions: TTS models read instructions aloud).
 # - The API key is read from %USERPROFILE%\.gemini_api_key; it is never printed or written to this folder.
 # - Free tier: 10 requests per model per day. -Merge joins short scenes into one request; the clip is then cut
 #   at the first sentence of the next scene, found by the Windows speech recogniser.
-# - Raw audio is cached in %TEMP%\w11tts\<model>\<unit>.pcm; re-runs reuse it unless -Force.
+# - Raw audio is cached in %TEMP%\w11ch1tts\<model>\<unit>.pcm; re-runs reuse it unless -Force.
 # Usage: tts_gemini.ps1 [-Model gemini-2.5-pro-preview-tts] [-Voice Charon] [-Merge "s01+s02","s06+s07"] [-Only s03] [-Force]
 param([string[]]$Only = @(), [string]$Voice = "Charon", [string]$Model = "gemini-2.5-pro-preview-tts",
       [string[]]$Merge = @("s01+s02", "s06+s07"), [switch]$Force)
@@ -12,7 +12,7 @@ $root   = Split-Path $PSScriptRoot -Parent
 $ffmpeg = "$env:USERPROFILE\HBMSU Course Agents\business-process-management\voicelearn\video\tools\ffmpeg-9.0.2-essentials_build\bin\ffmpeg.exe"
 $key    = ([IO.File]::ReadAllText("$env:USERPROFILE\.gemini_api_key")).Trim()
 $audio  = Join-Path $root "audio"; New-Item -ItemType Directory -Force $audio | Out-Null
-$tmp    = Join-Path $env:TEMP "w11tts\$Model"; New-Item -ItemType Directory -Force $tmp | Out-Null
+$tmp    = Join-Path $env:TEMP "w11ch1tts\$Model"; New-Item -ItemType Directory -Force $tmp | Out-Null
 
 # --- scenes from chapter.js; a quiz scene is split into a (question) and b (answers, played after the student answers)
 $js = [IO.File]::ReadAllText((Join-Path $root "chapter.js"), [Text.Encoding]::UTF8)
@@ -106,3 +106,4 @@ foreach ($u in $units) {
 }
 [IO.File]::WriteAllText($tf, "window.TIMINGS = " + ($timings | ConvertTo-Json -Depth 5 -Compress) + ";", (New-Object Text.UTF8Encoding($false)))
 "done"
+
