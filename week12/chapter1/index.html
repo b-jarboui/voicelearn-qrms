@@ -132,7 +132,15 @@ select.chip{padding:6px 10px}
   .stat b{font-size:19px}
   #controls button{padding:8px 11px}
 }
-</style>
+header .nav a{margin-left:0;color:var(--navy);font-size:13px}
+.chmenu{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 20px 0;font-size:14px}
+.chmenu a,.chmenu span{display:inline-flex;align-items:center;min-height:36px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--navy);text-decoration:none;font-weight:700}
+.chmenu a:hover{border-color:var(--navy)}
+.chmenu .cur{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chmenu .soon{color:var(--muted);font-weight:400;border-style:dashed}
+.chmenu .home{margin-right:6px}
+@media (max-width:760px){.chmenu{padding:8px 16px 0}.chmenu a,.chmenu span{font-size:13px;padding:5px 10px}}
+@media (prefers-color-scheme:dark){.chmenu .cur{color:#12161D}}</style>
 <script>
 /* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
 (function(c,l,a,r,i,t,y){
@@ -144,7 +152,8 @@ select.chip{padding:6px 10px}
 </script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 12</span><h1>Chapter 1 · Finding groups nobody labelled</h1><a href="../../">Course home</a></header>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 12</span><h1>Chapter 2 · Finding groups nobody labelled</h1></header>
+<nav class="chmenu" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a><a href="../../week11/chapter1/" title="What machine learning is">Chapter 1</a><span class="cur" aria-current="page" title="Finding groups nobody labelled">Chapter 2</span><span class="soon" title="Turning written reviews into variables">Chapter 3 · coming soon</span></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
@@ -262,7 +271,7 @@ au.addEventListener('ended',()=>{
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=splitMsg[s.kind]||'';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 1. Well done. You can replay any scene with the bar at the top.'; prog.children[si].firstChild.style.width='100%' }
+  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent=''; prog.children[si].firstChild.style.width='100%' }
 });
 function play(){ if(waitingQuiz) return; if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
 function pause(){ playing=false; au.pause(); updBtn() }
@@ -369,5 +378,6 @@ load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks
 })();
 </script>
+<script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('2')<0){v.push('2');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 </body>
 </html>
