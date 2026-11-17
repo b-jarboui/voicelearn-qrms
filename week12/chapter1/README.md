@@ -47,3 +47,33 @@ Live: https://b-jarboui.github.io/voicelearn-qrms/week12/chapter1/
 - `tools/serve.ps1` serves the page for a local preview.
 
 Five sentence cues in `timings.js` were corrected by hand after a check. They are in s05, s09, s14, s15b and s18. Re-running the TTS tool rewrites `timings.js`, so check these cues again after any re-run.
+
+## Upgrade of 17 November 2026
+
+The chapter grew from 18 to 26 scenes so that it covers the topic "Clustering and Segmentation Analysis", not only the slides. It is now Chapter 2 of the course.
+
+New scenes (ids s19 to s26, in `scenes-c.js`, figures in `data2.js`):
+
+- s19 Why look for groups (Miller and Roth's taxonomy).
+- s20 Inertia, and why the random start matters (n_init).
+- s21 The elbow plot, with the real inertia for k = 1 to 8.
+- s22 Hierarchical clustering and DBSCAN.
+- s23 The Python script, line by line.
+- s24 Activity: skip the standardising line (k = 2 and k = 4).
+- s25 Activity: name the three k = 3 profiles.
+- s26 From clusters to segments: outside variables and four tests.
+
+The quiz now has eight questions.
+
+Real figures added (4,729 complete rows after removing duplicates):
+
+- Inertia: 18,916 at k = 1 and 7,594 at k = 2.
+- With k = 4, single random starts end in different groupings (inertia from 4,669 to 6,098).
+- Ward hierarchical clustering agrees with k-means at k = 2 (adjusted Rand 0.97).
+- DBSCAN gives 11 groups at eps 0.6 and 1 group at eps 0.7 (min_samples 10).
+- Without standardising, k = 2 is almost unchanged (0.97) but k = 4 changes (0.73).
+- Outside variables: satisfaction 59.8 against 84.2, complaints 28.5% against 3.4%, readmissions 33.4% against 12.2%.
+
+Player upgrades: scenes menu, resume, replay, full screen, time left, karaoke captions, scene title cards, "your turn" badge, end-of-chapter summary.
+
+Read-along mode: a scene with no recorded narration runs on a silent clock with captions. On 17 November only s19 of the new scenes has voice; s20 to s26 and s17 are read-along until they are recorded. When s17 is re-recorded, remove the `delete T.s17` line in `index.html`.

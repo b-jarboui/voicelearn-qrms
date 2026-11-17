@@ -138,7 +138,69 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 .chmenu .home:hover{border-color:var(--navy)}
 .chmenu .chpick{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--muted)}
 .chmenu select{font:inherit;font-size:14px;font-weight:700;color:var(--navy);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:38px;padding:6px 10px;max-width:min(78vw,440px);cursor:pointer}
-@media (max-width:760px){.chmenu{padding:8px 16px 0}}</style>
+@media (max-width:760px){.chmenu{padding:8px 16px 0}}/* ---------- experience upgrades ---------- */
+#prog button.act{background:#EBCFC3}
+#prog button.act i{background:var(--terra)}
+#prog button.seen:not(.cur){background:#C9D6E4}
+#prog button.cur{outline:2px solid var(--navy);outline-offset:2px}
+.stage svg.enter{animation:stin .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stin{from{opacity:0;transform:scale(.965) translateY(10px)}to{opacity:1;transform:none}}
+.badge{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;background:var(--terra);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;vertical-align:middle}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:var(--card);box-shadow:-12px 0 40px rgba(20,30,50,.25);z-index:30;transform:translateX(105%);transition:transform .35s cubic-bezier(.3,.8,.25,1);display:flex;flex-direction:column}
+#drawer.open{transform:none}
+#drawer header{padding:16px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+#drawer header h2{margin:0;font-size:19px;color:var(--navy)}
+#drawer header button{font:inherit;font-size:22px;line-height:1;border:0;background:none;color:var(--muted);cursor:pointer;padding:4px 8px}
+#drawer .sum{padding:10px 18px;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+#drawer ol{list-style:none;margin:0;padding:8px;overflow:auto;flex:1}
+#drawer li button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;font:inherit;font-size:15px;line-height:1.3;border:0;background:none;color:var(--ink);padding:9px 10px;border-radius:10px;cursor:pointer}
+#drawer li button:hover{background:var(--soft)}
+#drawer li button.cur{background:var(--hl);font-weight:700}
+#drawer li .n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--navy);font-weight:800;font-size:13px}
+#drawer li button.seen .n{background:var(--good);color:#fff}
+#drawer li .tg{margin-left:auto;flex:none;font-size:11px;font-weight:800;color:var(--terra);border:1px solid var(--terra);border-radius:999px;padding:1px 8px}
+#shade{position:fixed;inset:0;background:rgba(20,30,50,.35);z-index:25;opacity:0;pointer-events:none;transition:opacity .3s}
+#shade.open{opacity:1;pointer-events:auto}
+#controls .ico{min-width:44px;padding:8px 12px}
+.keys{text-align:center;font-size:12.5px;color:var(--muted);padding:0 20px 12px}
+.keys kbd{font:inherit;font-weight:700;border:1px solid var(--line);border-radius:5px;padding:0 5px;background:var(--card)}
+#start .cta.ghost{background:var(--card);color:var(--navy);box-shadow:none;border:2px solid var(--navy);margin-left:8px}
+.endcard{max-width:640px;margin:0 auto;text-align:center}
+.endcard .g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+:fullscreen body,:fullscreen{background:var(--paper)}
+@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}#caption.ra::before{content:"Read-along · narration coming soon";display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);margin-bottom:2px}
+/* ---------- motion polish ---------- */
+.stagewrap{position:relative}
+.stage{position:relative}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;background:radial-gradient(60% 50% at 15% 0%,rgba(232,176,75,.13),transparent 70%),radial-gradient(55% 45% at 100% 100%,rgba(31,78,121,.11),transparent 70%);animation:amb 12s ease-in-out infinite alternate}
+@keyframes amb{from{opacity:.55;transform:scale(1)}to{opacity:1;transform:scale(1.04)}}
+.copy .m .w{display:inline-block;opacity:0;transform:translateY(12px);animation:win .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes win{to{opacity:1;transform:none}}
+#caption .w{transition:color .25s,opacity .25s;opacity:.55}
+#caption .w.said{opacity:1;color:var(--ink)}
+#caption .w.now{color:var(--terra);opacity:1}
+#toast{position:absolute;left:14px;top:14px;z-index:3;pointer-events:none;display:flex;align-items:center;gap:10px;background:rgba(26,31,43,.92);color:#fff;border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;font-weight:700;opacity:0;max-width:calc(100% - 28px)}
+#toast b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1A1F2B;font-size:14px}
+#toast span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#toast.show{animation:toast 2.6s ease both}
+@keyframes toast{0%{opacity:0;transform:translateY(-10px)}12%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
+#turn{position:absolute;right:14px;top:14px;z-index:3;pointer-events:none;background:var(--terra);color:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;letter-spacing:.08em;box-shadow:0 0 0 0 rgba(192,80,42,.5);animation:turn 1.8s ease-out infinite}
+#turn[hidden]{display:none}
+@keyframes turn{70%{box-shadow:0 0 0 12px rgba(192,80,42,0)}100%{box-shadow:0 0 0 0 rgba(192,80,42,0)}}
+#controls button{transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
+#controls button:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(20,30,50,.12)}
+#controls button:active{transform:translateY(1px);box-shadow:none}
+.chip,.cta,.qopts button{transition:transform .15s ease,background .2s,border-color .2s}
+.chip:hover:not(:disabled),.qopts button:hover:not(:disabled){transform:translateY(-1px)}
+.card{animation:cardin .45s ease both}
+@keyframes cardin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.qopts button.right{animation:pop .45s ease}
+@keyframes pop{40%{transform:scale(1.03)}}
+.qopts button.wrong{animation:nope .4s ease}
+@keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (max-width:760px){#turn{top:auto;bottom:44px}#toast{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#toast.show,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}#toast{display:none}}
+</style>
 <script>
 /* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
 (function(c,l,a,r,i,t,y){
@@ -156,30 +218,38 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <main>
   <section class="scene" id="scene">
     <div class="copy" id="copy" aria-live="polite"><p class="k" id="ck"></p><p class="m" id="cm"></p><p class="s" id="cs"></p></div>
-    <div class="stagewrap"><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
+    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
   </section>
   <div id="ui"></div>
   <div id="caption"></div>
 </main>
 <div id="controls">
+  <button id="menu" aria-haspopup="dialog">☰ Scenes</button>
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time">1 / 18</span>
+  <span class="t" id="time" style="min-width:150px">1 / 26</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
   <button id="cc" aria-pressed="true">Captions on</button>
+  <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
+  <button id="full" class="ico" aria-label="Full screen" title="Full screen">⛶</button>
 </div>
+<p class="keys"><kbd>Space</kbd> play or pause · <kbd>←</kbd> <kbd>→</kbd> previous or next scene · <kbd>M</kbd> scenes menu · <kbd>R</kbd> replay</p>
+<div id="shade"></div>
+<aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>Finding groups nobody labelled</h2>
-  <p>Week 12 · Chapter 1 · about 15 minutes of animated, narrated scenes on clustering, with five hands-on activities using real episodes from the Al Waha hospital file and a five-question quiz. Turn your sound on.</p>
-  <button class="cta" id="go">▶ Start the chapter</button>
+  <p>Week 12 · Chapter 1 · about 23 minutes of animated, narrated scenes on clustering, with seven hands-on activities using real episodes from the Al Waha hospital file and an eight-question quiz. Turn your sound on.</p>
+  <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
 <script src="data.js"></script>
 <script src="chapter.js"></script>
 <script src="timings.js"></script>
 <script src="scenes-a.js"></script>
+<script src="data2.js"></script>
 <script src="scenes-b.js"></script>
+<script src="scenes-c.js"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W12DATA;
@@ -193,6 +263,7 @@ const fmt = n => n.toLocaleString('en-US');
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"The data naturally falls into four clusters."','"Cluster 2 is the high-performing group."','"The clusters are statistically significant."','"This segmentation explains satisfaction."'];
 const SENTWHY = ['You chose four: k is chosen, not discovered.','Performance was not a clustering variable, so this imports a conclusion.','There is no test here, and no p value exists.','Nothing was explained. Clustering produces a description.'];
+const NAMES = ["Stretched wards","Quiet wards","Highly trained teams","High-performing wards"], NAMEKEY = [1,2,0];   // profiles are sorted by occupancy: A quiet, B highly trained, C stretched
 const UI = {
   spot: () => `<div class="picks"><button class="pick" data-p="a">Picture A has real groups</button><button class="pick" data-p="b">Picture B has real groups</button></div><div class="pfb" id="pfb"></div>`,
   playground: () => `<div class="card">
@@ -212,17 +283,29 @@ const UI = {
     <p class="verdict" id="kv"></p><div class="center"><button class="cta" id="cont" hidden>Continue ▶</button></div></div>`,
   sentences: () => `<div class="g2">${SENT.map((s,i)=>`<div class="card q" data-q="n"><b>${i+1}.</b> ${s}<div class="opts"><button data-a="y">May write it</button><button data-a="n">May not write it</button></div><div class="fb"></div></div>`).join('')}</div>
     <div class="center"><button class="cta" id="reveal" style="display:none">Show the answers</button></div>`,
+  skip: () => `<div class="card">
+    <div class="row"><span class="lab">Number of groups:</span><button class="chip sel" data-k="2">k = 2</button><button class="chip" data-k="4">k = 4</button></div>
+    <p class="verdict" id="skv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  nameit: () => `<div class="card">
+    ${['A','B','C'].map((p,i)=>`<div class="row" style="margin-top:${i?8:0}px"><span class="lab" style="min-width:74px">Profile ${p}</span><select class="chip nmsel" data-i="${i}"><option value="">Choose a name…</option>${NAMES.map((n,j)=>`<option value="${j}">${n}</option>`).join('')}</select><span class="fb" id="nfb${i}" style="font-weight:700"></span></div>`).join('')}
+    <p class="verdict" id="nmv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   quiz: () => `<div class="card qz"><div class="qhead"><span id="qn"></span><span class="dotsq" id="qdots"></span></div>
     <h3 id="qq"></h3><div id="qo" class="qopts"></div><div id="qwhy" class="why" aria-live="polite"></div>
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
-  takeaways: () => `<div class="center" id="endbox" style="display:none"><p id="final" style="font-size:17px;margin:0 0 8px"></p><button class="cta" id="again">↻ Replay the chapter</button></div>`
+  takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
+    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
+    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
 };
-const waitMsg = {playground:'Your turn: run k-means with the buttons, then press Continue.',units:'Your turn: pick two episodes and switch the units, then press Continue.',choosek:'Your turn: choose the k you would report.',quiz:'Answer the questions at your own pace.'};
+const waitMsg = {playground:'Your turn: run k-means with the buttons, then press Continue.',units:'Your turn: pick two episodes and switch the units, then press Continue.',choosek:'Your turn: choose the k you would report.',skip:'Your turn: compare k = 2 and k = 4, then press Continue.',nameit:'Your turn: name the three profiles, then press Continue.',quiz:'Answer the questions at your own pace.'};
 const splitMsg = {spot:'Your turn: choose picture A or picture B. The narration continues after your choice.',sentences:'Decide for each sentence. The narration continues when all four are answered.'};
 
 /* ---------- player ---------- */
 const prog = $('prog');
-S.forEach((s,i)=>{const b=document.createElement('button');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
+const KEY='vl-qrms-w12', seen=new Set(), tried=new Set();
+const isAct=s=>!!(s.wait||s.split);
+S.forEach((s,i)=>{const b=document.createElement('button'); if(isAct(s)) b.classList.add('act');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
 function unitId(){const s=S[si];return splitN(s)?s.id+part:s.id}
 function load(i,auto){
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
@@ -231,13 +314,37 @@ function load(i,auto){
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
   stage._fresh = true;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
-  $('time').textContent=(si+1)+' / '+S.length;
+  seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
+  [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
+  updTime(); drawList(); toast();
+  const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
   setUnit(); setStep(0);
   if(wire[s.kind]) wire[s.kind]();
   if(auto) play(); else pause();
 }
-function setUnit(){const t=T[unitId()]; if(t){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
+function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
+function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
+function drawList(){ const L=$('dlist'); if(!L) return;
+  L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
+  L.querySelectorAll('button').forEach(b=>b.onclick=()=>{ openMenu(false); load(+b.dataset.k,true) });
+  $('dsum').textContent=seen.size+' of '+S.length+' scenes opened · '+S.filter(isAct).length+' interactive'; }
+function openMenu(on){ $('drawer').classList.toggle('open',on); $('shade').classList.toggle('open',on); $('drawer').setAttribute('aria-hidden',String(!on)); if(on){ const c=$('dlist').querySelector('.cur'); if(c) c.scrollIntoView({block:'center'}) } }
+const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let capEnds=[];
+function capWords(text){ const ws=text.split(' '); let n=0; capEnds=ws.map(w=>(n+=w.length+1)); const tot=n||1; capEnds=capEnds.map(v=>v/tot);
+  $('caption').innerHTML=ws.map(w=>`<span class="w">${esc(w)}</span>`).join(' '); }
+function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==capEnds.length) return; f=Math.max(0,Math.min(1,f));
+  for(let i=0;i<el.length;i++){ const start=i?capEnds[i-1]:0; el[i].classList.toggle('said',capEnds[i]<=f); el[i].classList.toggle('now',start<=f&&f<capEnds[i]); } }
+function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
+/* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
+let silent=false, clock=0, ticker=null;
+delete T.s17;   // TEMPORARY: the recorded line still says 'five questions'; remove this line once s17 is re-recorded
+S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
+  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
+const nowT=()=>silent?clock:au.currentTime;
+function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.silent); clock=0; $('caption').classList.toggle('ra',silent);
+  if(t&&!silent){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
   const sc=SC[S[si].id]; if(!sc||sc.full) return;
@@ -248,38 +355,51 @@ function renderScene(k){
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
   const c=sc.copy[k]||sc.copy[sc.copy.length-1]||{};
-  $('ck').textContent=c.k||''; $('cm').textContent=c.m||s.heading; $('cs').textContent=c.s||'';
+  $('ck').textContent=c.k||''; $('cs').textContent=c.s||'';
+  $('cm').innerHTML=esc(c.m||s.heading).split(' ').map((w,i)=>`<span class="w" style="animation-delay:${(i*.045).toFixed(2)}s">${w}</span>`).join(' ');
   const cp=$('copy'); cp.classList.remove('in'); void cp.offsetWidth; cp.classList.add('in');
   $('status').textContent=c.l||''; $('beatbar').style.width=((k+1)/s.lines.length*100)+'%';
   renderScene(k);
   if(s.kind==='sentences'&&k>=1) showAnswers(k);
   if(s.kind==='takeaways'&&k>=5) $('endbox').style.display='block';
-  $('caption').textContent=s.lines[k]||'';
+  capWords(s.lines[k]||'');
 }
-au.addEventListener('timeupdate',()=>{
-  const t=T[unitId()]; if(!t) return; const c=t.cues; let k=0;
-  for(let j=0;j<c.length;j++) if(au.currentTime>=c[j]) k=j;
+function onTime(){
+  const t=T[unitId()]; if(!t) return; const c=t.cues, CT=nowT(); let k=0;
+  for(let j=0;j<c.length;j++) if(CT>=c[j]) k=j;
   setStep(lineIndex(k));
-  const frac=Math.min(1,au.currentTime/(t.dur||au.duration||1)); const s=S[si];
+  karaoke((CT-c[k])/Math.max(.5,((k+1<c.length?c[k+1]:(t.dur||au.duration||c[k]+4))-c[k])-.35));
+  const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
   prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
-});
-au.addEventListener('ended',()=>{
+}
+au.addEventListener('timeupdate',onTime);
+au.addEventListener('ended',onEnd);
+function onEnd(){
   const s=S[si];
   if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=splitMsg[s.kind]||'';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent=''; prog.children[si].firstChild.style.width='100%' }
-});
-function play(){ if(waitingQuiz) return; if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
-function pause(){ playing=false; au.pause(); updBtn() }
+  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 2. Well done. Use the chapter menu at the top to continue, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+}
+function play(){ if(waitingQuiz) return;
+  if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
+    ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
+  if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
+function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
 function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
 $('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
 $('speed').onchange=()=>au.playbackRate=+$('speed').value;
+$('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
+$('replay').onclick=()=>load(si,true);
+$('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select')) tried.add(S[si].id) }); $('ui').addEventListener('change',()=>tried.add(S[si].id));
+setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click() });
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
 $('go').onclick=()=>{ $('start').remove(); load(0,true) };
+(function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
 
 /* ---------- interactions ---------- */
 function continueQuiz(){ if(part==='b') return; if(!aDone){pendingB=true;return} part='b'; waitingQuiz=false; const rv=$('reveal'); if(rv) rv.style.display='none'; setUnit(); play() }
@@ -346,6 +466,25 @@ const wire = {
     }));
     $('reveal').onclick=continueQuiz;
   },
+  skip(){
+    const ui=$('ui'), X=window.W12X;
+    const upd=k=>{ SC.s24.update(stage,k);
+      $('skv').innerHTML = k===2
+        ? `<b class="ok">Almost the same groups</b> (agreement ${X.ari2.toFixed(2)}). Here you were lucky: occupancy and training hours, the two big-unit columns, happen to carry the same two-group structure as the other variables. Nothing in the output tells you whether you were lucky. Now try <b>k = 4</b>.`
+        : `<b class="no">Now the groups differ</b> (agreement ${X.ari4.toFixed(2)}), and the sizes change. Without standardising, the centres sit closer together on staff ratio (${X.sep_raw4[0].toFixed(2)} against ${X.sep_std4[0].toFixed(2)} SDs) and on handoffs (${X.sep_raw4[3].toFixed(2)} against ${X.sep_std4[3].toFixed(2)}): the small-unit variables lost influence. And there is still no error message.`; };
+    ui.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{ CHIPSEL(ui,b); upd(+b.dataset.k) });
+    $('cont').onclick=()=>load(si+1,true);
+    setTimeout(()=>{ if($('skv')) upd(2) },150);
+  },
+  nameit(){
+    const ui=$('ui'), why=['Lowest occupancy (68%) and the fewest handoffs: a quiet profile.','Highest staff ratio (1.70) and the most training (31 h).','Thin staffing, little training, wards almost 90% full, most handoffs.'];
+    const check=()=>{ let ok=0, n=0; ui.querySelectorAll('.nmsel').forEach(sel=>{ const i=+sel.dataset.i, v=sel.value, fb=$('nfb'+i); if(v===''){ fb.textContent=''; SC.s25.name(stage,i,'',true); return } n++;
+        const good=+v===NAMEKEY[i]; if(good) ok++; SC.s25.name(stage,i,NAMES[+v],good);
+        fb.className='fb '+(good?'ok':'no'); fb.textContent = good ? '✓ '+why[i] : (+v===3 ? '✗ Performance was not a clustering variable: you would be importing a conclusion.' : '✗ Read the numbers again: which values are ▲ and ▼?'); });
+      $('nmv').innerHTML = n===3 ? (ok===3 ? '<b class="ok">All three defended.</b> Every name traces back to numbers in its profile. “High-performing wards” was the trap: nothing here measures performance.' : `<b class="no">${ok} of 3 so far.</b> A name must be read from the centre, not from the story you would like to tell.`) : ''; };
+    ui.querySelectorAll('.nmsel').forEach(s=>s.onchange=check);
+    $('cont').onclick=()=>load(si+1,true);
+  },
   quiz(){
     let qi=0, score=0; const marks=[];
     const dots=()=>QZ.map((_,j)=>`<i class="${j<marks.length?(marks[j]?'ok':'no'):j===qi?'cur':''}"></i>`).join('');
@@ -353,24 +492,25 @@ const wire = {
       $('qq').textContent=q.q; $('qwhy').innerHTML=''; $('qnext').hidden=true;
       $('qo').innerHTML=q.o.map((o,j)=>`<button data-j="${j}"><span>${'ABCD'[j]}</span>${o}</button>`).join('');
       $('qo').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-        const ok=+b.dataset.j===q.a; if(ok) score++; marks.push(ok);
+        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok);
         $('qo').querySelectorAll('button').forEach(x=>{x.disabled=true; if(+x.dataset.j===q.a) x.classList.add('right')}); if(!ok) b.classList.add('wrong');
         $('qwhy').innerHTML=`<b class="${ok?'ok':'no'}">${ok?'Correct.':'Not quite.'}</b> ${q.why}`; $('qdots').innerHTML=dots();
         $('qnext').textContent= qi<QZ.length-1?'Next question ▶':'See my score ▶'; $('qnext').hidden=false; });
     };
     $('qnext').onclick=()=>{ if(qi<QZ.length-1){qi++;show();return}
-      quizScore=score; const msg=score===5?'Perfect score. You are ready for the self-paced session.':score>=3?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on distance and on the noise floor, then try again.';
-      $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/5*100}%"><b>${score}/5</b></div><p>${msg}</p></div>`;
-      $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=4) burst();
+      quizScore=score; const msg=score===QZ.length?'Perfect score. You are ready for the self-paced session.':score>=Math.ceil(QZ.length*.6)?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on distance and on the noise floor, then try again.';
+      $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/QZ.length*100}%"><b>${score}/${QZ.length}</b></div><p>${msg}</p></div>`;
+      $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=QZ.length-1) burst();
       $('qnext').textContent='Continue ▶'; $('qnext').onclick=()=>load(si+1,true); };
     show();
   },
   takeaways(){
-    $('final').textContent = quizScore===null ? '' : `Your quiz score: ${quizScore} out of 5.`;
-    $('again').onclick=()=>{ quizScore=null; load(0,true) };
+    const acts=S.filter(x=>isAct(x)&&x.kind!=='quiz'); $('final').textContent='Well done. Here is what you did in this chapter.';
+    $('eS').textContent=seen.size+' / '+S.length; $('eA').textContent=acts.filter(x=>tried.has(x.id)).length+' / '+acts.length; $('eQ').textContent=quizScore===null?'not taken':quizScore+' / '+QZ.length;
+    $('again').onclick=()=>{ quizScore=null; seen.clear(); tried.clear(); load(0,true) };
   }
 };
-function burst(){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<40;i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
+function burst(n){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<(n||40);i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
 
 load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks

@@ -1,4 +1,4 @@
-// PHQM830 Week 12 · Chapter 1 "Finding groups nobody labelled"
+// PHQM830 Week 12 · Chapter 2 of the course: "Finding groups nobody labelled" (25 scenes)
 // One scene = one audio file. One sentence = one animation step.
 window.CHAPTER = {
   course: "PHQM830 Quantitative Research Methods and Statistics",
@@ -16,6 +16,12 @@ window.CHAPTER = {
       "This week, the answer key is gone. There is no outcome, and nothing will tell us whether our answer is right.",
       "This is called unsupervised learning. That single missing piece changes how the method must be judged, and it is the whole lesson of this week."
     ]},
+    { id: "s19", kind: "why", heading: "Why look for groups at all?", lines: [
+      "Why look for groups at all? Because nobody can manage four thousand seven hundred episodes one at a time.",
+      "If the episodes fall into a few types, each type can get its own policy: its own staffing, its own training, its own targets.",
+      "This week's reading is the classic example. Miller and Roth studied manufacturers, and found three types: caretakers, marketeers, and innovators.",
+      "Each name was read from the numbers. That is segmentation done well, and it is what you will learn to do, and to check."
+    ]},
     { id: "s03", kind: "spot", heading: "Your turn: which picture has real groups?", split: 2, lines: [
       "Let us start with a test of your eyes. Here are two clouds of hospital episodes, each squeezed onto a flat map.",
       "One of them has real groups in it. Which one? Choose picture A or picture B.",
@@ -30,6 +36,13 @@ window.CHAPTER = {
       "Third, move each centre to the middle of the episodes it was given.",
       "Then repeat: assign again, and move again, until nothing changes. That is the whole algorithm.",
       "Notice the word nearest. Everything rests on how we measure distance, and that is where most clustering goes wrong."
+    ]},
+    { id: "s20", kind: "inertia", heading: "What k-means is really trying to do", lines: [
+      "What is k-means actually trying to do? It tries to make every group as tight as possible.",
+      "Draw a line from each episode to its centre. Square the lengths, and add them all up. That total is called the inertia.",
+      "Every assign step, and every move step, makes the inertia smaller, never bigger. So the algorithm must stop.",
+      "But where it stops depends on where it started. With four groups, twenty different starts on our file ended in clearly different groupings.",
+      "That is why we run ten starts, and keep the tightest result. In Python, that is n init equals ten."
     ]},
     { id: "s05", kind: "playground", heading: "Try it: run k-means yourself", wait: true, lines: [
       "Now run it yourself, on two hundred and forty real episodes.",
@@ -77,11 +90,35 @@ window.CHAPTER = {
       "Now you choose. Look at the gaps, and pick the number of groups you would report to the hospital director.",
       "Remember: k is chosen, not discovered. Then press Continue."
     ]},
+    { id: "s21", kind: "elbow", heading: "The elbow plot", lines: [
+      "There is one more tool for choosing k: the elbow plot. For each k, we plot the inertia.",
+      "With one group, the inertia of our file is about nineteen thousand. With two groups, it drops to seven and a half thousand: a fall of sixty percent.",
+      "After that, each extra group buys very little. The curve bends like an elbow, at k equals two.",
+      "More groups always lower the inertia, so the lowest value proves nothing. Look for the bend, and check it against the silhouette and the noise floor."
+    ]},
     { id: "s13", kind: "shapes", heading: "The assumptions, and what to do when one fails", lines: [
       "k-means makes three assumptions. Check each one before you trust the groups.",
       "First, the variables are on comparable scales. You check the standard deviations, and you standardise every time.",
       "Second, k must be chosen. Use the elbow plot, the silhouette, the noise floor, and whether the groups mean anything to the organisation.",
       "Third, the groups are roughly round and of similar size. Long, thin, or curved groups get cut in half. When you see that, use hierarchical clustering, or DBSCAN, instead."
+    ]},
+    { id: "s22", kind: "methods", heading: "Beyond k-means: hierarchical clustering and DBSCAN", lines: [
+      "k-means is not the only way to cluster. Here are two other methods worth knowing.",
+      "Hierarchical clustering starts with every episode alone. Then it joins the two closest, again and again, until one tree is left. You cut the tree where you want your groups.",
+      "On our file, the tree cut into two groups agrees with k-means on almost every episode. Two different methods, one answer: that is reassuring.",
+      "DBSCAN works differently. It follows dense crowds of points, whatever their shape, and it marks lonely points as noise.",
+      "But it needs its own settings. On our file, one setting gave eleven groups, and a slightly larger one gave a single group. No method removes your judgement."
+    ]},
+    { id: "s23", kind: "script", heading: "The Python script, line by line", lines: [
+      "Now the Python. The whole analysis is twenty eight short lines, and four of them do the real work.",
+      "Standard scaler puts every column on the same scale. This is the z-score from Week 4.",
+      "The next highlighted line builds the noise floor. It shuffles each column on its own.",
+      "Then a loop runs k-means twice for each k: once on the real data, and once on the shuffled data.",
+      "Finally, silhouette score measures both, and the script prints the gap. Type it yourself. Do not copy and paste it."
+    ]},
+    { id: "s24", kind: "skip", heading: "Try it: skip the standardising line", wait: true, lines: [
+      "Now break it on purpose. Switch the standardising line off, and compare the groups with the correct version.",
+      "Try two groups, then four. Notice that there is no error message either way. Then press Continue."
     ]},
     { id: "s14", kind: "naming", heading: "Naming is not describing", lines: [
       "Once the groups are real, you must name them. Read each centre in the original units, and say what is high and what is low.",
@@ -89,6 +126,17 @@ window.CHAPTER = {
       "The second group, about two thousand six hundred episodes, has a staff ratio near one point five, twenty-six hours of training, wards about seventy-three percent full, and fewer than three handoffs.",
       "So a defensible pair of names is stretched wards and well-resourced wards. Every word traces back to a number in the profile.",
       "Then apply the final test. Would a hospital manager recognise these groups? If not, you have a statistical artefact, not a segment."
+    ]},
+    { id: "s25", kind: "nameit", heading: "Try it: name the clusters yourself", wait: true, lines: [
+      "Your turn to name. Here are the three centres you get with k equals three, in original units.",
+      "Match each profile with the name that its numbers support. Then press Continue."
+    ]},
+    { id: "s26", kind: "segments", heading: "From clusters to segments", lines: [
+      "A cluster becomes a segment only when it is useful. So test it on things you did not cluster on.",
+      "Take our two groups. In the stretched wards, satisfaction averages sixty. In the well-resourced wards, it averages eighty four.",
+      "Complaints: twenty eight percent, against three percent. Readmissions: thirty three percent, against twelve.",
+      "We did not use any of these to build the groups, so this is a real check. But it is still a description. It does not prove that staffing causes complaints.",
+      "A useful segment passes four tests. It is big enough to matter, stable when you run it again, recognisable to a manager, and it calls for a different action."
     ]},
     { id: "s15", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
       "Here are four sentences that often appear in reports about clusters. Decide for each one: may you write it, or not?",
@@ -102,8 +150,8 @@ window.CHAPTER = {
       "A good helper question is this one: explain what n init equals ten does, and why leaving it at one can give a different answer each time.",
       "A bad one is this: what should I call these clusters? Naming is interpretation, and interpretation is your work. A model that names your segments has written your findings."
     ]},
-    { id: "s17", kind: "quiz", heading: "Chapter quiz: five questions", wait: true, lines: [
-      "Let us finish with five quick questions. Take your time, and read the explanation after each answer."
+    { id: "s17", kind: "quiz", heading: "Chapter quiz: eight questions", wait: true, lines: [
+      "Let us finish with eight quick questions. Take your time, and read the explanation after each answer."
     ]},
     { id: "s18", kind: "takeaways", heading: "Four ideas to keep", lines: [
       "Well done. Here are the four ideas to keep from this chapter.",
@@ -132,6 +180,15 @@ window.CHAPTER = {
       why: "The gap is the evidence. It is largest at k = 2, so that is where the structure is strongest. At k = 6 the real score is barely above noise." },
     { q: "Which sentence may you write about your clusters?",
       o: ["\"The data naturally falls into two clusters.\"", "\"Cluster 2 is the high-performing group.\"", "\"Group 1 has higher occupancy and fewer training hours than group 2.\"", "\"The clusters are statistically significant.\""], a: 2,
-      why: "It describes the centres in original units, which is exactly what clustering gives you. The other sentences claim discovery, performance or significance that clustering cannot support." }
+      why: "It describes the centres in original units, which is exactly what clustering gives you. The other sentences claim discovery, performance or significance that clustering cannot support." },
+    { q: "The inertia is 18,916 with k = 1, 7,594 with k = 2, and 3,364 with k = 8. What does the elbow plot tell you?",
+      o: ["Choose k = 8, because its inertia is the lowest", "The bend is at k = 2; after that, extra groups buy little", "Inertia cannot help to choose k", "Choose k = 1, the simplest model"], a: 1,
+      why: "More groups always lower the inertia, so the minimum proves nothing. The big fall (60%) is from 1 to 2 groups; after the bend, the gains are small." },
+    { q: "With k = 4, twenty single random starts gave clearly different groupings. What do you do?",
+      o: ["Report the first result", "Use n_init=10: run several starts and keep the tightest result", "Give up on clustering", "Pick the grouping you like best"], a: 1,
+      why: "k-means stops at a nearby solution that depends on the start. n_init=10 runs ten starts and keeps the one with the smallest inertia. Unstable results are also a warning about that k." },
+    { q: "You forget StandardScaler. What does Python do?",
+      o: ["It raises an error", "It prints a warning about units", "Nothing: it returns tidy clusters with no error", "It standardises for you"], a: 2,
+      why: "There is no error and no warning. The clusters look fine, but they are driven by the variables with the biggest units. Only you can catch it." }
   ]
 };
