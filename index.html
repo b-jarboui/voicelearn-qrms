@@ -162,18 +162,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
   </main>
 </div>
 
+<script src="course.js"></script>
 <script>
-var COURSE = [
-  {n:1, week:11, title:"What machine learning is", href:"week11/chapter1/", minutes:12,
-   meta:"Week 11 · 16 scenes · about 12 minutes · interactive activities and a quiz",
-   targets:["Define machine learning","Understanding versus predicting","Cut-offs and rules","The accuracy trap"]},
-  {n:2, week:12, title:"Finding groups nobody labelled", href:"week12/chapter1/", minutes:15,
-   meta:"Week 12 · 18 scenes · about 15 minutes · run k-means yourself, five activities and a quiz",
-   targets:["How k-means works","Standardise before distance","The noise floor","Name clusters defensibly"]},
-  {n:3, week:13, title:"Turning written reviews into variables", href:"week13/chapter1/", minutes:18, live:false,
-   meta:"Week 13 · 20 scenes · about 18 minutes · TF-IDF by hand, a leak hunt, five activities and a quiz",
-   targets:["Text as variables","TF-IDF","Read the sentences","Fit on train only"]}
-];
+var COURSE = (window.VL_COURSE || { chapters: [] }).chapters;   // the chapter list lives in course.js
 
 function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
 function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
@@ -182,6 +173,7 @@ function label(c){ return "Chapter " + c.n + ": " + c.title; }
 function render(){
   var stats = document.getElementById("weekStats"), ch = document.getElementById("chapters"),
       targets = document.getElementById("targets"), map = document.getElementById("weekmap");
+  [stats, ch, targets, map].forEach(function(e){ e.textContent = ""; });
   var total = COURSE.reduce(function(s,c){ return s+c.minutes; }, 0);
   [[COURSE.length," chapters"],["~"+total+" min"," narration"],["Quizzes"," with explanations"]]
     .forEach(function(p){ var s=el("span"); s.appendChild(el("b",null,p[0])); s.appendChild(document.createTextNode(p[1])); stats.appendChild(s); });
