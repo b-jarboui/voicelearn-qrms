@@ -128,12 +128,32 @@ window.CHAPTER = {
       "In fact, all five thousand two hundred reviews are built from just thirty sentences. No score and no coefficient would ever tell you that.",
       "That is why reading comes first. Mejia and colleagues did exactly this before their operations analysis. It is standard practice, not a precaution."
     ]},
-    { id: "s26", kind: "embed", heading: "Beyond word counts: embeddings and language models", lines: [
-      "Everything so far counts words. Modern language models do something different.",
-      "They turn every word, and every sentence, into a list of numbers called an embedding, so that sentences with similar meanings sit close together.",
-      "In that space, nothing to complain about sits near very impressed, and far from making a complaint, because the model reads the words together, in context.",
-      "Large language models such as ChatGPT are built on this idea. They can label sentiment or topics without any training data from you.",
+    { id: "s28", kind: "subword", heading: "How language models cut text: sub-word tokens", lines: [
+      "Everything so far counted whole words. Modern language models, called transformers, read text differently, and it starts with how they cut it.",
+      "They cut text into tokens: pieces of words from a fixed list, here about thirty thousand pieces. Common words stay whole: nothing, complain, complaint.",
+      "Rarer words are split into pieces. Midwives becomes mid and wives. Attentive becomes at, ten, and tive.",
+      "And no word is ever unknown. Even unprofessionalism can be built from six pieces. That is why a language model can read new words and misspellings that TF-IDF would simply ignore."
+    ]},
+    { id: "s29", kind: "attention", heading: "The transformer and attention", lines: [
+      "The engine inside these models is called a transformer. Its key idea is attention.",
+      "Attention lets every token look at every other token in the sentence, and decide how much each one matters for its meaning.",
+      "Here are the real attention weights of the token complain, in the first layer of a small transformer, reading: Nothing to complain about. It looks at to, at itself, and at nothing.",
+      "TF-IDF threw the word nothing away. A transformer keeps it in view. Stacked in many layers, attention lets context change meaning.",
+      "That is the T in GPT: generative, pre-trained, transformer."
+    ]},
+    { id: "s26", kind: "embed", heading: "Embeddings, tested on our reviews", lines: [
+      "Inside a transformer, every sentence becomes a list of numbers called an embedding. Sentences with similar meanings are meant to sit close together.",
+      "So we tested a small transformer on three real sentences, and measured how close they are, from zero, unrelated, to one, the same.",
+      "Nothing to complain about scored zero point five six with I will be making a complaint, and only zero point one nine with Very impressed with the whole visit. The shared word complain still pulled them together.",
+      "TF-IDF scored zero for every pair. Bigger language models such as ChatGPT usually do better, and they can label sentiment without any training data from you.",
       "But the rules of this chapter still apply. Check the model against thirty reviews you read yourself, report the agreement, and never let it read the data for you."
+    ]},
+    { id: "s30", kind: "bertopic", heading: "BERTopic: topics from embeddings", lines: [
+      "Embeddings also give a newer way to find topics, called BERTopic. It follows four steps.",
+      "First, every review becomes an embedding. Second, the embeddings are squeezed into a few dimensions with a method called UMAP. Third, a clustering method called HDBSCAN finds dense groups, a close cousin of DBSCAN from Week 12.",
+      "Fourth, each group is described by its most distinctive words, using a class based version of TF-IDF.",
+      "On our reviews, BERTopic found twenty three topics by itself, much finer than the four from before. One gathers patients who felt ignored, with forty seven percent complaints. Another gathers real kindness, with two percent.",
+      "But more than half of the reviews were left as outliers, and one setting changes everything: a minimum topic size of thirty gave more than eighty topics, and one hundred and fifty gave none at all. Choose the setting, report it, and read the reviews."
     ]},
     { id: "s17", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
       "Here are four sentences that often appear in reports about text. Decide for each one: may you write it, or not?",
@@ -154,8 +174,8 @@ window.CHAPTER = {
       "Fifth, inspect the result: the top terms, the errors, possible leaks, and negation.",
       "Sixth, report what the text adds, whose voices it represents, and what it cannot tell you."
     ]},
-    { id: "s19", kind: "quiz", heading: "Chapter quiz: eight questions", wait: true, lines: [
-      "Let us finish with eight quick questions. Take your time, and read the explanation after each answer."
+    { id: "s19", kind: "quiz", heading: "Chapter quiz: ten questions", wait: true, lines: [
+      "Let us finish with ten quick questions. Take your time, and read the explanation after each answer."
     ]},
     { id: "s20", kind: "takeaways", heading: "Four ideas to keep", lines: [
       "Well done. Here are the four ideas to keep from this chapter.",
@@ -190,6 +210,12 @@ window.CHAPTER = {
       why: "Topics are word groups. A topic is what people talk about, not how they feel: the “appointment timing” topic still had 27.5% complaints. You choose the number and the names." },
     { q: "Only 4.4% of the cells in the document-term matrix are filled. What does that mean?",
       o: ["The data are broken", "Each review uses only a few of the possible terms: the matrix is sparse", "Most reviews are empty", "TF-IDF failed"], a: 1,
-      why: "About 13 of the 296 terms appear in a typical review. Sparse matrices are normal in text analytics, and models handle them well." }
+      why: "About 13 of the 296 terms appear in a typical review. Sparse matrices are normal in text analytics, and models handle them well." },
+    { q: "TF-IDF never saw the word “unprofessionalism”. Why can a transformer still read it?",
+      o: ["It looks the word up on the internet", "It splits the word into known sub-word pieces", "It ignores the word, like TF-IDF", "It guesses a random meaning"], a: 1,
+      why: "Transformers use a fixed list of about 30,000 word pieces. “unprofessionalism” becomes six known pieces, so no word is ever unknown." },
+    { q: "BERTopic on our reviews: minimum topic size 60 gives 23 topics and 53% outliers; size 150 gives no topic at all. What do you report?",
+      o: ["Only the 23 topics", "The setting, the number of topics, the share of outliers, and what you read in each topic", "That BERTopic failed", "The setting that gives the most topics"], a: 1,
+      why: "Like k in Week 12, the setting is your choice and it changes the answer. Report it with the outliers, and read the reviews behind each topic before naming it." }
   ]
 };

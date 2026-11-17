@@ -75,3 +75,14 @@ New scenes (s21 to s27, in `scenes-c.js`, figures in `data2.js`):
 - s27 The six-step workflow.
 
 The quiz now has 8 questions. The player gets the same upgrades as Chapters 1 and 2. The new narration uses Gemini 2.5 Flash TTS, voice Charon, like the rest of this chapter.
+
+## Transformers and BERTopic (added later on 17 November 2026)
+
+The chapter now has 30 scenes. New scenes are in `scenes-d.js`; the data is in `data2.js` under `tr`. All figures come from the `all-MiniLM-L6-v2` transformer (sentence-transformers, run offline on this PC) on the 5,200 reviews.
+
+- **s28 Sub-word tokens.** Real WordPiece output (vocabulary 30,522). "midwives" becomes mid + ##wives, and "unprofessionalism" becomes 6 pieces.
+- **s29 The transformer and attention.** Real first-layer attention of "complain" in "Nothing to complain about." (averaged over heads): [CLS] 0.38, to 0.17, itself 0.12, nothing 0.11.
+- **s26 Embeddings (replaced).** The earlier illustration claimed that "Nothing to complain about" sits near "very impressed". The real model says otherwise: cosine similarity is 0.56 with "I will be making a complaint" and 0.19 with "Very impressed with the whole visit". TF-IDF gives 0.00 for both pairs. The large-language-model label remains a marked illustration.
+- **s30 BERTopic.** The `bertopic` package was not installed, so BERTopic's default pipeline was run step by step: embeddings → UMAP (5 dimensions, cosine) → HDBSCAN → class-based TF-IDF. With a minimum topic size of 60: 23 topics and 2,743 outliers (53%). With 30: 83 topics. With 150: none. UMAP is not fully reproducible, so a rerun can give 22 to 25 topics.
+
+The quiz now has 10 questions.
