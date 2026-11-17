@@ -11,7 +11,13 @@ window.VL_COURSE = {
       targets: ["How k-means works", "Standardise before distance", "The noise floor", "Elbow and silhouette", "Hierarchical and DBSCAN", "From clusters to segments"] },
     { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 30, live: true,
       meta: "Week 13 · 31 scenes · about 30 minutes · TF-IDF, transformers and attention, BERTopic, a leak hunt, six activities and a quiz",
-      targets: ["Text as variables", "TF-IDF", "Topics and BERTopic", "Tokens and transformers", "Fit on train only", "Read the sentences"] }
+      targets: ["Text as variables", "TF-IDF", "Topics and BERTopic", "Tokens and transformers", "Fit on train only", "Read the sentences"] },
+    { n: 4, week: 14, title: "Neural network concepts for prediction", href: "week14/chapter1/", minutes: 15, live: true,
+      meta: "Week 14 · 23 scenes · about 15 minutes · build a neuron by hand, bend a line with hinges, five seeds, four activities and a quiz",
+      targets: ["What one neuron computes", "Why the rule lets it bend", "How a network learns", "RMSE and scaling", "Overfitting and seeds", "What accuracy costs"] },
+    { n: 5, week: 15, title: "Evidence synthesis and responsible reporting", href: "week15/chapter1/", minutes: 14, live: true,
+      meta: "Week 15 · 22 scenes · about 14 minutes · five answers to one question, MAE vs RMSE, split luck, five activities and a quiz",
+      targets: ["Which question each result answers", "When agreement counts", "MAE and RMSE", "One split for all models", "Report the search", "Structure of the analysis chapter"] }
   ]
 };
 
