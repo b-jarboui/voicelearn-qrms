@@ -65,7 +65,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 .side .card+.card{margin-top:18px}
 .empty{color:var(--muted);margin:0}
 .weeks{display:grid;gap:6px;margin-top:4px}
-.week{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:15px/1.35 "Atkinson Hyperlegible",sans-serif;color:var(--ink);cursor:pointer}
+.week{text-decoration:none;display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:15px/1.35 "Atkinson Hyperlegible",sans-serif;color:var(--ink);cursor:pointer}
 .week[aria-current="true"]{border-color:var(--primary);background:var(--soft);font-weight:700}
 .week .tag{flex:none;font-size:12px;color:var(--muted)}
 .week .tag.ready{color:var(--primary);font-weight:700}
@@ -114,13 +114,13 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
     <button class="btn primary" id="start" type="button">Get started →</button>
   </section>
 
-  <!-- Course home -->
+  <!-- Course home: one course, three chapters -->
   <main id="home" hidden>
     <section class="hero" aria-labelledby="weekTitle">
       <div>
-        <div class="eyebrow" id="weekCode">PHQM830 / Week 11</div>
-        <h1 id="weekTitle">Introduction to Machine Learning</h1>
-        <p>Listen. See the connections. Put your understanding into practice.</p>
+        <div class="eyebrow" id="weekCode">PHQM830 / Machine learning course</div>
+        <h1 id="weekTitle">Machine learning for quality research</h1>
+        <p>Three narrated chapters, one story: predicting outcomes, finding groups, and turning written reviews into variables. All with real Al Waha hospital data.</p>
         <div class="stats" id="weekStats"></div>
       </div>
       <div class="steps" aria-hidden="true">
@@ -132,7 +132,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 
     <section class="card resume" id="resume">
       <div>
-        <div class="label">Start here</div>
+        <div class="label" id="resumeLabel">Start here</div>
         <h2 id="resumeTitle">Chapter 1: What machine learning is</h2>
       </div>
       <a class="btn primary" id="resumeBtn" href="week11/chapter1/">▶ Start chapter 1</a>
@@ -140,23 +140,22 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 
     <div class="grid">
       <section class="card" aria-labelledby="chTitle">
-        <div class="label" id="sessionLabel">Session 1 · Chapters · PHQM830</div>
-        <h2 id="chTitle">Introduction to Machine Learning</h2>
+        <div class="label">Course · Chapters · PHQM830</div>
+        <h2 id="chTitle">Machine learning for quality research</h2>
         <div id="chapters"></div>
       </section>
 
       <div class="side">
         <section class="card" aria-labelledby="youTitle">
           <div class="label">What you will be able to do</div>
-          <h2 id="youTitle" style="font-size:18px;margin-bottom:10px">This week's targets</h2>
+          <h2 id="youTitle" style="font-size:18px;margin-bottom:10px">Course targets</h2>
           <div class="chips" id="targets"></div>
         </section>
         <section class="card" aria-labelledby="wkTitle">
-          <div class="label">Week</div>
-          <h2 id="wkTitle" style="font-size:18px;margin-bottom:6px">Choose the week to study</h2>
-          <label class="sr" for="weeks">Week</label>
-          <select class="weeksel" id="weeks"></select>
-          <p class="note">New chapters are added as the course moves forward. Week 15 is revision week, see Moodle.</p>
+          <div class="label">Where it fits</div>
+          <h2 id="wkTitle" style="font-size:18px;margin-bottom:6px">One chapter per week</h2>
+          <div class="weeks" id="weekmap"></div>
+          <p class="note">Weeks 1 to 10, 14 and 15: please use the slides and activities on Moodle.</p>
         </section>
       </div>
     </div>
@@ -164,93 +163,54 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;pa
 </div>
 
 <script>
-var WEEKS = [
-  {n:1,  t:"Quantitative analytics for doctoral research"},
-  {n:2,  t:"Research questions, variables, constructs and designs"},
-  {n:3,  t:"Managing and preparing research data"},
-  {n:4,  t:"Data preparation, missing data and outliers"},
-  {n:5,  t:"Descriptive analytics, visualisation and EDA"},
-  {n:6,  t:"Statistical inference, effect size and power"},
-  {n:7,  t:"Group comparisons: t-tests, ANOVA and alternatives"},
-  {n:8,  t:"Correlation and regression foundations"},
-  {n:9,  t:"Multiple regression, diagnostics and model selection"},
-  {n:10, t:"Logistic regression and classification thinking"},
-  {n:11, t:"Introduction to Machine Learning",
-   chapters:[{title:"Chapter 1: What machine learning is", href:"week11/chapter1/",
-              meta:"16 scenes · about 12 minutes · interactive activities and a quiz"}],
-   minutes:12,
+var COURSE = [
+  {n:1, week:11, title:"What machine learning is", href:"week11/chapter1/", minutes:12,
+   meta:"Week 11 · 16 scenes · about 12 minutes · interactive activities and a quiz",
    targets:["Define machine learning","Understanding versus predicting","Cut-offs and rules","The accuracy trap"]},
-  {n:12, t:"Clustering and segmentation",
-   chapters:[{title:"Chapter 1: Finding groups nobody labelled", href:"week12/chapter1/",
-              meta:"18 scenes · about 15 minutes · run k-means yourself, five activities and a quiz"}],
-   minutes:15,
+  {n:2, week:12, title:"Finding groups nobody labelled", href:"week12/chapter1/", minutes:15,
+   meta:"Week 12 · 18 scenes · about 15 minutes · run k-means yourself, five activities and a quiz",
    targets:["How k-means works","Standardise before distance","The noise floor","Name clusters defensibly"]},
-  {n:13, t:"NLP and text analytics for customer reviews"},
-  {n:14, t:"Neural-network concepts for prediction"},
-  {n:15, t:"Evidence synthesis and the analytics proposal", revision:true}
+  {n:3, week:13, title:"Turning written reviews into variables", href:"week13/chapter1/", minutes:18, live:false,
+   meta:"Week 13 · 20 scenes · about 18 minutes · TF-IDF by hand, a leak hunt, five activities and a quiz",
+   targets:["Text as variables","TF-IDF","Read the sentences","Fit on train only"]}
 ];
 
 function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
 function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+function label(c){ return "Chapter " + c.n + ": " + c.title; }
 
-function ready(w){ return w.chapters && w.chapters.length; }
-function defaultWeek(){
-  var q = parseInt(new URLSearchParams(location.search).get("week"), 10);
-  if (WEEKS.some(function(w){ return w.n===q; })) return q;
-  var s = parseInt(store("vl-qrms-week"), 10);
-  if (WEEKS.some(function(w){ return w.n===s; })) return s;
-  var last = WEEKS.filter(ready).pop();
-  return last ? last.n : 1;
-}
+function render(){
+  var stats = document.getElementById("weekStats"), ch = document.getElementById("chapters"),
+      targets = document.getElementById("targets"), map = document.getElementById("weekmap");
+  var total = COURSE.reduce(function(s,c){ return s+c.minutes; }, 0);
+  [[COURSE.length," chapters"],["~"+total+" min"," narration"],["Quizzes"," with explanations"]]
+    .forEach(function(p){ var s=el("span"); s.appendChild(el("b",null,p[0])); s.appendChild(document.createTextNode(p[1])); stats.appendChild(s); });
 
-function render(n){
-  var w = WEEKS.filter(function(x){ return x.n===n; })[0];
-  store("vl-qrms-week", String(n));
-  var pad = (n<10?"0":"")+n;
-  document.getElementById("weekCode").textContent = "PHQM830 / Week " + pad;
-  document.getElementById("weekTitle").textContent = w.t;
-  document.getElementById("chTitle").textContent = w.t;
-
-  var stats = document.getElementById("weekStats"); stats.textContent="";
-  var ch = document.getElementById("chapters"); ch.textContent="";
-  var targets = document.getElementById("targets"); targets.textContent="";
-  var resume = document.getElementById("resume");
-
-  if (ready(w)) {
-    [[w.chapters.length, w.chapters.length>1?" chapters":" chapter"],["~"+w.minutes+" min"," narration"],["Quiz"," with explanations"]]
-      .forEach(function(p){ var s=el("span"); s.appendChild(el("b",null,p[0])); s.appendChild(document.createTextNode(p[1])); stats.appendChild(s); });
-    w.chapters.forEach(function(c, i){
-      var row = el("div","lesson"), txt = el("div");
-      txt.appendChild(el("h3",null,c.title)); txt.appendChild(el("small",null,c.meta));
-      var a = el("a","play","Play"); a.href=c.href; a.setAttribute("aria-label","Play "+c.title);
-      row.appendChild(txt); row.appendChild(a); ch.appendChild(row);
-    });
-    (w.targets||[]).forEach(function(t){ targets.appendChild(el("span",null,t)); });
-    resume.hidden = false;
-    document.getElementById("resumeTitle").textContent = w.chapters[0].title;
-    document.getElementById("resumeBtn").href = w.chapters[0].href;
-  } else {
-    var s=el("span"); s.textContent = w.revision ? "Revision week" : "Chapters in preparation"; stats.appendChild(s);
-    ch.appendChild(el("p","empty", w.revision
-      ? "Week 15 is a revision week. Please follow the revision material on Moodle."
-      : "The narrated chapters for this week are being prepared. Until then, please use the slides and activities on Moodle."));
-    targets.appendChild(el("span",null,"See the Week "+n+" delivery plan on Moodle"));
-    resume.hidden = true;
-  }
-
-  var sel = document.getElementById("weeks"); sel.textContent="";
-  WEEKS.forEach(function(x){
-    var o = el("option", null, "Week " + x.n + " · " + x.t + (ready(x) ? "" : (x.revision ? " (see Moodle)" : " (coming soon)")));
-    o.value = String(x.n); if (x.n===n) o.selected = true;
-    sel.appendChild(o);
+  var seen = (store("vl-qrms-seen")||"").split(",");
+  COURSE.forEach(function(c){
+    var row = el("div","lesson"), txt = el("div");
+    txt.appendChild(el("h3",null,label(c) + (seen.indexOf(String(c.n))>=0 ? "  ✓" : ""))); txt.appendChild(el("small",null,c.meta));
+    var live = c.live!==false; var a = live ? el("a","play","Play") : el("span","play","Coming soon"); if(live){ a.href=c.href; a.setAttribute("aria-label","Play "+label(c)); } else { a.style.color="var(--muted)"; a.style.borderStyle="dashed"; }
+    if(live) a.addEventListener("click", function(){ store("vl-qrms-seen", seen.concat(String(c.n)).filter(Boolean).join(",")); });
+    row.appendChild(txt); row.appendChild(a); ch.appendChild(row);
+    c.targets.forEach(function(t){ targets.appendChild(el("span",null,t)); });
+    var w = el(live?"a":"div","week"); if(live) w.href=c.href; w.appendChild(el("span",null,"Week "+c.week)); w.appendChild(el("b",null,"Chapter "+c.n+(live?"":" · soon"))); map.appendChild(w);
   });
+
+  // resume: the first chapter not yet opened (or chapter 1 when all have been opened)
+  var next = COURSE.filter(function(c){ return c.live!==false && seen.indexOf(String(c.n))<0; })[0];
+  var any = COURSE.some(function(c){ return seen.indexOf(String(c.n))>=0; });
+  var r = next || COURSE[0];
+  document.getElementById("resumeLabel").textContent = next && any ? "Continue the course" : "Start here";
+  document.getElementById("resumeTitle").textContent = label(r);
+  var b = document.getElementById("resumeBtn"); b.href = r.href; b.textContent = "▶ Start chapter " + r.n;
+  b.addEventListener("click", function(){ store("vl-qrms-seen", seen.concat(String(r.n)).filter(Boolean).join(",")); });
 }
-document.getElementById("weeks").addEventListener("change", function(e){ render(parseInt(e.target.value,10)); window.scrollTo({top:0,behavior:"smooth"}); });
 
 function showHome(){
   document.getElementById("welcome").hidden = true;
   document.getElementById("home").hidden = false;
-  render(defaultWeek());
+  render();
 }
 document.getElementById("start").addEventListener("click", function(){ store("vl-qrms-welcomed","1"); showHome(); });
 if (store("vl-qrms-welcomed")==="1" || new URLSearchParams(location.search).has("week")) showHome();
