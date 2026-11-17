@@ -148,12 +148,20 @@ window.CHAPTER = {
       "TF-IDF scored zero for every pair. Bigger language models such as ChatGPT usually do better, and they can label sentiment without any training data from you.",
       "But the rules of this chapter still apply. Check the model against thirty reviews you read yourself, report the agreement, and never let it read the data for you."
     ]},
-    { id: "s30", kind: "bertopic", heading: "BERTopic: topics from embeddings", lines: [
-      "Embeddings also give a newer way to find topics, called BERTopic. It follows four steps.",
-      "First, every review becomes an embedding. Second, the embeddings are squeezed into a few dimensions with a method called UMAP. Third, a clustering method called HDBSCAN finds dense groups, a close cousin of DBSCAN from Week 12.",
-      "Fourth, each group is described by its most distinctive words, using a class based version of TF-IDF.",
-      "On our reviews, BERTopic found twenty three topics by itself, much finer than the four from before. One gathers patients who felt ignored, with forty seven percent complaints. Another gathers real kindness, with two percent.",
-      "But more than half of the reviews were left as outliers, and one setting changes everything: a minimum topic size of thirty gave more than eighty topics, and one hundred and fifty gave none at all. Choose the setting, report it, and read the reviews."
+    { id: "s31", kind: "bertprocess", heading: "How BERTopic works, step by step", lines: [
+      "How does BERTopic actually find topics? Let us follow eight real reviews through the whole process, step by step.",
+      "Step one: embedding. A transformer reads each review, and turns it into a list of three hundred and eighty four numbers. Think of it as an address in a meaning space: reviews that mean similar things get nearby addresses.",
+      "Step two: UMAP. Nobody can picture three hundred and eighty four dimensions, and clustering struggles in so many. UMAP squeezes them down to a few, while keeping neighbours next to each other.",
+      "Step three: HDBSCAN. It looks for crowded areas on that map. Each crowd becomes a topic. A review that sits alone, far from any crowd, is marked as an outlier, instead of being forced into a group.",
+      "Step four: class based TF-IDF. All the reviews of one topic are joined into one long document. Words that are frequent in this topic, but rare in the others, become the topic's key words.",
+      "Step five is yours. Read the key words, and the reviews behind them, before you give the topic a name. The method finds the groups. You decide what they mean."
+    ]},
+    { id: "s30", kind: "bertopic", heading: "BERTopic on our 5,200 reviews", lines: [
+      "Now the same five steps, on all five thousand two hundred reviews.",
+      "BERTopic found twenty three topics by itself, much finer than the four topics from before.",
+      "One gathers patients who felt ignored, with forty seven percent complaints. Another gathers real kindness, with two percent.",
+      "But more than half of the reviews were left as outliers, and one setting changes everything: a minimum topic size of thirty gave more than eighty topics, and one hundred and fifty gave none at all.",
+      "So choose the setting, report it, and read the reviews."
     ]},
     { id: "s17", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
       "Here are four sentences that often appear in reports about text. Decide for each one: may you write it, or not?",
