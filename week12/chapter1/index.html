@@ -133,14 +133,12 @@ select.chip{padding:6px 10px}
   #controls button{padding:8px 11px}
 }
 header .nav a{margin-left:0;color:var(--navy);font-size:13px}
-.chmenu{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 20px 0;font-size:14px}
-.chmenu a,.chmenu span{display:inline-flex;align-items:center;min-height:36px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--navy);text-decoration:none;font-weight:700}
-.chmenu a:hover{border-color:var(--navy)}
-.chmenu .cur{background:var(--navy);color:#fff;border-color:var(--navy)}
-.chmenu .soon{color:var(--muted);font-weight:400;border-style:dashed}
-.chmenu .home{margin-right:6px}
-@media (max-width:760px){.chmenu{padding:8px 16px 0}.chmenu a,.chmenu span{font-size:13px;padding:5px 10px}}
-@media (prefers-color-scheme:dark){.chmenu .cur{color:#12161D}}</style>
+.chmenu{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px 20px 0;font-size:14px}
+.chmenu .home{display:inline-flex;align-items:center;min-height:38px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--navy);text-decoration:none;font-weight:700}
+.chmenu .home:hover{border-color:var(--navy)}
+.chmenu .chpick{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--muted)}
+.chmenu select{font:inherit;font-size:14px;font-weight:700;color:var(--navy);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:38px;padding:6px 10px;max-width:min(78vw,440px);cursor:pointer}
+@media (max-width:760px){.chmenu{padding:8px 16px 0}}</style>
 <script>
 /* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
 (function(c,l,a,r,i,t,y){
@@ -153,7 +151,7 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 </head>
 <body>
 <header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 12</span><h1>Chapter 2 · Finding groups nobody labelled</h1></header>
-<nav class="chmenu" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a><a href="../../week11/chapter1/" title="What machine learning is">Chapter 1</a><span class="cur" aria-current="page" title="Finding groups nobody labelled">Chapter 2</span><span class="soon" title="Turning written reviews into variables">Chapter 3 · coming soon</span></nav>
+<nav class="chmenu" data-ch="2" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
@@ -379,5 +377,6 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 })();
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('2')<0){v.push('2');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
+<script src="../../course.js"></script>
 </body>
 </html>
