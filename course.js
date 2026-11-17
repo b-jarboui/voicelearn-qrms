@@ -9,7 +9,7 @@ window.VL_COURSE = {
     { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 15, live: true,
       meta: "Week 12 · 18 scenes · about 15 minutes · run k-means yourself, five activities and a quiz",
       targets: ["How k-means works", "Standardise before distance", "The noise floor", "Name clusters defensibly"] },
-    { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 18, live: false,
+    { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 18, live: true,
       meta: "Week 13 · 20 scenes · about 18 minutes · TF-IDF by hand, a leak hunt, five activities and a quiz",
       targets: ["Text as variables", "TF-IDF", "Read the sentences", "Fit on train only"] }
   ]
