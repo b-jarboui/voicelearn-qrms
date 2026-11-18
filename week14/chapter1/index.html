@@ -245,11 +245,11 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261117d"></script>
-<script src="chapter.js?v=20261117d"></script>
-<script src="timings.js?v=20261117d"></script>
-<script src="scenes-a.js?v=20261117d"></script>
-<script src="scenes-b.js?v=20261117d"></script>
+<script src="data.js?v=20261118a"></script>
+<script src="chapter.js?v=20261118a"></script>
+<script src="timings.js?v=20261118a"></script>
+<script src="scenes-a.js?v=20261118a"></script>
+<script src="scenes-b.js?v=20261118a"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W14;
@@ -262,7 +262,7 @@ const fmt = n => n.toLocaleString('en-US');
 
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"The neural network learned that waiting time matters most."','"The network is much better."','"Deep learning was applied."','"The model achieved an R² of 0.85."'];
-const SENTWHY = ['It has no coefficient for waiting time, so it cannot tell you this.','It is 0.95 points better, on an outcome that varies by 16. Say the number.','Two small layers is not deep learning. Describe what you actually fitted.','Only half true: say it was on 1,300 held-out rows, and with which seed (or the spread across seeds).'];
+const SENTWHY = ['Nothing in the network’s weights shows that, so you cannot say it.','It is 0.95 points better, on an outcome whose standard deviation is 16. Say the number.','That label is vague. Say what you fitted: two hidden layers of 32 and 16 neurons.','Incomplete: say it was on 1,300 held-out rows, and give the spread across seeds.'];
 const UI = {
   byhand: () => `<div class="card">
     <div class="row"><span class="lab">1. Choose an episode:</span><button class="chip ep" data-k="A">Episode A · 10 and 30</button><button class="chip ep" data-k="B">Episode B · 20 and 10</button></div>
@@ -275,7 +275,7 @@ const UI = {
     <p class="verdict" id="sqv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   seeds: () => `<div class="card">
-    <div class="row"><button class="chip go" id="train">▶ Train with seed 1</button><span class="lab" id="sdn">0 of 5 runs</span></div>
+    <div class="row"><button class="chip go" id="train">▶ Reveal run 1</button><span class="lab" id="sdn">0 of 5 runs</span></div>
     <p class="verdict" id="sdv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   fix: () => `<div class="card">
@@ -296,7 +296,7 @@ const UI = {
     <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
     <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
 };
-const waitMsg = {byhand:'Your turn: work out both episodes, then press Continue.',squares:'Your turn: move the fourth prediction, then press Continue.',seeds:'Your turn: train the network five times, then press Continue.',fix:'Your turn: find the line and choose the fix, then press Continue.',quiz:'Answer the questions at your own pace.'};
+const waitMsg = {byhand:'Your turn: work out both episodes, then press Continue.',squares:'Your turn: move the fourth prediction, then press Continue.',seeds:'Your turn: reveal the five runs, then press Continue.',fix:'Your turn: find the line and choose the fix, then press Continue.',quiz:'Answer the questions at your own pace.'};
 const splitMsg = {sentences:'Decide for each sentence. The narration continues when all four are answered.'};
 let myLabels = {};
 
@@ -434,17 +434,17 @@ const wire = {
   seeds(){
     let n=0; const SD=window.W14.slide.seeds;
     $('train').onclick=()=>{ if(n>=5) return; n++; SC.s17.update(stage,n); $('sdn').textContent=n+' of 5 runs';
-      $('train').textContent=n<5?'▶ Train with seed '+(n+1):'✓ Five runs done'; if(n>=5) $('train').disabled=true;
-      $('sdv').innerHTML=`Seed ${n}: held-out RMSE <b>${SD[n-1].toFixed(2)}</b>.`+(n<5?'':` <br>Mean <b>${(SD.reduce((a,c)=>a+c,0)/5).toFixed(2)}</b>, spread <b>${(Math.max(...SD)-Math.min(...SD)).toFixed(2)}</b> points. The gain over the linear model (0.95) is about eight times the spread, so it is not a lucky seed. Report the mean and the spread, never 6.05 alone.`); };
+      $('train').textContent=n<5?'▶ Reveal run '+(n+1):'✓ Five runs shown'; if(n>=5) $('train').disabled=true;
+      $('sdv').innerHTML=`Run ${n} (seed ${n}): held-out RMSE <b>${SD[n-1].toFixed(2)}</b>.`+(n<5?'':` <br>Mean <b>${(SD.reduce((a,c)=>a+c,0)/5).toFixed(2)}</b>, spread <b>${(Math.max(...SD)-Math.min(...SD)).toFixed(2)}</b> points. The gain over the linear model (0.95) is about eight times the spread, so it is not a lucky seed. Seeds only change the starting values: a different split could still move the score. Report the mean and the spread, never 6.05 alone.`); };
     $('cont').onclick=()=>load(si+1,true);
   },
   fix(){
     const ui=$('ui');
     ui.querySelectorAll('.fl').forEach(b=>b.onclick=()=>{ const line=+b.dataset.n; ui.querySelectorAll('.fl').forEach(x=>x.classList.toggle('sel',x===b)); SC.s19.pick(stage,line);
-      $('fv').innerHTML = line===21 ? '<b class="ok">Right: line 21.</b> <b>(32, 16)</b> is passed by position, so it lands in the first parameter of MLPRegressor, which is <b>loss</b>. Now choose the fix.' : `<b class="no">Not line ${line}.</b> The message mentions MLPRegressor and the value (32, 16). Which line contains both?` });
+      $('fv').innerHTML = line===21 ? '<b class="ok">Right: line 21.</b> <b>(32, 16)</b> is passed by position, so it lands in the first parameter of MLPRegressor, which is <b>loss</b>. Now choose the fix.' : (line===22 ? '<b class="no">The traceback stops at line 22, but the cause is earlier.</b> ' : `<b class="no">Not line ${line}.</b> `) + 'The message mentions MLPRegressor and the value (32, 16). Which line contains both?' });
     ui.querySelectorAll('.ff').forEach(b=>b.onclick=()=>{ ui.querySelectorAll('.ff').forEach(x=>x.classList.toggle('sel',x===b)); const f=b.dataset.f;
       if(f==='a'){ SC.s19.fix(stage,true); $('fv').innerHTML='<b class="ok">Fixed.</b> Naming the argument puts (32, 16) where you meant it. When an error names something you never wrote, suspect a positional argument that landed in the wrong slot.' }
-      else if(f==='b'){ SC.s19.fix(stage,false); $('fv').innerHTML='<b class="no">It might run, but it hides the real problem.</b> The value still depends on position. Name the argument you mean: hidden_layer_sizes=(32, 16).' }
+      else if(f==='b'){ SC.s19.fix(stage,false); $('fv').innerHTML='<b class="no">That will not even run.</b> Python forbids a positional argument after a named one. Name the argument you mean: hidden_layer_sizes=(32, 16).' }
       else { SC.s19.fix(stage,false); $('fv').innerHTML='<b class="no">Not this one.</b> The scaler is not in the error at all, and removing it makes the network quietly worse.' } });
     $('cont').onclick=()=>load(si+1,true);
   },
@@ -491,6 +491,6 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('4')<0){v.push('4');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261117d"></script>
+<script src="../../course.js?v=20261118a"></script>
 </body>
 </html>

@@ -72,8 +72,8 @@
   /* ------------------------------------------------------------ s01 · welcome */
   SC.s01 = {
     copy: [
-      { k: "Week 14 · Chapter 4", m: "Inside the neural network.", s: "The model everyone calls artificial intelligence.", l: "Neural networks" },
-      { k: "The question", m: "How satisfied will this patient be?", s: "This time we want the best possible prediction.", l: "Predict satisfaction" },
+      { k: "Week 14 · Chapter 4", m: "Inside the neural network.", s: "One of the models behind artificial intelligence.", l: "Neural networks" },
+      { k: "The question", m: "How satisfied will this patient be?", s: "This time we want a better prediction.", l: "Predict satisfaction" },
       { k: "The promise", m: "A neuron is a regression with one extra step.", s: "Far less mysterious than it sounds.", l: "One extra step" }
     ],
     svg: `${STY}
@@ -91,7 +91,7 @@
   </g>
   <g class="a o0 gauge01" style="transform:translateY(10px)">
     <rect x="300" y="250" width="150" height="40" rx="10" fill="#fff" stroke="${TERRA}" stroke-width="2.5"/>
-    ${t(375, 268, "predicted satisfaction", 11, MUTED, "middle", 700)}<text class="gv01" x="375" y="285" font-size="15" fill="${TERRA}" text-anchor="middle" font-weight="800">…</text>
+    ${t(375, 268, "illustrative prediction", 11, MUTED, "middle", 700)}<text class="gv01" x="375" y="285" font-size="15" fill="${TERRA}" text-anchor="middle" font-weight="800">…</text>
   </g>
   <g class="a o0 eq01" style="transform:scale(.8)">
     <rect x="96" y="40" width="292" height="44" rx="22" fill="#fff" stroke="${NAVY}" stroke-width="2.5"/>
@@ -109,14 +109,14 @@
   };
 
   /* ------------------------------------------------------------ s02 · what you already have */
-  const R02 = [["coefficient", "→ weight", "How much the outcome moves per unit.", NAVY], ["intercept", "→ bias", "The value when every input is zero.", GREEN], ["held-out scoring", "→ same", "Judge on rows never seen.", TERRA], ["standardising", "→ scaling", "Units stop deciding things.", GOLD]];
+  const R02 = [["coefficient", "→ weight", "How much the prediction moves per unit.", NAVY], ["intercept", "→ bias", "The value when every input is zero.", GREEN], ["held-out scoring", "→ same", "Judge on rows never seen.", TERRA], ["standardising", "→ scaling", "Units stop deciding things.", GOLD]];
   SC.s02 = {
     copy: [
-      { k: "Recall", m: "You already own almost everything a network uses.", s: "Weeks 9, 11 and 12.", l: "Four old tools" },
-      { k: "Week 9", m: "A coefficient: how much the outcome moves per unit.", s: "In a network it is called a weight.", l: "coefficient → weight" },
+      { k: "Recall", m: "You already own almost everything a network uses.", s: "Weeks 8, 9, 11 and 12.", l: "Four old tools" },
+      { k: "Week 9", m: "A coefficient: how much the prediction moves per unit.", s: "In a network it is called a weight.", l: "coefficient → weight" },
       { k: "Week 8", m: "An intercept: the value when every input is zero.", s: "In a network it is called a bias.", l: "intercept → bias" },
-      { k: "Weeks 11–12", m: "Held-out scoring, and standardising.", s: "Both come back unchanged.", l: "Same rules" },
-      { k: "So", m: "New names. Mostly old ideas.", s: "That is genuinely most of what a neural network is.", l: "Old ideas, new names" }
+      { k: "Weeks 11–12", m: "Held-out scoring, and standardising.", s: "Both come back, under the same names.", l: "Same rules" },
+      { k: "So", m: "New names. Mostly old ideas.", s: "That is most of what a neural network is.", l: "Old ideas, new names" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -134,11 +134,11 @@ ${R02.map(([a, n, s, c], i) => { const x = 16 + (i % 2) * 228, y = 30 + Math.flo
   /* ------------------------------------------------------------ s03 · the bend */
   SC.s03 = {
     copy: [
-      { k: "Real data", m: "Average satisfaction at each level of occupancy.", s: "5,200 Al Waha episodes.", l: "Banded averages" },
-      { k: "The cliff", m: `Flat until about 80%, then a fall to ${Math.round(BAND[BAND.length - 1][1])}.`, s: `From ${Math.round(BAND[6][1])} points at 80% to ${Math.round(BAND[BAND.length - 1][1])} at a full ward.`, l: "A cliff at 80%" },
-      { k: "Week 9", m: "The regression's occupancy effect: a straight line.", s: "Other predictors held at their median.", l: "Straight line" },
-      { k: "The problem", m: "A straight line cannot bend.", s: "Wrong at both ends, and wrong where the danger is.", l: "Cannot bend" },
-      { k: "This week", m: "A model that can bend.", s: "Built one neuron at a time.", l: "Can bend" }
+      { k: "Real data", m: "Average satisfaction in each occupancy band.", s: "5,200 Al Waha episodes; dot size = number of episodes.", l: "Banded averages" },
+      { k: "The cliff", m: `Flat until about 80%, then a fall to ${Math.round(BAND[BAND.length - 1][1])}.`, s: `From ${Math.round(BAND.find(p => p[0] === 80)[1])} points at 80% to ${Math.round(BAND[BAND.length - 1][1])} in the busiest band.`, l: "A cliff after 80%" },
+      { k: "Week 9", m: "The regression's occupancy effect: a straight line.", s: "Other predictors held at their medians.", l: "Straight line" },
+      { k: "The problem", m: "A straight line cannot bend.", s: "It falls too early, and not nearly enough where it matters.", l: "Cannot bend" },
+      { k: "This week", m: "A network can bend.", s: "Network prediction, other predictors at their medians.", l: "It bends" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -148,11 +148,11 @@ ${axes()}
 <path class="dr ln03" pathLength="1" d="${pathOf(LIN.map(([o, s]) => [OX(o), OY(s)]))}" fill="none" stroke="${NAVY}" stroke-width="4" stroke-linecap="round"/>
 <g class="a o0 lnl03">${t(OX(56), OY(LIN[0][1]) - 12, "Week 9: straight", 13, NAVY, "start", 800)}</g>
 <path class="dr cv03" pathLength="1" d="${pathOf(BAND.map(([o, s]) => [OX(o), OY(s)]))}" fill="none" stroke="${TERRA}" stroke-width="3" stroke-dasharray="1" stroke-opacity=".5"/>
-${BAND.map(([o, s], i) => `<g class="a o0 pt03" style="transition-delay:${(i * .09).toFixed(2)}s;transform:translateY(-14px)"><circle cx="${OX(o)}" cy="${OY(s)}" r="7" fill="${TERRA}" stroke="#fff" stroke-width="2"/></g>`).join("")}
+${BAND.map(([o, s, n], i) => `<g class="a o0 pt03" style="transition-delay:${(i * .09).toFixed(2)}s;transform:translateY(-14px)"><circle cx="${OX(o)}" cy="${OY(s)}" r="${(3.5 + Math.sqrt(n || 400) / 7).toFixed(1)}" fill="${TERRA}" stroke="#fff" stroke-width="2"/></g>`).join("")}
 <g class="a o0 gap03">${[90, 95, 100].map(o => { const s = BAND.find(p => p[0] === o)[1], l = LIN.find(p => p[0] === o)[1]; return `<path d="M${OX(o)} ${OY(l)} V${OY(s) - 8}" stroke="${TERRA}" stroke-width="2.5" stroke-dasharray="4 3"/>`; }).join("")}
-  ${t(OX(89) - 6, OY(56), "off by", 12, TERRA, "end", 800)}${t(OX(89) - 6, OY(56) + 15, "up to 31 points", 12, TERRA, "end", 800)}</g>
-<path class="dr nt03" pathLength="1" d="${pathOf(BAND.map(([o, s]) => [OX(o), OY(s)]))}" fill="none" stroke="${GREEN}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-<g class="a o0 ntl03">${t(OX(66), OY(93.5), "a model that bends", 13, GREEN, "middle", 800)}</g>`,
+  ${t(OX(88) - 6, OY(52), "compare the shapes", 12, TERRA, "end", 800)}</g>
+<path class="dr nt03" pathLength="1" d="${pathOf(NET.map(([o, s]) => [OX(o), OY(s)]))}" fill="none" stroke="${GREEN}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<g class="a o0 ntl03">${t(OX(68), OY(72), "network (others at median)", 13, GREEN, "middle", 800)}</g>`,
     render(r, b) {
       H.show(r, ".pt03", true); H.tf(r, ".pt03", "none");
       H.draw(r, ".cv03", b >= 1); H.show(r, ".dz03", b >= 1); H.show(r, ".dzl03", b >= 1);
@@ -167,10 +167,10 @@ ${BAND.map(([o, s], i) => `<g class="a o0 pt03" style="transition-delay:${(i * .
   SC.s04 = {
     copy: [
       { k: "One neuron", m: "Two inputs come in.", s: "Waiting time and occupancy of one episode.", l: "Inputs" },
-      { k: "Step 1 · Multiply", m: "Each input × its weight.", s: "Exactly Week 9's coefficients.", l: "× weights" },
-      { k: "Step 2 · Add", m: "Add them up, plus one number: the bias.", s: "The bias is Week 8's intercept.", l: "Σ + bias" },
+      { k: "Step 1 · Multiply", m: "Each input × its weight.", s: "Same role as Week 9's coefficients.", l: "× weights" },
+      { k: "Step 2 · Add", m: "Add them up, plus one number: the bias.", s: "It plays the intercept's role.", l: "Σ + bias" },
       { k: "Step 3 · The rule", m: "If the total is negative, output zero.", s: "Otherwise, pass it on. The only new idea.", l: "The rule" },
-      { k: "That is all", m: "Multiply, add, apply the rule.", s: "All one neuron ever does.", l: "Multiply · add · rule" }
+      { k: "That is all", m: "Multiply, add, apply the rule.", s: "All one neuron here does.", l: "Multiply · add · rule" }
     ],
     svg: `${STY}
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -186,7 +186,7 @@ ${t(470, 352, "illustration · weights chosen for the example", 10, MUTED, "end"
 <g class="a o0 sum04">${card(304, 82, 162, 50, NAVY, SKY)}${t(385, 100, "total", 12, MUTED)}<text class="sv04" x="385" y="122" font-size="20" fill="${INK}" text-anchor="middle" font-weight="800">3.4</text></g>
 <path d="M284 180 H320" stroke="${NAVY}" stroke-width="4"/>
 <g class="rl04"><rect x="320" y="142" width="80" height="76" rx="12" fill="${INK}"/><path d="M332 200 H360 L388 160" fill="none" stroke="${GOLD}" stroke-width="4" stroke-linecap="round"/>${t(360, 214, "rule", 11, "#fff", "middle", 700)}</g>
-<g class="a o0 neg04">${card(296, 236, 168, 52, TERRA, "#FCEFE9")}${fo(304, 240, 154, 46, "negative → 0<br>positive → passes on", 13, TERRA, 800)}</g>
+<g class="a o0 neg04">${card(296, 236, 168, 52, TERRA, "#FCEFE9")}${fo(304, 240, 154, 46, "negative → 0<br>zero or positive → passes on", 13, TERRA, 800)}</g>
 <path d="M400 180 H440" stroke="${NAVY}" stroke-width="4"/>
 <g class="a o0 out04"><circle cx="452" cy="180" r="20" fill="${TERRA}"/>${t(452, 186, "3.4", 13, "#fff", "middle", 800)}</g>
 <g class="a o0 all04" style="transform:translateY(8px)"><rect x="96" y="300" width="288" height="40" rx="20" fill="${INK}"/>${t(240, 326, "multiply  ·  add  ·  apply the rule", 16, GOLD, "middle", 800)}</g>`,
@@ -237,7 +237,7 @@ ${[0, 1, 2, 3].map(i => `<g class="a o0 ln05" data-i="${i}" style="transform:tra
     copy: [
       { k: "The rule", m: "Why does one small rule matter so much?", s: "Look at what happens without it.", l: "Without the rule" },
       { k: "Without it", m: "A weighted sum of a weighted sum is a weighted sum.", s: "Line → line → line.", l: "Still a line" },
-      { k: "Any depth", m: "Ten layers, a hundred: still one straight line.", s: "Nothing Week 9 could not already do.", l: "Collapses" },
+      { k: "Any depth", m: "Ten layers, a hundred: still one linear function.", s: "Nothing Week 9 could not already do.", l: "Collapses" },
       { k: "With it", m: "Each neuron becomes a hinge.", s: "Flat on one side, sloped on the other. Hinges can bend.", l: "A hinge" }
     ],
     svg: `
@@ -265,10 +265,10 @@ ${[0, 1, 2, 3].map(i => `<g class="a o0 ln05" data-i="${i}" style="transform:tra
   SC.s07 = {
     copy: [
       { k: "Bend it", m: "Fit the occupancy cliff with nothing but hinges.", s: "The red dots are the real banded averages.", l: "Hinges only" },
-      { k: "Neuron 1", m: "A flat line at 84 points.", s: "Fine on the left, useless on the right.", l: "Flat" },
+      { k: "A constant", m: "The output bias: 84 points.", s: "Fine on the left, useless on the right.", l: "Flat" },
       { k: "Hinge at 80%", m: "Below 80%: nothing changes. Above it: a fall.", s: "One neuron, one hinge.", l: "+ hinge 80%" },
       { k: "Two more", m: "A steeper fall from 86%, a softer end from 94%.", s: "Each hinge is one neuron.", l: "+ 86% · + 94%" },
-      { k: "A network", m: "Three hinges already follow the real cliff.", s: "A network uses dozens and finds where to put them itself.", l: "It bends" }
+      { k: "A network", m: "Three hinges already follow the real cliff.", s: "A network uses many; training decides where they go.", l: "It bends" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -276,9 +276,9 @@ ${axes()}
 ${BAND.map(([o, s]) => `<circle cx="${OX(o)}" cy="${OY(s)}" r="6.5" fill="${TERRA}" fill-opacity=".85" stroke="#fff" stroke-width="2"/>`).join("")}
 ${[0, 1, 2, 3].map(k => `<path class="a o0 cv07" data-k="${k}" d="${curveK(k)}" fill="none" stroke="${k === 3 ? GREEN : NAVY}" stroke-width="${k === 3 ? 5 : 4}" stroke-linecap="round" stroke-linejoin="round"/>`).join("")}
 ${HG.map(([o], j) => `<g class="a o0 hk07" data-j="${j}"><path d="M${OX(o)} 300 V52" stroke="${GOLD}" stroke-width="2" stroke-dasharray="5 4"/><rect x="${OX(o) - 24}" y="34" width="48" height="20" rx="10" fill="${GOLD}"/>${t(OX(o), 49, o + "%", 12, INK, "middle", 800)}</g>`).join("")}
-<g class="a o0 lb07">${card(84, 214, 184, 52, GREEN, "#EAF5EE")}${fo(94, 220, 168, 44, "3 neurons = 3 hinges,<br>added together", 13, GREEN, 800)}</g>`,
+<g class="a o0 lb07">${card(84, 214, 184, 52, GREEN, "#EAF5EE")}${fo(94, 220, 168, 44, "3 hidden neurons = 3 hinges,<br>plus the output bias", 13, GREEN, 800)}</g>${t(84, 292, "illustration · hinges placed by hand", 10, MUTED, "start", 700)}`,
     render(r, b) {
-      const k = b <= 1 ? 0 : b === 2 ? 1 : b === 3 ? 2 : 3;
+      const k = b <= 1 ? 0 : b === 2 ? 1 : 3;
       H.q(r, ".cv07").forEach(e => { e.style.opacity = b >= 1 && +e.dataset.k === k ? 1 : 0; });
       H.q(r, ".hk07").forEach(e => { e.style.opacity = +e.dataset.j < k || (b >= 4) ? 1 : 0; });
       H.show(r, ".lb07", b >= 4);
@@ -294,8 +294,8 @@ ${HG.map(([o], j) => `<g class="a o0 hk07" data-j="${j}"><path d="M${OX(o)} 300 
       { k: "A network", m: "Connect many neurons.", s: "This week's script: MLPRegressor(hidden_layer_sizes=(32, 16)).", l: "6 → 32 → 16 → 1" },
       { k: "Inputs", m: "Six inputs, one per predictor.", s: "The same six as Week 9.", l: "6 inputs" },
       { k: "Layer 1", m: "32 neurons. Each sees all six inputs.", s: "Multiply, add a bias, apply the rule.", l: "32 neurons" },
-      { k: "Layer 2 + output", m: "16 neurons, then one that adds it all up.", s: "The output is the prediction.", l: "16 → 1" },
-      { k: "769 numbers", m: `${W.params} weights and biases to learn.`, s: "Two small layers is not deep learning. Say what you fitted.", l: `${W.params} parameters` }
+      { k: "Layer 2 + output", m: "16 neurons, then one output neuron.", s: "Weighted sum + bias, no rule: the prediction.", l: "16 → 1" },
+      { k: "769 numbers", m: `${W.params} weights and biases to learn.`, s: `${W.weights} weights + ${W.biases} biases. Two hidden layers: say so.`, l: `${W.params} parameters` }
     ],
     svg: `${STY}
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -304,7 +304,7 @@ ${[0, 1, 2].map(i => `<path class="a o0 f08 f08-${i} flow" d="M${NX[i]} ${NY(NL[
 ${NL.map((n, i) => Array.from({ length: n }, (_, j) => `<g class="a o0 v08 v08-${i}" style="transition-delay:${(j * .04).toFixed(2)}s"><circle cx="${NX[i]}" cy="${NY(n, j)}" r="${i === 3 ? 16 : 10}" fill="${i === 0 ? GOLD : i === 3 ? TERRA : NAVY}" stroke="#fff" stroke-width="2"/></g>`).join("")).join("")}
 <g class="a o0 v08-0">${INPUTS.map((s, j) => t(NX[0] - 16, NY(6, j) + 4, s, 11.5, INK, "end", 700)).join("")}</g>
 <g class="a o0 lb08-1">${t(NX[1], 336, "32 neurons", 13, NAVY, "middle", 800)}${t(NX[1], 30, "⋮ (10 of 32 drawn)", 10.5, MUTED)}</g>
-<g class="a o0 lb08-2">${t(NX[2], 336, "16 neurons", 13, NAVY, "middle", 800)}${t(NX[3], 214, "prediction", 12, TERRA, "middle", 800)}</g>
+<g class="a o0 lb08-2">${t(NX[2], 336, "16 neurons", 13, NAVY, "middle", 800)}${t(NX[2], 30, "(8 of 16 drawn)", 10.5, MUTED)}${t(NX[3], 214, "prediction", 12, TERRA, "middle", 800)}</g>
 <g class="a o0 pc08" style="transform:scale(.8)">${card(340, 254, 132, 64, TERRA)}<text class="pv08" x="406" y="284" font-size="22" fill="${TERRA}" text-anchor="middle" font-weight="800">0</text>${t(406, 306, "weights + biases", 11.5, MUTED)}</g>`,
     render(r, b) {
       H.show(r, ".v08-0", b >= 0); H.show(r, ".e08-0", b >= 2); H.show(r, ".v08-1", b >= 2); H.show(r, ".lb08-1", b >= 2); H.show(r, ".f08-0", b >= 2);
@@ -319,11 +319,11 @@ ${NL.map((n, i) => Array.from({ length: n }, (_, j) => `<g class="a o0 v08 v08-$
   const TR = W.trainRmse, LX = i => 70 + i * (380 / (TR.length - 1)), LY = v => 300 - v * (240 / 80);
   SC.s09 = {
     copy: [
-      { k: "Who chooses?", m: `${W.params} weights. Nobody chooses them.`, s: "The network starts from random numbers.", l: "Random start" },
-      { k: "First guess", m: `Its first predictions: ${Math.round(TR[0])} points off.`, s: "Terrible, on purpose.", l: `${Math.round(TR[0])} points off` },
-      { k: "One step", m: "Measure the error. Nudge every weight downhill.", s: "Like walking downhill in fog, one small step at a time.", l: "Nudge, repeat" },
-      { k: "The real training", m: `After about 20 passes the error collapses; it settles near ${fx(TR[TR.length - 1], 1)}.`, s: `${W.iters} passes through the training rows.`, l: "Downhill" },
-      { k: "No formula", m: "The weights were found, not solved.", s: "Thousands of small corrections.", l: "Found, not solved" }
+      { k: "Who chooses?", m: `You choose the design. Training finds ${W.params} numbers.`, s: "Starting from small random values.", l: "Random start" },
+      { k: "First pass", m: `After pass 1: RMSE ${Math.round(TR[0])} points.`, s: "Random starting values predict badly.", l: `RMSE ${Math.round(TR[0])}` },
+      { k: "One step", m: "Measure the error. Nudge every weight downhill.", s: "Every weight and bias, a small step downhill.", l: "Nudge, repeat" },
+      { k: "The real training", m: `About ${Math.round(TR[19])} after 20 passes; ${fx(TR[TR.length - 1], 1)} when it stops.`, s: `${W.iters} passes through the training rows.`, l: "Downhill" },
+      { k: "No formula", m: "The numbers were found, not solved.", s: "Thousands of small corrections.", l: "Found, not solved" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -338,11 +338,11 @@ ${NL.map((n, i) => Array.from({ length: n }, (_, j) => `<g class="a o0 v08 v08-$
 <g class="a o0 ch09">
   <path d="M70 300 H456 M70 300 V50" stroke="${INK}" stroke-width="2"/>
   ${[0, 20, 40, 60, 80].map(v => `<path d="M70 ${LY(v)} H456" stroke="${EDGE}" stroke-opacity=".5"/>${t(62, LY(v) + 4, v, 12, MUTED, "end", 700)}`).join("")}
-  ${[0, 50, 100, 150, 200].map(i => t(LX(Math.min(i, TR.length - 1)), 318, i, 12, MUTED, "middle", 700)).join("")}
-  ${t(263, 342, "passes through the training rows", 13, INK, "middle", 800)}<text transform="translate(26 176) rotate(-90)" font-size="13" fill="${INK}" text-anchor="middle" font-weight="800">points off (training)</text>
+  ${[1, 100, 200, 300].filter(i => i <= TR.length).map(i => t(LX(i - 1), 318, i, 12, MUTED, "middle", 700)).join("")}
+  ${t(263, 342, "passes through the training rows", 13, INK, "middle", 800)}<text transform="translate(26 176) rotate(-90)" font-size="13" fill="${INK}" text-anchor="middle" font-weight="800">training RMSE (points)</text>
   <path class="dr lc09" pathLength="1" d="${pathOf(TR.map((v, i) => [LX(i), LY(v)]))}" fill="none" stroke="${TERRA}" stroke-width="4" stroke-linejoin="round"/>
-  <g class="a o0 end09">${card(300, 160, 150, 52, GREEN, "#EAF5EE")}${t(375, 184, "settles near", 12, MUTED)}${t(375, 204, fx(TR[TR.length - 1], 1) + " points", 17, GREEN, "middle", 800)}</g>
-  <g class="a o0 st09">${card(300, 70, 150, 52, TERRA)}${t(375, 94, "first pass", 12, MUTED)}${t(375, 114, Math.round(TR[0]) + " points", 17, TERRA, "middle", 800)}</g>
+  <g class="a o0 end09">${card(300, 160, 150, 52, GREEN, "#EAF5EE")}${t(375, 184, "when it stops", 12, MUTED)}${t(375, 204, fx(TR[TR.length - 1], 1) + " points", 17, GREEN, "middle", 800)}</g>
+  <g class="a o0 st09">${card(300, 70, 150, 52, TERRA)}${t(375, 94, "after pass 1", 12, MUTED)}${t(375, 114, "RMSE " + Math.round(TR[0]), 17, TERRA, "middle", 800)}</g>
 </g>`,
     render(r, b) {
       const ballAt = [[46, 48], [46, 48], [176, 200], [250, 238], [250, 238]][b];
@@ -360,9 +360,9 @@ ${NL.map((n, i) => Array.from({ length: n }, (_, j) => `<g class="a o0 v08 v08-$
   const sqBox = (cls, extra) => RE.map((v, i) => { const e = PR[i] - v, s = Math.abs(e) * 9; return `<g class="a o0 ${cls}" data-i="${i}" ${extra || ""}><rect x="${60 + i * 105 - s / 2 + 20}" y="${282 - s}" width="${s}" height="${s}" fill="${i === 3 ? TERRA : NAVY}" fill-opacity="${i === 3 ? .85 : .6}"/>${t(80 + i * 105, 300 + 0, (e * e) + "", 15, i === 3 ? TERRA : NAVY, "middle", 800)}</g>`; }).join("");
   SC.s10 = {
     copy: [
-      { k: "RMSE", m: "Root mean squared error.", s: "How wrong, on average, in the outcome's own units.", l: "R M S E" },
+      { k: "RMSE", m: "Root mean squared error.", s: "A typical size of error, in the outcome's own units.", l: "R M S E" },
       { k: "Four episodes", m: "Real 70, 75, 80, 85. Predicted 72, 74, 83, 79.", s: "", l: "Real vs predicted" },
-      { k: "Square", m: "Errors −2, 1, −3, 6 → squares 4, 1, 9, 36.", s: "", l: "Square the errors" },
+      { k: "Square", m: "Errors −2, 1, −3, 6 → squares 4, 1, 9, 36.", s: "Error = real − predicted.", l: "Square the errors" },
       { k: "Mean, then root", m: "50 ÷ 4 = 12.5 → √12.5 = 3.54 points.", s: "Back in satisfaction points.", l: "RMSE = 3.54" },
       { k: "The worst case rules", m: "The one error of 6 gave 36 of the 50.", s: "Squaring makes RMSE sensitive to the worst cases.", l: "72% from one error" }
     ],
@@ -370,10 +370,10 @@ ${NL.map((n, i) => Array.from({ length: n }, (_, j) => `<g class="a o0 v08 v08-$
 <rect width="480" height="360" fill="${PAPER}"/>
 ${RE.map((v, i) => `<g class="a o0 ep10" data-i="${i}" style="transition-delay:${i * .15}s">${card(28 + i * 105, 22, 96, 100, EDGE)}${t(76 + i * 105, 44, "episode " + (i + 1), 12, MUTED)}
   ${t(76 + i * 105, 72, "real " + v, 16, INK, "middle", 800)}${t(76 + i * 105, 96, "pred " + PR[i], 16, NAVY, "middle", 800)}
-  <g class="a o0 er10">${t(76 + i * 105, 116, "error " + (PR[i] - v > 0 ? "+" : "−") + Math.abs(PR[i] - v), 13, i === 3 ? TERRA : MUTED, "middle", 800)}</g></g>`).join("")}
+  <g class="a o0 er10">${t(76 + i * 105, 116, "error " + (v - PR[i] > 0 ? "+" : "−") + Math.abs(v - PR[i]), 13, i === 3 ? TERRA : MUTED, "middle", 800)}</g></g>`).join("")}
 ${sqBox("sq10")}
 <g class="a o0 mn10">${card(60, 140, 360, 48, INK, INK)}${t(240, 171, "(4 + 1 + 9 + 36) ÷ 4 = 12.5   →   √12.5 = 3.54", 17, GOLD, "middle", 800)}</g>
-<g class="a o0 sh10">${card(300, 196, 168, 50, TERRA, "#FCEFE9")}${fo(308, 200, 154, 44, "one error of 6 = 36 of the 50", 14, TERRA, 800, "text-align:center")}</g>`,
+<g class="a o0 sh10">${card(14, 196, 190, 50, TERRA, "#FCEFE9")}${fo(22, 200, 176, 44, "one error of 6 = 36 of the 50", 14, TERRA, 800, "text-align:center")}</g>`,
     render(r, b) {
       H.show(r, ".ep10", b >= 1 || b === 0); H.set(r, ".ep10", "opacity", b === 0 ? ".35" : "1");
       H.show(r, ".er10", b >= 2); H.show(r, ".sq10", b >= 2); H.delay(r, ".sq10", b >= 2 ? .5 : 0);
@@ -397,10 +397,10 @@ ${RE.map((v, i) => `<g class="sq11" data-i="${i}"><rect class="sr11" x="0" y="0"
     render(r, b) { if (!r._p11) SC.s11.update(r, 79); },
     update(r, p4) {
       r._p11 = p4; const P = [72, 74, 83, p4], sq = RE.map((v, i) => (P[i] - v) ** 2), tot = sq.reduce((a, c) => a + c, 0), rmse = Math.sqrt(tot / 4), share = tot ? sq[3] / tot : 0;
-      H.q(r, ".sq11").forEach(g => { const i = +g.dataset.i, s = Math.min(150, Math.sqrt(sq[i]) * 9), cx = 70 + i * 112, rc = g.querySelector(".sr11");
-        rc.setAttribute("x", cx - s / 2); rc.setAttribute("y", 282 - s); rc.setAttribute("width", s); rc.setAttribute("height", s); g.querySelector(".sl11").textContent = (P[i] - RE[i] > 0 ? "+" : P[i] - RE[i] < 0 ? "−" : "") + Math.abs(P[i] - RE[i]) + " → " + sq[i]; });
+      H.q(r, ".sq11").forEach(g => { const i = +g.dataset.i, s = Math.sqrt(sq[i]) * 7, cx = 70 + i * 112, rc = g.querySelector(".sr11");
+        rc.setAttribute("x", cx - s / 2); rc.setAttribute("y", 282 - s); rc.setAttribute("width", s); rc.setAttribute("height", s); g.querySelector(".sl11").textContent = (RE[i] - P[i] > 0 ? "+" : RE[i] - P[i] < 0 ? "−" : "") + Math.abs(RE[i] - P[i]) + " → " + sq[i]; });
       r.querySelector(".rm11").textContent = `RMSE = ${fx(rmse)}   ·   episode 4 owns ${Math.round(share * 100)}%`;
-      return { rmse, share, err: p4 - 85 };
+      return { rmse, share, err: 85 - p4 };
     }
   };
 })();
