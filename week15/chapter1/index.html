@@ -245,11 +245,11 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261117d"></script>
-<script src="chapter.js?v=20261117d"></script>
-<script src="timings.js?v=20261117d"></script>
-<script src="scenes-a.js?v=20261117d"></script>
-<script src="scenes-b.js?v=20261117d"></script>
+<script src="data.js?v=20261118a"></script>
+<script src="chapter.js?v=20261118a"></script>
+<script src="timings.js?v=20261118a"></script>
+<script src="scenes-a.js?v=20261118a"></script>
+<script src="scenes-b.js?v=20261118a"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W15;
@@ -263,8 +263,8 @@ const fmt = n => n.toLocaleString('en-US');
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"The model achieved 85% accuracy."','"Analysis showed a significant relationship."','"The data were cleaned and analysed."','"The network performed best and was therefore selected."','"Further research is needed."'];
 const SENTWHY = ['On what data, and against what base rate?','How large, in what units, and out of how many tests?','Which decisions, and how many rows did each one remove?','Best at what, and what did it cost you in explanation?','On what, specifically, and what would it settle?'];
-const MQ = ['Do long and short waits differ?','How much per minute?','Holding the others constant?','Are there profiles at all?','What is the best prediction?'];
-const MR = ['+16.4 pts, d = 1.21','−3.01 / 10 min','−1.23 / 10 min','structure beats the noise','RMSE 6.21'];
+const MQ = ['Do short and long waits differ?','How much per ten minutes?','Holding the other five constant?','Are there profiles at all?','What is the best prediction?'];
+const MR = ['short − long: +16.4 pts, d = 1.21','−3.01 / 10 min','−1.23 / 10 min','clearer than shuffled data','MAE 4.9 · RMSE 6.12'];
 const UI = {
   match: () => `<div class="card">${MR.map((r,i)=>`<div class="row mrow" data-i="${i}" style="margin-top:${i?8:0}px"><span class="lab" style="min-width:170px">${r}</span><select class="chip ms" data-i="${i}" aria-label="Question for ${r}"><option value="">choose its question…</option>${MQ.map((q,j)=>`<option value="${j}">${q}</option>`).join('')}</select></div>`).join('')}
     <p class="verdict" id="mv"></p>
@@ -275,7 +275,7 @@ const UI = {
     <p class="verdict" id="gv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   fix: () => `<div class="card">
-    <div class="row"><span class="lab">1. What is wrong?</span>${[[8,'line 8: the loop'],[9,'lines 9–10: the split'],[11,'line 11: fit'],[12,'line 12: the score']].map(([n,s])=>`<button class="chip fl" data-n="${n}">${s}</button>`).join('')}</div>
+    <div class="row"><span class="lab">1. What is wrong?</span>${[[18,'line 18: the loop'],[19,'lines 19–20: the split'],[21,'line 21: fit'],[22,'line 22: the score']].map(([n,s])=>`<button class="chip fl" data-n="${n}">${s}</button>`).join('')}</div>
     <div class="row" style="margin-top:10px"><span class="lab">2. Your fix:</span>
       <button class="chip ff" data-f="a">Split once, before the loop, with random_state fixed</button>
       <button class="chip ff" data-f="b">Use R² instead of MAE</button>
@@ -283,7 +283,7 @@ const UI = {
     <p class="verdict" id="fv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   defend: () => `<div class="card">
-    <div class="row"><span class="lab">1. Your research question is:</span><button class="chip rq" data-q="e">Explanatory: why does satisfaction fall?</button><button class="chip rq" data-q="p">Predictive: flag likely unhappy patients</button></div>
+    <div class="row"><span class="lab">1. Your research question is:</span><button class="chip rq" data-q="e">Explanatory: which factors go with lower satisfaction?</button><button class="chip rq" data-q="p">Predictive: forecast each patient’s satisfaction score</button></div>
     <div class="row" style="margin-top:10px"><span class="lab">2. You would defend:</span>${['1 predictor','6 predictors','network'].map((m,i)=>`<button class="chip dm" data-m="${i}" disabled>${m}</button>`).join('')}</div>
     <p class="verdict" id="dv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
@@ -425,15 +425,15 @@ const wire = {
   },
   gap(){
     const upd=()=>{ if(!$('e4')) return; const e=+$('e4').value, r=SC.s09.update(stage,e); $('e4v').textContent=(e>0?'+':'')+e;
-      $('gv').innerHTML=`MAE <b>${r.mae.toFixed(2)}</b>, RMSE <b>${r.rmse.toFixed(2)}</b>.`+(e>=15?' One large miss pulls RMSE far above MAE: the gap is the signature of uneven errors.':e<=3?' With all four errors similar, the two measures almost meet.':' Move error 4 further, and watch which measure reacts more.'); };
+      $('gv').innerHTML=`MAE <b>${r.mae.toFixed(2)}</b>, RMSE <b>${r.rmse.toFixed(2)}</b>.`+(e>=15?' One large miss pulls RMSE far above MAE: the gap is the signature of uneven errors.':e<=3?' With error 4 no larger than the others, the two measures stay close.':' Move error 4 further, and watch which measure reacts more.'); };
     $('e4').oninput=upd; $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
   },
   fix(){
     const ui=$('ui');
     ui.querySelectorAll('.fl').forEach(b=>b.onclick=()=>{ const n=+b.dataset.n; ui.querySelectorAll('.fl').forEach(x=>x.classList.toggle('sel',x===b)); SC.s13.pick(stage,n);
-      $('fv').innerHTML = n===9 ? '<b class="ok">Right.</b> The split sits inside the loop, with no random_state, so each model gets its own random test rows. The table compares three different exams. Now choose the fix.' : `<b class="no">Not quite.</b> That line runs exactly as intended. Ask: were the three models scored on the same rows?` });
+      $('fv').innerHTML = n===19 ? '<b class="ok">Right.</b> The split sits inside the loop, with no random_state, so each model gets its own random test rows. The table compares three different exams. Now choose the fix.' : (n===18 ? '<b class="no">Close.</b> The loop is fine on its own. What inside it makes the rows differ for each model?' : '<b class="no">Not quite.</b> That line does what it should. Ask: were the three models scored on the same rows?') });
     ui.querySelectorAll('.ff').forEach(b=>b.onclick=()=>{ ui.querySelectorAll('.ff').forEach(x=>x.classList.toggle('sel',x===b)); const f=b.dataset.f;
-      if(f==='a'){ SC.s13.fix(stage,true); $('fv').innerHTML='<b class="ok">Fixed.</b> One split, before the loop, so all three models train on the same rows and are scored on the same rows. On our data, the split alone can move a score by 0.58 points.' }
+      if(f==='a'){ SC.s13.fix(stage,true); $('fv').innerHTML='<b class="ok">Fixed.</b> One split, before the loop, so all three models train on the same rows and are scored on the same rows. On our data, the split alone can move a score by almost half a point.' }
       else if(f==='b'){ SC.s13.fix(stage,false); $('fv').innerHTML='<b class="no">Not this one.</b> Changing the measure does not change the problem: the rows are still different for each model.' }
       else { SC.s13.fix(stage,false); $('fv').innerHTML='<b class="no">That makes it worse.</b> Fitting on all the rows means every score is measured on rows the model has already seen.' } });
     $('cont').onclick=()=>load(si+1,true);
@@ -441,8 +441,8 @@ const wire = {
   defend(){
     const ui=$('ui'); let q=null;
     const TXT={
-      e:['<b class="no">Too thin.</b> One predictor answers Week 8\'s question only: waiting alone carries everything that comes with it.','<b class="ok">A strong choice.</b> 1) Your question asks <i>why</i>, and it has six readable slopes. 2) It is only 0.69 MAE points behind the network, on a spread of 16. 3) Each input\'s effect can be stated, checked and defended in a viva.','<b class="no">Hard to defend.</b> It scores best, but your question asks why, and the network has no coefficient to report. Use it as a benchmark, not as the answer.'],
-      p:['<b class="no">Too weak.</b> For prediction, the one-predictor model is about twice as far off as the others.','<b class="ok">Defensible.</b> Nearly as accurate as the network and fully explainable. If the extra 0.69 points do not change a decision, the simpler model wins.','<b class="ok">Defensible, with conditions.</b> 1) Your question is predictive. 2) It beats the baseline on the same held-out rows by more than the seed spread. 3) You report what the extra accuracy costs, and you never claim to know why.']};
+      e:['<b class="no">Too thin.</b> One predictor answers Week 8\'s question only: waiting alone carries whatever comes with it.','<b class="ok">A strong choice.</b> 1) Your question is explanatory, and it gives six readable, adjusted associations you can check against theory. 2) Its assumptions can be stated and checked, including the one it fails: it cannot show the occupancy bend, which you report as a limitation. 3) Each coefficient can be explained and defended in a viva.','<b class="no">Hard to defend.</b> It scores best, but your question is explanatory, and its weights cannot tell you what each input does. Use it as a benchmark, not as the answer.'],
+      p:['<b class="no">Too weak.</b> For prediction, the one-predictor model is about twice as far off as the others.','<b class="ok">Defensible.</b> Nearly as accurate as the network and fully explainable. If the extra 0.7 points do not change a decision, the simpler model wins.','<b class="ok">Defensible, with conditions.</b> 1) Your question is predictive: the decision uses the forecast, not an explanation. 2) It was compared with the regression on the same held-out rows, and the gain held across repeated splits and seeds. 3) You report what the extra accuracy costs, and you never claim its weights explain why.']};
     ui.querySelectorAll('.rq').forEach(b=>b.onclick=()=>{ q=b.dataset.q; ui.querySelectorAll('.rq').forEach(x=>x.classList.toggle('sel',x===b)); ui.querySelectorAll('.dm').forEach(x=>{x.disabled=false;x.classList.remove('sel')}); $('dv').innerHTML='Now choose the model you would defend.'; SC.s16.pick(stage,q,-1,{text:'Now choose the model you would defend.'}) });
     ui.querySelectorAll('.dm').forEach(b=>b.onclick=()=>{ if(!q) return; const m=+b.dataset.m; ui.querySelectorAll('.dm').forEach(x=>x.classList.toggle('sel',x===b)); const txt=TXT[q][m]; $('dv').innerHTML=txt; SC.s16.pick(stage,q,m,{text:txt,ok:txt.indexOf('class="ok"')>=0}) });
     $('cont').onclick=()=>load(si+1,true);
@@ -490,6 +490,6 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('5')<0){v.push('5');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261117d"></script>
+<script src="../../course.js?v=20261118a"></script>
 </body>
 </html>

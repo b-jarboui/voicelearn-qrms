@@ -44,7 +44,7 @@
   SC.s01 = {
     copy: [
       { k: "Week 15 · Chapter 5", m: "The last week of the course.", s: "Evidence synthesis and responsible reporting.", l: "Week 15" },
-      { k: "Fourteen weeks", m: "One question of one dataset.", s: "What drives patient satisfaction at Al Waha?", l: "One question" },
+      { k: "Fourteen weeks", m: "One question of one dataset.", s: "What is related to patient satisfaction at Al Waha?", l: "One question" },
       { k: "This week", m: "Several answers, side by side.", s: "And the one you would defend.", l: "The one you defend" }
     ],
     svg: `
@@ -52,14 +52,14 @@
 <g class="cam">
   <circle cx="446" cy="36" r="20" fill="${GOLD}"/>
   <rect y="300" width="480" height="60" fill="#E7DDCB"/><path d="M0 300 H480" stroke="${EDGE}" stroke-width="3"/>
-  <g class="a o0 q01" style="transform:translateY(10px)">${card(120, 34, 240, 56, NAVY)}${t(240, 58, "one question", 12, MUTED)}${t(240, 79, "What drives satisfaction?", 16, NAVY, "middle", 800)}</g>
+  <g class="a o0 q01" style="transform:translateY(10px)">${card(120, 34, 240, 56, NAVY)}${t(240, 58, "one question", 12, MUTED)}${t(240, 79, "What goes with satisfaction?", 16, NAVY, "middle", 800)}</g>
   ${METH.map(([k, n], i) => { const x = 50 + i * 63.3; return `<g class="a o0 m01" data-i="${i}" style="transform:translateY(16px)"><circle cx="${x}" cy="170" r="27" fill="#fff" stroke="${EDGE}" stroke-width="2"/>${ICON[k](x, 170, [NAVY, NAVY, NAVY, GREEN, GOLD, TERRA, INK][i])}${fo(x - 31, 202, 62, 34, n, 10.5, MUTED, 700, "text-align:center")}<path class="ln01" d="M${x} 143 L240 92" stroke="${EDGE}" stroke-width="1.5" stroke-dasharray="3 4"/></g>`; }).join("")}
   <g class="a o0 pick01" style="transform:scale(.8)"><rect x="150" y="244" width="180" height="46" rx="23" fill="${TERRA}"/>${t(240, 273, "the one you defend", 16, "#fff", "middle", 800)}<path d="M240 244 V230" stroke="${TERRA}" stroke-width="3"/></g>
   ${person(60, 330, NAVY, .9, "bob")}${person(420, 330, GREEN, .9, "bob")}
 </g>`,
     render(r, b) {
       H.show(r, ".q01", b >= 1); H.tf(r, ".q01", b >= 1 ? "none" : "translateY(10px)");
-      H.q(r, ".m01").forEach(g => { const i = +g.dataset.i; g.style.transitionDelay = (b >= 1 ? .4 + i * .12 : 0) + "s"; g.style.opacity = b >= 1 ? (b >= 2 && i !== 2 ? .45 : 1) : 0; g.style.transform = b >= 1 ? "none" : "translateY(16px)"; });
+      H.q(r, ".m01").forEach(g => { const i = +g.dataset.i; g.style.transitionDelay = (b >= 1 ? .4 + i * .12 : 0) + "s"; g.style.opacity = b >= 1 ? 1 : 0; g.style.transform = b >= 1 ? "none" : "translateY(16px)"; });
       H.show(r, ".pick01", b >= 2); H.tf(r, ".pick01", b >= 2 ? "none" : "scale(.8)");
       H.cam(r, 240, 180, b === 0 ? 1.04 : 1);
     }
@@ -73,7 +73,7 @@
       { k: "Weeks 1–6", m: "Samples, formulas, p values, and your own code.", s: "", l: "Foundations" },
       { k: "Weeks 7–10", m: "Comparisons, lines, adjusted lines, probabilities.", s: "", l: "Models" },
       { k: "Weeks 11–14", m: "Honest scoring, unlabelled groups, words, a black box.", s: "", l: "Machine learning" },
-      { k: "Today", m: "One dataset. One question. The answers meet.", s: "", l: "Week 15" }
+      { k: "Today", m: "One dataset. One topic. The answers meet.", s: "", l: "Week 15" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -110,16 +110,16 @@ ${METH.map(([k, n, w], i) => { const a = -Math.PI / 2 + i * (2 * Math.PI / 7), x
   };
 
   /* ------------------------------------------------------------ s04 · the same question, five ways */
-  const FIVE = [["7", "Do long and short waits differ?", "+16.4 pts, d = 1.21", "how much of a wait matters"], ["8", "How much per minute?", "−3.01 / 10 min, R² 0.41", "whether waiting stands in for something else"],
-    ["9", "Holding the others constant?", "−1.23 / 10 min, R² 0.79", "anything that is not a straight line"], ["12", "Are there profiles at all?", "structure beats the noise", "anything about satisfaction"], ["14", "The best prediction?", "RMSE 6.21, R² 0.85", "why: no coefficient to defend"]];
+  const FIVE = [["7", "Do short and long waits differ?", "short − long: +16.4 pts, d = 1.21", "how much each extra minute matters"], ["8", "How much per 10 minutes?", "−3.01 / 10 min, R² 0.41", "whether waiting stands in for other things"],
+    ["9", "Holding the other five constant?", "−1.23 / 10 min, R² 0.79", "anything that is not a straight line"], ["12", "Are there profiles at all?", "clearer than shuffled data", "anything about satisfaction on their own"], ["14", "The best prediction?", "MAE 4.9 · RMSE 6.12 · R² 0.85", "why: its weights cannot say"]];
   SC.s04 = {
     copy: [
-      { k: "Five answers", m: "The same question, answered five ways.", s: "Week · question · result · what it cannot say.", l: "Five ways" },
-      { k: "Week 7", m: "Long vs short waits: +16.4 points, d = 1.21.", s: "Cannot say: how much of a wait matters.", l: "Comparison" },
+      { k: "Five answers", m: "One topic, five different questions.", s: "Week · question · result · what it cannot say.", l: "Five questions" },
+      { k: "Week 7", m: "Short minus long waits: +16.4 points, d = 1.21.", s: "Cannot say: how much each extra minute matters.", l: "Comparison" },
       { k: "Week 8", m: "−3.01 points per 10 minutes.", s: "Cannot say: whether waiting stands in for something else.", l: "Regression" },
       { k: "Week 9", m: "−1.23 per 10 minutes, others held constant.", s: "Cannot say: anything that is not a straight line.", l: "Adjusted" },
-      { k: "Week 12", m: "Profiles exist: structure beats the noise.", s: "Cannot say: anything about satisfaction.", l: "Clustering" },
-      { k: "Week 14", m: "Best prediction: RMSE 6.21, R² 0.85.", s: "Cannot say: why.", l: "Network" },
+      { k: "Week 12", m: "Profiles exist: clearer than in shuffled data.", s: "Formed without the outcome: silent on satisfaction.", l: "Clustering" },
+      { k: "Week 14", m: "Best prediction: MAE 4.9, RMSE 6.12, R² 0.85.", s: "Its weights cannot say why.", l: "Network" },
       { k: "Read the last column", m: "What it cannot say is what the examiner asks.", s: "", l: "The last column" }
     ],
     svg: `
@@ -157,8 +157,8 @@ ${FIVE.map(([w, q, r], i) => `<g class="mr05" data-i="${i}">${card(14, 20 + i * 
   SC.s06 = {
     copy: [
       { k: "A puzzle", m: "−3.01 or −1.23 per 10 minutes?", s: "Same data, two numbers.", l: "Two slopes" },
-      { k: "Week 8 · alone", m: "Waiting carries everything that comes with it.", s: "Busy wards, handoffs, tired staff.", l: "−3.01 carries it all" },
-      { k: "Week 9 · adjusted", m: "The others held constant: −1.23 is waiting's own share.", s: "", l: "−1.23 is its own" },
+      { k: "Week 8 · alone", m: "Waiting carries everything that comes with it.", s: "Fewer staff, more handoffs, less training.", l: "−3.01 carries them" },
+      { k: "Week 9 · adjusted", m: "Others held constant: −1.23 among similar episodes.", s: "An association, not yet proof of cause.", l: "−1.23 adjusted" },
       { k: "Both true", m: "Different questions. Say which one you asked.", s: "", l: "Say the question" }
     ],
     svg: `
@@ -166,7 +166,7 @@ ${FIVE.map(([w, q, r], i) => `<g class="mr05" data-i="${i}">${card(14, 20 + i * 
 <path d="M60 300 H450 M60 300 V40" stroke="${INK}" stroke-width="2"/>${t(255, 326, "waiting time →", 13, INK, "middle", 800)}<text transform="translate(34 170) rotate(-90)" font-size="13" fill="${INK}" text-anchor="middle" font-weight="800">satisfaction</text>
 <path class="dr s8" pathLength="1" d="M70 70 L440 270" stroke="${TERRA}" stroke-width="5" stroke-linecap="round"/>
 <g class="a o0 s8l">${t(440, 262, "", 13)}${card(300, 56, 160, 44, TERRA, "#FCEFE9")}${t(380, 76, "Week 8 · alone", 12, TERRA, "middle", 800)}${t(380, 93, "−3.01 per 10 min", 14, TERRA, "middle", 800)}</g>
-<g class="a o0 bag06">${[["busy wards", 150, 150], ["handoffs", 230, 196], ["tired staff", 316, 236]].map(([s, x, y]) => `<rect x="${x - 40}" y="${y - 30}" width="80" height="22" rx="11" fill="${GOLD}"/>${t(x, y - 15, s, 11.5, INK, "middle", 800)}`).join("")}</g>
+<g class="a o0 bag06">${[["fewer staff", 150, 150], ["more handoffs", 230, 196], ["less training", 316, 236]].map(([s, x, y]) => `<rect x="${x - 40}" y="${y - 30}" width="80" height="22" rx="11" fill="${GOLD}"/>${t(x, y - 15, s, 11.5, INK, "middle", 800)}`).join("")}</g>
 <path class="dr s9" pathLength="1" d="M70 120 L440 200" stroke="${NAVY}" stroke-width="5" stroke-linecap="round"/>
 <g class="a o0 s9l">${card(300, 216, 160, 44, NAVY, SKY)}${t(380, 236, "Week 9 · adjusted", 12, NAVY, "middle", 800)}${t(380, 253, "−1.23 per 10 min", 14, NAVY, "middle", 800)}</g>
 <g class="a o0 bt06" style="transform:scale(.85)">${card(80, 120, 200, 60, INK, INK)}${t(180, 146, "both true", 18, GOLD, "middle", 800)}${t(180, 168, "different questions", 13, "#fff")}</g>`,
@@ -185,7 +185,7 @@ ${FIVE.map(([w, q, r], i) => `<g class="mr05" data-i="${i}">${card(14, 20 + i * 
       { k: "Careful", m: "When methods agree, it feels like evidence.", s: "", l: "Agreement" },
       { k: "Three straight lines", m: "Three linear models agree: occupancy is a straight line.", s: "", l: "They agree" },
       { k: "Worth nothing", m: "None of them could have found anything else.", s: "They share the same blind spot.", l: "Shared blind spot" },
-      { k: "Could disagree", m: "Banded averages and the network: a cliff after 80%.", s: "Week 5 and Week 14.", l: "A cliff" },
+      { k: "Could disagree", m: "Banded averages and the network both bend down.", s: "Bands: steep after 80%. Network: after about 85%.", l: "Both bend" },
       { k: "The rule", m: "Agreement counts only if the methods could have disagreed.", s: "Here, the disagreement is worth more.", l: "Could they disagree?" }
     ],
     svg: `
@@ -194,7 +194,7 @@ ${FIVE.map(([w, q, r], i) => `<g class="mr05" data-i="${i}">${card(14, 20 + i * 
 ${[50, 60, 70, 80, 90, 100].map(o => t(OX(o), 320, o + "%", 12, MUTED)).join("")}${[40, 60, 80].map(s => t(60, OY(s) + 4, s, 12, MUTED, "end", 700)).join("")}
 ${t(263, 344, "bed occupancy", 13, INK, "middle", 800)}<text transform="translate(26 172) rotate(-90)" font-size="13" fill="${INK}" text-anchor="middle" font-weight="800">satisfaction</text>
 ${[0, 1, 2].map(k => `<path class="dr l07" data-k="${k}" pathLength="1" d="${pathOf(LIN.map(([o, s]) => [OX(o), OY(s + (k - 1) * 2.2)]))}" fill="none" stroke="${["#3F6E99", NAVY, "#6D93B8"][k]}" stroke-width="4" stroke-linecap="round"/>`).join("")}
-<g class="a o0 al07">${card(250, 50, 196, 50, NAVY, SKY)}${fo(260, 54, 180, 44, "3 straight-line models:<br>“it is a straight line”", 13, NAVY, 800)}</g>
+${t(456, 300 - 6, "illustration: straight-line fits", 10, MUTED, "end", 700)}<g class="a o0 al07">${card(250, 50, 196, 50, NAVY, SKY)}${fo(260, 54, 180, 44, "3 straight-line models:<br>“it is a straight line”", 13, NAVY, 800)}</g>
 <g class="a o0 bs07" style="transform:scale(1.4)"><g transform="rotate(-6 200 200)"><rect x="100" y="182" width="200" height="40" rx="8" fill="#fff" stroke="${TERRA}" stroke-width="3.5"/>${t(200, 209, "SHARED BLIND SPOT", 16, TERRA, "middle", 800)}</g></g>
 ${BAND.map(([o, s], i) => `<g class="a o0 bd07" style="transition-delay:${(i * .07).toFixed(2)}s"><circle cx="${OX(o)}" cy="${OY(s)}" r="6.5" fill="${TERRA}" stroke="#fff" stroke-width="2"/></g>`).join("")}
 <path class="dr nt07" pathLength="1" d="${pathOf(NET.map(([o, s]) => [OX(o), OY(s)]))}" fill="none" stroke="${GREEN}" stroke-width="4" stroke-dasharray="1" stroke-linecap="round"/>
@@ -213,10 +213,10 @@ ${BAND.map(([o, s], i) => `<g class="a o0 bd07" style="transition-delay:${(i * .
   SC.s08 = {
     copy: [
       { k: "MAE", m: "Mean absolute error.", s: "The error a reader can act on.", l: "M A E" },
-      { k: "Same four errors", m: "−2, 1, −3, 6.", s: "From Chapter 4.", l: "Four errors" },
+      { k: "Same four errors", m: "−2, 1, −3, 6.", s: "Example errors from Chapter 4 (real − predicted).", l: "Four errors" },
       { k: "Drop the signs", m: "2 + 1 + 3 + 6 = 12. 12 ÷ 4 = 3.", s: "", l: "MAE = 3.0" },
       { k: "Compare", m: "MAE 3.0 · RMSE 3.54, same predictions.", s: "", l: "3.0 vs 3.54" },
-      { k: "Usable", m: "On a typical episode: about 3 points out.", s: "A sentence a manager can use.", l: "3 points out" }
+      { k: "Usable", m: "On average: about 3 points out.", s: "A sentence a manager can use.", l: "3 points out" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -225,7 +225,7 @@ ${ER.map((e, i) => `<g class="er08" data-i="${i}"><rect class="eb08" x="${e < 0 
   <text class="el08" x="${e < 0 ? 240 + e * 24 - 8 : 240 + e * 24 + 8}" y="${74 + i * 40}" font-size="15" fill="${INK}" text-anchor="${e < 0 ? "end" : "start"}" font-weight="800">${e > 0 ? "+" + e : "−" + Math.abs(e)}</text></g>`).join("")}
 <g class="a o0 sm08">${card(70, 236, 340, 50, INK, INK)}${t(240, 268, "(2 + 1 + 3 + 6) ÷ 4 = 3.0", 19, GOLD, "middle", 800)}</g>
 <g class="a o0 cp08">${card(70, 294, 160, 50, GREEN, "#EAF5EE")}${t(150, 314, "MAE", 12, MUTED)}${t(150, 334, "3.0 points", 17, GREEN, "middle", 800)}${card(250, 294, 160, 50, NAVY, SKY)}${t(330, 314, "RMSE", 12, MUTED)}${t(330, 334, "3.54 points", 17, NAVY, "middle", 800)}</g>
-<g class="a o0 us08" style="transform:scale(.85)">${card(90, 236, 300, 108, GREEN, "#EAF5EE")}${fo(104, 246, 272, 92, "“On a typical episode, the model is about <b>3 points</b> out.”", 17, GREEN, 700, "text-align:center")}</g>`,
+<g class="a o0 us08" style="transform:scale(.85)">${card(90, 236, 300, 108, GREEN, "#EAF5EE")}${fo(104, 246, 272, 92, "“On average, the model is about <b>3 points</b> out.”", 17, GREEN, 700, "text-align:center")}</g>`,
     render(r, b) {
       H.q(r, ".er08").forEach(g => { const i = +g.dataset.i, e = ER[i], bar = g.querySelector(".eb08"), lab = g.querySelector(".el08");
         g.style.opacity = b >= 1 ? 1 : .25;
@@ -264,8 +264,8 @@ ${[["MAE", GREEN, 40], ["RMSE", NAVY, 250]].map(([n, c, x]) => `<g>${card(x, 226
     copy: [
       { k: "Why both?", m: "Two summaries of the same errors.", s: "", l: "Both" },
       { k: "The gap", m: "RMSE ≥ MAE, always. The gap measures unevenness.", s: "", l: "Gap = unevenness" },
-      { k: "Hidden misses", m: "A small MAE can hide rare, large misses.", s: "Only RMSE reveals them.", l: "Rare big misses" },
-      { k: "Report", m: "Both, in the outcome's units, beside its spread.", s: "Nobody can act on an R².", l: "MAE · RMSE · spread" }
+      { k: "Hidden misses", m: "A small MAE can hide rare, large misses.", s: "Of the two, only RMSE is pulled up.", l: "Rare big misses" },
+      { k: "Report", m: "Both, in the outcome's units, beside its spread.", s: "R² alone says nothing about the size of errors.", l: "MAE · RMSE · SD" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -273,7 +273,7 @@ ${[["model A · even errors", [5, 5, 4, 6, 5, 5, 4, 6], 40, NAVY], ["model B · 
   return `<g class="a o0 md10" data-k="${k}">${card(14, y, 452, 132, c)}${t(30, y + 26, n, 14, c, "start", 800)}
   ${E.map((v, i) => `<rect x="${34 + i * 30}" y="${y + 118 - v * 3.2}" width="22" height="${v * 3.2}" rx="3" fill="${c}" fill-opacity=".75"/>`).join("")}
   ${t(300, y + 64, "MAE " + fx(mae, 2), 18, GREEN, "start", 800)}<g class="a o0 rm10">${t(300, y + 96, "RMSE " + fx(rm, 2), 18, c, "start", 800)}</g></g>`; }).join("")}
-<g class="a o0 rp10" style="transform:translateY(8px)">${card(40, 326 - 6, 400, 34, INK, INK)}${t(240, 342, "report: MAE · RMSE · the outcome's spread (16 points)", 13, GOLD, "middle", 800)}</g>`,
+<g class="a o0 rp10" style="transform:translateY(8px)">${card(40, 326 - 6, 400, 34, INK, INK)}${t(240, 342, "report: MAE · RMSE · the outcome's SD (16 points)", 13, GOLD, "middle", 800)}</g>`,
     render(r, b) {
       H.q(r, ".md10").forEach(g => { const k = +g.dataset.k; g.style.opacity = k === 0 ? 1 : (b >= 2 ? 1 : 0); });
       H.show(r, ".rm10", b >= 1); H.show(r, ".rp10", b >= 3); H.tf(r, ".rp10", b >= 3 ? "none" : "translateY(8px)");
@@ -285,13 +285,13 @@ ${[["model A · even errors", [5, 5, 4, 6, 5, 5, 4, 6], 40, NAVY], ["model B · 
   SC.s11 = {
     copy: [
       { k: "The script", m: "Three models: 1 predictor, 6 predictors, a network.", s: "", l: "Three models" },
-      { k: "Line 10", m: "The split happens once, before the loop.", s: "train_test_split(...)", l: "Split once" },
+      { k: "The split", m: "The split happens once, before the loop.", s: "train_test_split(...)", l: "Split once" },
       { k: "Same rows", m: "Every model trained on the same rows, scored on the same rows.", s: "", l: "Same rows" },
-      { k: "Otherwise", m: "Different splits cannot be compared.", s: "And nothing in the output would tell you.", l: "Silent failure" }
+      { k: "Otherwise", m: "Different splits cannot be compared fairly.", s: "And nothing in the output would tell you.", l: "Silent failure" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
-<g class="a o0 sp11" style="transform:translateY(-10px)">${card(140, 20, 200, 60, INK, INK)}${t(240, 44, "line 10 · split ONCE", 15, GOLD, "middle", 800)}
+<g class="a o0 sp11" style="transform:translateY(-10px)">${card(140, 20, 200, 60, INK, INK)}${t(240, 44, "split ONCE, before the loop", 15, GOLD, "middle", 800)}
   <rect x="160" y="56" width="120" height="14" rx="4" fill="${NAVY}"/><rect x="284" y="56" width="40" height="14" rx="4" fill="${TERRA}"/></g>
 ${MOD.map(([n, c], i) => `<g class="a o0 md11" data-i="${i}">${card(24 + i * 152, 150, 128, 64, c)}${t(88 + i * 152, 188, n, 15, c, "middle", 800)}
   <path class="ar11" d="M240 80 L${88 + i * 152} 148" stroke="${GREY}" stroke-width="2.5" stroke-dasharray="5 4"/>

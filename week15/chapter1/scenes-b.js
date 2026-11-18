@@ -13,10 +13,10 @@
   SC.s12 = {
     copy: [
       { k: "A test", m: "How much can the split alone move a score?", s: "", l: "Split luck" },
-      { k: "The set-up", m: "Same regression, same data, 50 random splits.", s: "Al Waha episodes · six predictors.", l: "50 splits" },
-      { k: "The result", m: `Best to worst split: ${fx(W.splitRange)} points of RMSE.`, s: "Only the test rows changed.", l: `${fx(W.splitRange)} points` },
-      { k: "Compare", m: `The network's gain: ${W.slide.netGain} points.`, s: "A mismatched split can eat more than half of it.", l: "More than half" },
-      { k: "So", m: "Split once. Score every model on the same rows.", s: "Then compare.", l: "Same rows" }
+      { k: "The set-up", m: "Same regression, same data, 50 random splits.", s: "Al Waha episodes (cleaned) · six predictors.", l: "50 splits" },
+      { k: "The result", m: `Best to worst split: ${fx(W.splitRange)} points of RMSE.`, s: `Only the test rows changed. SD across splits: ${fx(W.splitSD)}.`, l: `${fx(W.splitRange)} points` },
+      { k: "Compare", m: `The network's RMSE gain (slides): ${W.slide.netGainRMSE}.`, s: "The split alone can move a score by about half of it.", l: "About half" },
+      { k: "So", m: "Same rows for every model; ideally repeated splits.", s: "Report how much the difference varies.", l: "Same rows" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -26,8 +26,8 @@ ${[-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3].map(v => `<path d="M${DX(v)} 260 v6" stro
 ${t(240, 302, "points better ← average split → points worse", 12.5, INK, "middle", 800)}
 ${DOTS.map(([x, y], i) => `<g class="a o0 dt12" style="transition-delay:${(i * .025).toFixed(3)}s;transform:translateY(-40px)"><circle cx="${x}" cy="${y}" r="5" fill="${NAVY}" stroke="#fff" stroke-width="1"/></g>`).join("")}
 <g class="a o0 rg12"><path d="M${DX(Math.min(...DV))} 92 V250 M${DX(Math.max(...DV))} 92 V250" stroke="${TERRA}" stroke-width="2" stroke-dasharray="5 4"/><path d="M${DX(Math.min(...DV))} 96 H${DX(Math.max(...DV))}" stroke="${TERRA}" stroke-width="3"/>${t(240, 88, fx(W.splitRange) + " points from luckiest to unluckiest split", 13, TERRA, "middle", 800)}</g>
-<g class="a o0 gn12"><rect x="${DX(-0.475)}" y="56" width="${0.95 * 300}" height="16" rx="8" fill="${GREEN}" fill-opacity=".85"/>${t(240, 50, "the network's gain over the regression: 0.95", 12.5, GREEN, "middle", 800)}</g>
-<g class="a o0 so12" style="transform:scale(.9)">${card(80, 312, 320, 40, INK, INK)}${t(240, 338, "split once · same rows · then compare", 15, GOLD, "middle", 800)}</g>`,
+<g class="a o0 gn12"><rect x="${DX(-0.475)}" y="56" width="${0.95 * 300}" height="16" rx="8" fill="${GREEN}" fill-opacity=".85"/>${t(240, 50, "the network's RMSE gain over the regression (slides): 0.95", 12.5, GREEN, "middle", 800)}</g>
+<g class="a o0 so12" style="transform:scale(.9)">${card(80, 312, 320, 40, INK, INK)}${t(240, 338, "same rows · repeated splits · report the spread", 14, GOLD, "middle", 800)}</g>`,
     render(r, b) {
       H.q(r, ".dt12").forEach(g => { g.style.opacity = b >= 1 ? 1 : 0; g.style.transform = b >= 1 ? "none" : "translateY(-40px)"; });
       H.show(r, ".rg12", b >= 2); H.show(r, ".gn12", b >= 3); H.show(r, ".so12", b >= 4); H.tf(r, ".so12", b >= 4 ? "none" : "scale(.9)");
@@ -35,7 +35,7 @@ ${DOTS.map(([x, y], i) => `<g class="a o0 dt12" style="transition-delay:${(i * .
   };
 
   /* ------------------------------------------------------------ s13 · try it: a table that looks fine */
-  const CODE = [[8, "for name, model in models.items():"], [9, "    X_tr, X_te, y_tr, y_te = train_test_split("], [10, "        X, y, test_size=0.25)"], [11, "    model.fit(X_tr, y_tr)"], [12, "    scores[name] = mae(y_te, model.predict(X_te))"]];
+  const CODE = [[18, "for name, model in models.items():"], [19, "    X_tr, X_te, y_tr, y_te = train_test_split("], [20, "        X, y, test_size=0.25)"], [21, "    model.fit(X_tr, y_tr)"], [22, "    scores[name] = mae(y_te, model.predict(X_te))"]];
   SC.s13 = {
     copy: [
       { k: "Your turn", m: "This script runs. The table looks fine.", s: "No error. No warning.", l: "Looks fine" },
@@ -45,12 +45,12 @@ ${DOTS.map(([x, y], i) => `<g class="a o0 dt12" style="transition-delay:${(i * .
 <rect width="480" height="360" fill="${PAPER}"/>
 <rect x="14" y="16" width="452" height="180" rx="12" fill="${INK}"/>
 ${CODE.map(([n, s], i) => `<g class="cl13" data-n="${n}"><rect class="hl13" x="20" y="${30 + i * 30}" width="440" height="26" rx="5" fill="${GOLD}" fill-opacity="0" style="transition:fill-opacity .4s"/>${t(44, 48 + i * 30, n, 13, GREY, "end", 700)}<text class="cx13" x="56" y="${48 + i * 30}" font-size="13" fill="#E8EDF3" font-family="Consolas,monospace" xml:space="preserve">${s}</text></g>`).join("")}
-<g class="tb13">${card(14, 206, 452, 96, EDGE)}${t(30, 230, "output", 12, MUTED, "start", 800)}
+<g class="tb13">${card(14, 206, 452, 96, EDGE)}${t(30, 230, "output (illustrative)", 12, MUTED, "start", 800)}
   ${[["1 predictor", "MAE 10.3"], ["6 predictors", "MAE 5.5"], ["network", "MAE 5.0"]].map(([a, v], i) => `${t(40 + i * 146, 262, a, 14, INK, "start", 800)}${t(40 + i * 146, 284, v, 15, [NAVY, GREEN, TERRA][i], "start", 800)}`).join("")}</g>
 <g class="a o0 w13">${t(450, 230, "each on its own random split!", 12.5, TERRA, "end", 800)}</g>
 <g class="a o0 ok13">${card(14, 310, 452, 40, GREEN, "#EAF5EE")}${t(240, 336, "✓ split once, before the loop, with a fixed random_state", 14, GREEN, "middle", 800)}</g>`,
     render() {},
-    pick(r, n) { H.q(r, ".cl13").forEach(g => { const k = +g.dataset.n; g.querySelector(".hl13").style.fillOpacity = (n === 9 && (k === 9 || k === 10)) ? .35 : k === n ? .18 : 0; }); H.show(r, ".w13", n === 9); },
+    pick(r, n) { H.q(r, ".cl13").forEach(g => { const k = +g.dataset.n; g.querySelector(".hl13").style.fillOpacity = (n === 19 && (k === 19 || k === 20)) ? .35 : k === n ? .18 : 0; }); H.show(r, ".w13", n === 19); },
     fix(r, ok) { H.show(r, ".ok13", ok); }
   };
 
@@ -59,8 +59,8 @@ ${CODE.map(([n, s], i) => `<g class="cl13" data-n="${n}"><rect class="hl13" x="2
     copy: [
       { k: "One more assumption", m: "The result was not picked out of many.", s: "", l: "Picked?" },
       { k: "This term", m: "Dozens of models, variables, settings, subgroups.", s: "", l: "Dozens of analyses" },
-      { k: "The trap", m: "The best of forty, presented as the first of one.", s: "", l: "Best of 40" },
-      { k: "So", m: "Report the search. Label exploratory findings.", s: "A labelled finding survives review.", l: "Report the search" }
+      { k: "The trap", m: "The best of forty, reported as if it were the only one.", s: "Its effect looks larger, its p value smaller.", l: "Best of 40" },
+      { k: "So", m: "Report the search. Label exploratory findings.", s: "Confirm them on data you have not used.", l: "Report the search" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -76,19 +76,19 @@ ${Array.from({ length: 40 }, (_, i) => { const x = 40 + (i % 10) * 44, y = 50 + 
   };
 
   /* ------------------------------------------------------------ s15 · four questions */
-  const FQ = [["Explanatory or predictive?", "Answer first. Everything follows."], ["Same held-out rows?", "If not, there is no comparison."], ["Is the simplest adequate model much worse?", "0.69 MAE points, on a spread of 16."], ["Can you say what each input does?", "If not, you cannot defend it."]];
+  const FQ = [["Explanatory or predictive?", "Answer first. Everything follows."], ["Same held-out rows?", "If not, there is no comparison."], ["Is the simplest adequate model much worse?", "About 0.7 MAE points, on an SD of 16."], ["Explanatory? Say what each input does.", "If not, not as an explanation."]];
   SC.s15 = {
     copy: [
       { k: "Which to defend?", m: "Four questions, in this order.", s: "", l: "Four questions" },
       { k: "Question 1", m: "Explanatory or predictive?", s: "Answer this first. Everything follows.", l: "Why or what?" },
       { k: "Question 2", m: "Same held-out rows for every model?", s: "If not, you do not have a comparison.", l: "Same rows" },
-      { k: "Question 3", m: "Is the simpler model materially worse?", s: `Network vs regression: ${W.slide.maeGain} MAE points, on a spread of 16.`, l: `${W.slide.maeGain} on 16` },
-      { k: "Question 4", m: "Can you say what each input does?", s: "If not, you cannot defend it, however well it scores.", l: "Explain it" }
+      { k: "Question 3", m: "Is the simpler model materially worse?", s: `Network vs regression: about ${W.slide.maeGain} MAE points, on an SD of 16.`, l: `${W.slide.maeGain} on 16` },
+      { k: "Question 4", m: "Explanatory question? Say what each input does.", s: "If not, you cannot defend it as an explanation.", l: "Explain it" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
 ${FQ.map(([a, s], i) => `<g class="fq15" data-i="${i}">${card(30, 24 + i * 80, 420, 68, EDGE)}<circle cx="64" cy="${58 + i * 80}" r="18" fill="${[NAVY, GREEN, GOLD, TERRA][i]}"/>${t(64, 64 + i * 80, i + 1, 16, "#fff")}${t(96, 52 + i * 80, a, 15.5, INK, "start", 800)}${t(96, 76 + i * 80, s, 13, MUTED, "start", 700)}</g>`).join("")}
-<g class="a o0 sc15"><rect x="300" y="${24 + 2 * 80 + 50}" width="${0.69 / 16 * 140}" height="10" fill="${TERRA}"/><rect x="300" y="${24 + 2 * 80 + 50}" width="140" height="10" fill="none" stroke="${GREY}"/></g>`,
+<g class="a o0 sc15"><rect x="300" y="${24 + 2 * 80 + 50}" width="${W.slide.maeGain / 16 * 140}" height="10" fill="${TERRA}"/><rect x="300" y="${24 + 2 * 80 + 50}" width="140" height="10" fill="none" stroke="${GREY}"/></g>`,
     render(r, b) { H.q(r, ".fq15").forEach(g => { const i = +g.dataset.i, on = b >= i + 1; g.style.opacity = b === 0 || on ? 1 : .3; g.querySelector("rect").style.stroke = b === i + 1 ? TERRA : ""; g.querySelector("rect").style.strokeWidth = b === i + 1 ? "3" : ""; }); H.show(r, ".sc15", false); }
   };
 
@@ -118,7 +118,7 @@ ${[["1 predictor", "MAE ≈ 10 · one slope", NAVY], ["6 predictors", "MAE ≈ 5
       { k: "3", m: "Method and assumptions.", s: "Checked, with what you did on failure.", l: "Method" },
       { k: "4", m: "Results.", s: "Significance never without a size beside it.", l: "Results" },
       { k: "5", m: "Limitations.", s: "What it cannot support, and what would overturn it.", l: "Limitations" },
-      { k: "Not a coincidence", m: "Every row is a week of this course.", s: "The course was ordered to build this chapter.", l: "The course = the chapter" }
+      { k: "Not a coincidence", m: "Every section draws on weeks of this course.", s: "The course was ordered to build this chapter.", l: "The course = the chapter" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -126,14 +126,14 @@ ${[["1 predictor", "MAE ≈ 10 · one slope", NAVY], ["6 predictors", "MAE ≈ 5
 ${t(240, 42, "Your thesis · the analysis chapter", 15, NAVY, "middle", 800)}
 ${CH.map(([a, s, w], i) => `<g class="a o0 ch17" data-i="${i}" style="transform:translateX(-12px)"><rect x="46" y="${56 + i * 56}" width="388" height="48" rx="8" fill="${SKY}" fill-opacity=".55"/>${t(60, 76 + i * 56, (i + 1) + ". " + a, 15, INK, "start", 800)}${t(60, 95 + i * 56, s, 12, MUTED, "start", 700)}
   <g class="a o0 wk17"><rect x="${352}" y="${64 + i * 56}" width="74" height="22" rx="11" fill="${GOLD}"/>${t(389, 79 + i * 56, w, 11.5, INK, "middle", 800)}</g></g>`).join("")}`,
-    render(r, b) { H.q(r, ".ch17").forEach(g => { const i = +g.dataset.i, on = b >= i + 1; g.style.opacity = on ? 1 : (b === 0 ? .25 : 0); g.style.transform = on ? "none" : "translateX(-12px)"; g.querySelector(".wk17").style.opacity = b >= 6 ? 1 : 0; g.querySelector(".wk17").style.transitionDelay = (i * .2) + "s"; }); }
+    render(r, b) { H.q(r, ".ch17").forEach(g => { const i = +g.dataset.i, on = b >= i + 1; g.style.opacity = on ? 1 : (b === 0 ? .25 : 0); g.style.transform = on ? "none" : "translateX(-12px)"; g.querySelector(".wk17").style.opacity = 0; g.querySelector(".wk17").style.transitionDelay = (i * .2) + "s"; }); }
   };
 
   /* ------------------------------------------------------------ s18 · five sentences */
   const SN = ["85% accuracy", "a significant relationship", "the data were cleaned and analysed", "performed best, therefore selected", "further research is needed"];
   SC.s18 = {
     copy: [
-      { k: "Your turn", m: "May you write it, or not?", s: "Five sentences from real chapters.", l: "Decide" },
+      { k: "Your turn", m: "May you write it, or not?", s: "Five sentences examiners see every year.", l: "Decide" },
       { k: "1", m: "“85% accuracy.”", s: "On what data, against what base rate?", l: "No" },
       { k: "2", m: "“A significant relationship.”", s: "How large, in what units, out of how many tests?", l: "No" },
       { k: "3", m: "“The data were cleaned and analysed.”", s: "Which decisions, and how many rows each?", l: "No" },
@@ -151,9 +151,9 @@ ${SN.map((s, i) => `<g class="sn18" data-i="${i}">${card(30, 20 + i * 66, 420, 5
   SC.s19 = {
     copy: [
       { k: "Fifteen weeks", m: "Two prompts, one last time.", s: "", l: "Two prompts" },
-      { k: "Verification", m: "Which assumptions does this method need, and did I check each?", s: "", l: "Verification" },
+      { k: "Verification", m: "Which assumptions does it need, and does my output show I checked each?", s: "", l: "Verification" },
       { k: "Adversarial", m: "What is the strongest reason not to trust this result?", s: "", l: "Adversarial" },
-      { k: "Before your supervisor", m: "“This conclusion would not survive if …”", s: "Usually the strongest paragraph in the chapter.", l: "Would not survive if" },
+      { k: "Before your supervisor", m: "“This conclusion would not survive if …”", s: "Often the strongest paragraph in the chapter.", l: "Would not survive if" },
       { k: "The rule", m: "Whatever the helper says, you write the response.", s: "Since Week 1.", l: "You write it" }
     ],
     svg: `
