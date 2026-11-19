@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 11 · What machine learning is</title>
+<title>What machine learning is</title>
 <style>
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .row .lab{font-weight:700;color:var(--muted);font-size:15px;margin-right:4px}
@@ -44,7 +44,7 @@
 .endcard{max-width:640px;margin:0 auto;text-align:center}
 .endcard .g4{grid-template-columns:repeat(3,minmax(0,1fr))}
 :fullscreen body,:fullscreen{background:var(--paper)}
-@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}#caption.ra::before{content:"Read-along · narration coming soon";display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);margin-bottom:2px}
+@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}
 /* ---------- motion polish ---------- */
 .stagewrap{position:relative}
 .stage{position:relative}
@@ -60,7 +60,7 @@
 #toast span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #toast.show{animation:toast 2.6s ease both}
 @keyframes toast{0%{opacity:0;transform:translateY(-10px)}12%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
-#turn{position:absolute;right:14px;top:14px;z-index:3;pointer-events:none;background:var(--terra);color:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;letter-spacing:.08em;box-shadow:0 0 0 0 rgba(192,80,42,.5);animation:turn 1.8s ease-out infinite}
+#turn{flex:none;background:#C0502A;color:#fff;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
 #turn[hidden]{display:none}
 @keyframes turn{70%{box-shadow:0 0 0 12px rgba(192,80,42,0)}100%{box-shadow:0 0 0 0 rgba(192,80,42,0)}}
 #controls button{transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
@@ -74,13 +74,22 @@
 @keyframes pop{40%{transform:scale(1.03)}}
 .qopts button.wrong{animation:nope .4s ease}
 @keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-@media (max-width:760px){#turn{top:auto;bottom:44px}#toast{font-size:12.5px}}
+@media (max-width:760px){#toast{font-size:12.5px}}
 @media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#toast.show,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}#toast{display:none}}
+
+.lesson-layer{opacity:0;transition:opacity .55s,transform .55s}
+.tree-card,.divider,.roc-marker,.tray,.metric-cell{transition:transform .55s ease,opacity .4s}
+.tray rect,.ticks rect{transition:fill .45s}
+.lab h2{margin:0 0 12px;font-size:19px}.lab-options{display:flex;gap:8px;flex-wrap:wrap}
+.lab-options .chip{text-align:left}.cta:disabled{opacity:.45;cursor:default}
+#mode-note{margin:5px 0;color:var(--muted);font-size:14px}#mode-note:empty{display:none}
+@media(max-width:650px){#prog{gap:2px}.stagewrap{max-width:100%}.chmenu select{width:100%}}
 </style>
 <style>
 :root{--navy:#1F4E79;--terra:#C0502A;--ink:#1A1F2B;--muted:#5A6373;--paper:#F4F0E8;--card:#FFFFFF;--line:#DDE3EA;--soft:#F4F6F8;--good:#2E7D4F;--hl:#FCEFE9;--gold:#E8B04B}
 @media (prefers-color-scheme:dark){:root{--navy:#8DB8E3;--terra:#F08A62;--ink:#ECEFF4;--muted:#A9B2C0;--paper:#12161D;--card:#1B212B;--line:#2E3746;--soft:#202835;--good:#6CCB92;--hl:#3A2A24}}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Calibri,"Segoe UI",Arial,sans-serif}
 body{min-height:100vh;display:flex;flex-direction:column}
 header{padding:12px 20px 6px;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
@@ -225,26 +234,36 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 .chmenu .chpick{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--muted)}
 .chmenu select{font:inherit;font-size:14px;font-weight:700;color:var(--navy);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:38px;padding:6px 10px;max-width:min(78vw,440px);cursor:pointer}
 @media (max-width:760px){.chmenu{padding:8px 16px 0}}</style>
+<script>
+/* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
+(function(c,l,a,r,i,t,y){
+  if(/[?&]qa=1/.test(location.search)||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:")return;
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","zd6pg60ru9");
+</script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 11</span><h1>Chapter 1 · What machine learning is</h1></header>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics</span><h1>What machine learning is</h1></header>
 <nav class="chmenu" data-ch="1" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
     <div class="copy" id="copy" aria-live="polite"><p class="k" id="ck"></p><p class="m" id="cm"></p><p class="s" id="cs"></p></div>
-    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
+    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div class="stage" id="stage"></div><div class="status"><span id="turn" hidden>Your turn</span><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
   </section>
   <div id="ui"></div>
-  <div id="caption"></div>
+  <div id="caption"></div><p id="mode-note" role="status"></p>
 </main>
 <div id="controls">
   <button id="menu" aria-haspopup="dialog">☰ Scenes</button>
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time" style="min-width:150px">1 / 25</span>
+  <span class="t" id="time" style="min-width:150px">1 / 48</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
+  <button id="mode" aria-pressed="true" title="Switch between narration and timed reading">Voice on</button>
   <button id="cc" aria-pressed="true">Captions on</button>
   <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
   <button id="full" class="ico" aria-label="Full screen" title="Full screen">⛶</button>
@@ -254,28 +273,38 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>What machine learning is</h2>
-  <p>Week 11 · Chapter 1 · about 22 minutes of animated, narrated scenes, with six hands-on activities using real data from the Al Waha clinic and an eight-question quiz. Turn your sound on.</p>
+  <p>48 scenes and about 45 minutes of narration. Explore Al Waha’s visit data through 12 activities, including a fourteen-question quiz. Take as long as you need for the exercises.</p>
+  <p>Use your device’s English voice or follow the timed captions. <label for="narration">Playback</label>
+  <select id="narration"><option value="voice">Narrated</option><option value="read">Read along</option></select></p>
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
-<audio id="au" preload="auto"></audio>
-<script src="chapter.js?v=20261117d"></script>
-<script src="timings.js?v=20261117d"></script>
-<script src="scenes-a.js?v=20261117d"></script>
-<script src="data2.js?v=20261117d"></script>
-<script src="scenes-b.js?v=20261117d"></script>
-<script src="scenes-c.js?v=20261117d"></script>
+
+<script src="chapter.js?v=20261118c"></script>
+<script src="timings.js?v=20261118c"></script>
+<script src="scenes-a.js?v=20261118c"></script>
+<script src="data2.js?v=20261118c"></script>
+<script src="scenes-b.js?v=20261118c"></script>
+<script src="scenes-c.js?v=20261118c"></script>
+<script src="scenes-d.js?v=20261118c"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, X11 = window.W11X;
-const S = C.scenes, au = document.getElementById('au');
+const S = C.scenes;
 const $ = id => document.getElementById(id);
 let si = 0, step = -1, playing = false, part = 'a', waitingQuiz = false, aDone = false, pendingB = false, quizScore = null;
 const splitN = s => s.split || (s.quiz ? 1 : 0);
-const stage = $('stage');
+let stage = $('stage');
 const bandsL = ['<20','20–30','30–40','40–50','50–60','60–70','70–80','80–90','90–100','100–110','110–120','120+'];
 const bandsR = [8.5,3.5,2.1,2.1,1.8,2.6,3.1,14.8,44.5,71.3,88.7,95.4];
 
 /* ---------- interaction panels under the stage ---------- */
+function chips(labels) {
+  return '<div class="lab-options">'+labels.map((label,i)=>`<button class="chip" data-option="${i}" aria-pressed="false">${label}</button>`).join('')+'</div>';
+}
+function panel(prompt,control) {
+  return `<section class="card lab"><h2>${prompt}</h2>${control}<p class="verdict" id="lab-feedback" aria-live="polite"></p>
+    <div class="center"><button class="cta" id="cont" disabled>Continue ▶</button></div></section>`;
+}
 const UI = {
   guess: () => `<div class="card"><div class="bands">${bandsL.map((l,i)=>`<button data-i="${i}">${l}</button>`).join('')}</div>
     <div class="gfb" id="gfb" aria-live="polite"></div><div class="center"><button class="cta" id="cont" hidden>See the real data ▶</button></div></div>`,
@@ -294,48 +323,70 @@ const UI = {
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
   depth: () => `<div class="card"><label class="sl" for="dep">Tree depth: <b><span id="dv">1</span></b> <span style="font-size:15px;color:var(--muted)">(questions in a row)</span></label>
     <input type="range" id="dep" min="0" max="${X11.readmitted_30d.depth.length-1}" step="1" value="0">
-    <div class="g4"><div class="stat"><b id="d1"></b><span>leaves (final groups)</span></div><div class="stat"><b id="d2"></b><span>training AUC</span></div><div class="stat good"><b id="d3"></b><span>test AUC · what counts</span></div><div class="stat warn"><b id="d4"></b><span>gap (overfitting)</span></div></div>
+    <div class="g4"><div class="stat"><b id="d1"></b><span>leaves (final groups)</span></div><div class="stat"><b id="d2"></b><span>training AUC</span></div><div class="stat good"><b id="d3"></b><span>archived test AUC</span></div><div class="stat warn"><b id="d4"></b><span>train − test AUC</span></div></div>
     <p class="verdict" id="dverd"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
-  winner: () => `<div class="card">
-    <div class="row"><span class="lab">My pick:</span>${X11.readmitted_30d.models.map((m,i)=>`<button class="chip wp" data-i="${i}">${m[0].replace(' (depth 4)','')}</button>`).join('')}</div>
-    <div class="row" style="margin-top:10px"><span class="lab">Outcome:</span><button class="chip wt sel" data-t="readmitted_30d" disabled>30-day readmission</button><button class="chip wt" data-t="complaint_filed" disabled>Complaint filed</button></div>
-    <p class="verdict" id="wverd"></p>
-    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  audit: () => panel("Inspect an archived outcome", chips(["30-day readmission","Complaint filed"])),
+  leak: () => panel("Which input must be excluded at discharge?", chips(["Completed wait","Prior visits","Later complaint closure date"])),
+  claim: () => panel("Which sentence can you defend?", chips([
+    "Shortening waits prevented the complaints.",
+    "In the waiting-time file, the rule flagged 605 of 758 visits with complaints.",
+    "Calling flagged visits will avert 605 future complaints."
+  ])),
+  splitlab: () => panel("Place the divider after a card", chips(["After card 2","After card 3","After card 4"])),
+  roclab: () => panel("Move from stricter to looser waiting rules", '<label for="roc-cut">Operating point</label><input type="range" id="roc-cut" min="0" max="15" step="1" value="0">'),
+  foldlab: () => panel("Choose a development round", chips(["1","2","3","4","5"])),
   takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
-    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
-    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../week12/chapter1/" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">Chapter 2 ▶</a></div></div>`
+    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes opened</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
+    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../week12/chapter1/" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">Next chapter ▶</a></div></div>`
 };
-const waitMsg = {guess:'Your turn: tap the waiting band you choose.',slider:'Your turn: move the slider, then press Continue.',depth:'Your turn: grow the tree, then press Continue.',winner:'Your turn: make your pick, then press Continue.',quiz:'Answer the questions at your own pace.'};
+const waitMsg={guess:"Choose a waiting band.",slider:"Explore the cut-offs, then continue.",depth:"Inspect the archived depth experiment.",quiz:"Answer each question at your own pace."};
 
 /* ---------- player ---------- */
 const prog = $('prog');
-const KEY='vl-qrms-w11', seen=new Set(), tried=new Set();
+const KEY='vl-qrms-w11-scene-v2', seen=new Set(), tried=new Set();
 const isAct=s=>!!(s.wait||s.split||s.quiz);
 S.forEach((s,i)=>{const b=document.createElement('button'); if(isAct(s)) b.classList.add('act');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
 function unitId(){const s=S[si];return splitN(s)?s.id+part:s.id}
 function load(i,auto){
+  stopPlayback();
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
   const s=S[si], sc=SC[s.id]||{copy:[],svg:'',render(){}};
   $('scene').classList.toggle('full',!!sc.full);
+  // A fresh root isolates delayed transitions and activity choices on replay.
+  const nextStage=stage.cloneNode(false);
+  for (const key of Object.keys(nextStage.dataset)) delete nextStage.dataset[key];
+  stage.replaceWith(nextStage); stage=nextStage;
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
   stage._fresh = true;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
-  seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
+  seen.add(si); if(!$('start')) try{ localStorage.setItem(KEY, s.id) }catch(e){}
+  setUnit();
   [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
   updTime(); drawList(); toast();
   const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
   if(wire[s.kind]) wire[s.kind]();
-  setUnit(); setStep(0);
+  setStep(0);
   if(auto) play(); else pause();
 }
-/* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
-let silent=false, clock=0, ticker=null;
-S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
-  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
-const nowT=()=>silent?clock:au.currentTime;
-function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
+// Timings estimate reading progress. A speaking voice controls its own beat ends.
+const synth=window.speechSynthesis;
+let voiceMode=true, clock=0, ticker=null, transition=null, generation=0, utterance=null;
+let localBeat=0, finished=false, unavailable=false;
+function stopPlayback(){
+  playing=false; generation++; clearInterval(ticker); clearTimeout(transition);
+  if(utterance&&synth){ utterance.onend=null; utterance.onerror=null; synth.cancel(); }
+  utterance=null;
+}
+function left(){
+  let seconds=0;
+  S.slice(si).forEach((s,i)=>{
+    const ids=splitN(s)?[s.id+'a',s.id+'b']:[s.id];
+    ids.forEach(id=>{if(i||part!=='b'||id===unitId()) seconds+=T[id].dur;});
+  });
+  return Math.max(0,seconds-clock);
+}
 function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
 function drawList(){ const L=$('dlist'); if(!L) return;
   L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
@@ -349,14 +400,13 @@ function capWords(text){ const ws=text.split(' '); let n=0; capEnds=ws.map(w=>(n
 function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==capEnds.length) return; f=Math.max(0,Math.min(1,f));
   for(let i=0;i<el.length;i++){ const start=i?capEnds[i-1]:0; el[i].classList.toggle('said',capEnds[i]<=f); el[i].classList.toggle('now',start<=f&&f<capEnds[i]); } }
 function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
-function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.silent); clock=0; $('caption').classList.toggle('ra',silent);
-  if(t&&!silent){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
+function setUnit(){stopPlayback();clock=0;localBeat=0;finished=false;}
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
-  const sc=SC[S[si].id]; if(!sc||sc.full) return;
-  const go=()=>{ stage._pending=false; try{ sc.render(stage,step) }catch(e){ console.error(e) } };  // always draw the latest beat
-  if(stage._pending) return;
-  if(stage._fresh){ stage._fresh=false; stage._pending=true; requestAnimationFrame(()=>requestAnimationFrame(go)) } else go();
+  const sc=SC[S[si].id],root=stage;
+  if(!sc||sc.full) return;
+  const draw=()=>{if(root===stage) sc.render(root,step);};
+  if(root._fresh){root._fresh=false;requestAnimationFrame(()=>requestAnimationFrame(draw));}else draw();
 }
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
@@ -370,42 +420,106 @@ function setStep(k){
   if(s.kind==='takeaways'&&k>=5) $('endbox').style.display='block';
   capWords(s.lines[k]||'');
 }
-function onTime(){
-  const t=T[unitId()]; if(!t) return; const c=t.cues, CT=nowT(); let k=0;
-  for(let j=0;j<c.length;j++) if(CT>=c[j]) k=j;
-  setStep(lineIndex(k));
-  karaoke((CT-c[k])/Math.max(.5,((k+1<c.length?c[k+1]:(t.dur||au.duration||c[k]+4))-c[k])-.35));
-  const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
-  prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
+function paintProgress(){
+  const t=T[unitId()], start=t.cues[localBeat], end=t.cues[localBeat+1]??t.dur;
+  karaoke((clock-start)/(end-start));
+  const s=S[si], offset=splitN(s)&&part==='b'?T[s.id+'a'].dur:0;
+  const total=splitN(s)?T[s.id+'a'].dur+T[s.id+'b'].dur:t.dur;
+  prog.children[si].firstChild.style.width=(Math.min(1,(clock+offset)/total)*100)+'%';
 }
-au.addEventListener('timeupdate',onTime);
-au.addEventListener('ended',onEnd);
 function onEnd(){
+  finished=true;
   const s=S[si];
-  if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
-    waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
-    $('caption').textContent=s.kind==='trap'?'Your turn: choose model A or model B. The narration continues after your choice.':'Choose an answer for A and for B. The narration continues when both are answered.';return}
-  if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 1. Well done. Use the chapter menu at the top to continue, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+  if(splitN(s)&&part==='a'){
+    aDone=true;
+    if(pendingB){continueQuiz();return;}
+    waitingQuiz=true;pause();
+    $('caption').textContent=s.kind==='trap'?'Choose a rule to hear the comparison.':'Answer both questions to hear the explanation.';
+    return;
+  }
+  if(s.wait){pause();$('caption').textContent=waitMsg[s.kind]||'Explore the activity, then press Continue.';return;}
+  if(si<S.length-1){transition=setTimeout(()=>{if(playing) load(si+1,true);},400);}
+  else {pause();$('caption').textContent='End of the chapter.';}
 }
-function play(){ if(waitingQuiz) return;
-  if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
-    ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
-  if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
-function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
-function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
-$('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
+function nextBeat(){
+  const t=T[unitId()];
+  clock=t.cues[localBeat+1]??t.dur;paintProgress();
+  clearInterval(ticker);clearTimeout(transition);
+  if(localBeat+1>=t.cues.length){onEnd();return;}
+  localBeat++;startBeat();
+}
+function readBeat(){
+  const t=T[unitId()], end=t.cues[localBeat+1]??t.dur;
+  let last=performance.now();
+  ticker=setInterval(()=>{
+    const now=performance.now();clock=Math.min(end,clock+(now-last)/1000*(+$('speed').value));
+    last=now;paintProgress();if(clock>=end) nextBeat();
+  },100);
+}
+function startBeat(){
+  const ticket=++generation,t=T[unitId()];
+  const k=lineIndex(localBeat),line=S[si].lines[k];
+  setStep(k);paintProgress();
+  if(!voiceMode||unavailable){readBeat();return;}
+  const u=new SpeechSynthesisUtterance(line);
+  utterance=u;u.lang='en-US';
+  const voices=synth.getVoices();
+  const english=voices.find(v=>v.localService&&/^en[-_]/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang));
+  if(english)u.voice=english;
+  u.rate=.81*(+$('speed').value);
+  const begin=t.cues[localBeat],end=t.cues[localBeat+1]??t.dur;
+  const fallback=()=>{
+    if(ticket!==generation||!playing)return;
+    stopPlayback();playing=true;unavailable=true;syncMode();
+    readBeat();
+  };
+  u.onstart=()=>{
+    if(ticket!==generation)return;
+    clearTimeout(transition);
+    transition=setTimeout(fallback,Math.max(16000,(end-begin)*3200/u.rate));
+  };
+  u.onboundary=e=>{
+    if(ticket!==generation||!playing)return;
+    clock=begin+(end-begin)*Math.min(1,e.charIndex/line.length);paintProgress();
+  };
+  u.onend=()=>{if(ticket!==generation||!playing)return;utterance=null;nextBeat();};
+  u.onerror=fallback;
+  transition=setTimeout(fallback,4500);
+  try{synth.speak(u);}catch(e){fallback();}
+}
+function play(){
+  if(waitingQuiz||playing)return;
+  if(finished){localBeat=0;clock=0;finished=false;step=-1;}
+  playing=true;updBtn();startBeat();
+}
+function pause(){stopPlayback();updBtn();}
+function updBtn(){$('play').textContent=playing?'❚❚ Pause':'▶ Play';}
+function syncMode(){
+  $('mode').textContent=voiceMode&&!unavailable?'Voice on':'Read along';
+  $('mode').setAttribute('aria-pressed',String(voiceMode&&!unavailable));
+  $('mode-note').textContent=voiceMode&&unavailable?'Voice unavailable on this device. Following timed captions.':'';
+  if(!voiceMode||unavailable){$('caption').classList.remove('off');$('cc').textContent='Captions on';$('cc').setAttribute('aria-pressed','true');}
+}
+function selectMode(wantVoice){
+  voiceMode=wantVoice;unavailable=!synth||typeof SpeechSynthesisUtterance!=='function';
+  syncMode();
+}
+$('mode').onclick=()=>{
+  const active=playing;pause();selectMode(!(voiceMode&&!unavailable));
+  if(active)play();
+};
+$('play').onclick=()=>playing?pause():play();
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
-$('speed').onchange=()=>au.playbackRate=+$('speed').value;
+$('speed').onchange=()=>{if(playing){pause();play();}};
 $('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
 $('replay').onclick=()=>load(si,true);
 $('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
-$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select,input')) tried.add(S[si].id) }); $('ui').addEventListener('input',()=>tried.add(S[si].id));
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button:not(#cont),select,input')) tried.add(S[si].id) },true); $('ui').addEventListener('input',()=>tried.add(S[si].id));
 setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
-$('go').onclick=()=>{ $('start').remove(); load(0,true) };
-(function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT','TEXTAREA'].includes(e.target.tagName)||($('start')&&e.code!=='Escape')||(e.code==='Space'&&e.target.closest('button,a'))) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
+$('go').onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(0,true) };
+(function(){ let k=0; try{ k=S.findIndex(s=>s.id===localStorage.getItem(KEY)) }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(k,true) } } })();
 
 /* ---------- interactions ---------- */
 function wireQuiz(){
@@ -425,26 +539,69 @@ function showAnswers(k){
   [0,1].forEach(i=>{ if(k>=i+1&&q[i]){ const fb=q[i].querySelector('.fb'); if(!fb.dataset.ans){fb.dataset.ans=1; fb.innerHTML=(fb.textContent?fb.textContent+' ':'')+'<span style="color:var(--ink);font-weight:400">'+say[i+1]+'</span>'} } });
 }
 const CUT = C.cutoffs, QZ = C.quiz;
+function explore(){
+  // Early input hands control of the demonstration to the learner.
+  if(finished)return;
+  pause();
+  const unit=T[unitId()];
+  localBeat=unit.cues.length-1;clock=unit.dur;finished=true;
+  setStep(lineIndex(localBeat));paintProgress();updTime();
+}
+function options(feedback,correct){
+  const buttons=[...$('ui').querySelectorAll('[data-option]')];
+  buttons.forEach((button,i)=>button.onclick=()=>{
+    buttons.forEach(x=>{x.classList.toggle('sel',x===button);x.setAttribute('aria-pressed',String(x===button));});
+    $('lab-feedback').textContent=feedback(i);
+    $('cont').disabled=correct!==undefined&&i!==correct;
+  });
+  $('cont').onclick=()=>load(si+1,true);
+}
 const wire = {
   depth(){
     const r=$('dep'), DP=X11.readmitted_30d.depth;
-    const upd=()=>{ const i=+r.value, d=SC.s21.update(stage,i); if(!d) return; const best=DP.reduce((b,x,j)=>x[2]>DP[b][2]?j:b,0);
+    const upd=()=>{ const i=+r.value, d=SC.s21.update(stage,i); if(!d) return; 
       $('dv').textContent=d[0]===99?'fully grown':d[0]; $('d1').textContent=d[3].toLocaleString('en-US'); $('d2').textContent=d[1].toFixed(3); $('d3').textContent=d[2].toFixed(3); $('d4').textContent=(d[1]-d[2]>=0?'+':'')+(d[1]-d[2]).toFixed(3);
-      $('dverd').innerHTML = i===best ? `<b class="ok">The best test score: ${d[2].toFixed(3)}.</b> Four questions in a row, ${d[3]} final groups. Simple enough to learn the pattern, not the noise.`
-        : i<best ? `<b class="no">Too simple.</b> Training and test scores are close, but both are low: the tree has not learned enough yet. Grow it.`
-        : `<b class="no">Overfitting.</b> The training score keeps rising (${d[1].toFixed(3)}), but the test score has fallen to ${d[2].toFixed(3)}. The tree is memorising patients, not learning a pattern.`;
+      $('dverd').textContent=d[0]===99?'The full tree ranks its training episodes perfectly. The archived test AUC is 0.558.':
+        `At depth ${d[0]}, compare the two archived ranking scores for the same tree. Choose depth in a new study using development validation.`;
       r.style.setProperty('--p',(i/(DP.length-1)*100)+'%'); };
     r.oninput=upd; upd(); $('cont').onclick=()=>load(si+1,true);
   },
-  winner(){
-    const ui=$('ui'); let pick=null, target='readmitted_30d';
-    const why={readmitted_30d:'On readmissions, plain logistic regression wins. The random forest scores a perfect 1.000 on training but drops on new patients: it memorised. Simple models often win when the signal is weak.',complaint_filed:'On complaints, the signal is strong (waiting time), and the four algorithms finish within 0.02 of each other. With strong signal, the choice of algorithm matters much less than you might think.'};
-    const upd=()=>{ const best=SC.s24.update(stage,target,pick!==null,pick); if(pick===null) return; const M=X11[target].models;
-      $('wverd').innerHTML=(pick===best&&target==='readmitted_30d'?'<b class="ok">You picked the winner.</b> ':target==='readmitted_30d'?`<b class="no">The winner is ${M[best][0].replace(' (depth 4)','')}</b> (${M[best][2].toFixed(3)}), not ${M[pick][0].replace(' (depth 4)','')} (${M[pick][2].toFixed(3)}). `:'')+why[target]+(target==='readmitted_30d'?' Now try <b>Complaint filed</b>.':''); };
-    ui.querySelectorAll('.wp').forEach(b=>b.onclick=()=>{ pick=+b.dataset.i; ui.querySelectorAll('.wp').forEach(x=>x.classList.toggle('sel',x===b)); ui.querySelectorAll('.wt').forEach(x=>x.disabled=false); upd() });
-    ui.querySelectorAll('.wt').forEach(b=>b.onclick=()=>{ target=b.dataset.t; ui.querySelectorAll('.wt').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
+  audit(){options((i)=>{
+    const target=i?'complaint_filed':'readmitted_30d';stage.dataset.outcome=target;SC.s24.update(stage,target);
+    return i?'For complaints, the forest has training AUC 1.000 and archived test AUC 0.948.':
+      'For readmissions, the forest has training AUC 1.000 and archived test AUC 0.684.';
+  });},
+  leak(){options(i=>[
+    'The completed wait exists by discharge and can be an input.',
+    'Earlier visits are available if the count stops at this discharge.',
+    'Correct. The investigation closes after the complaint and can reveal the outcome.'
+  ][i],2);},
+  claim(){options(i=>[
+    'The file describes observed waits and complaints. It cannot measure prevention.',
+    'Correct. The file, the numerator and the complaint denominator identify exactly what was observed.',
+    'Preventing complaints is an intervention claim. The 605 are observed hits.'
+  ][i],1);},
+  splitlab(){options(i=>{
+    explore();const k=i+2;SC.s33.move(stage,k);
+    return k===3?'Both groups remain mixed. Weighted impurity is 0.444, a reduction of 0.056.':
+      'One child is pure. Dividers after cards 2 and 4 tie at 0.250 weighted impurity, a reduction of 0.250.';
+  });},
+  roclab(){
+    const control=$('roc-cut');control.max=SC.s39.points.length-1;
+    control.oninput=()=>{
+      const i=+control.value;explore();control.value=i;
+      const p=SC.s39.move(stage,i);
+      control.style.setProperty('--p',(100*i/+control.max)+'%');
+      $('lab-feedback').textContent=`${p.name}. Of complaint visits, ${(100*p.y).toFixed(1)}% are flagged. Of visits without complaints, ${(100*p.x).toFixed(1)}% are flagged.`;
+      $('cont').disabled=false;
+    };
     $('cont').onclick=()=>load(si+1,true);
   },
+  foldlab(){options(i=>{
+    explore();SC.s41.move(stage,i);
+    return i===2?'C is held out. The visit contributes a validation prediction in this round.':
+      `Tray ${'ABCDE'[i]} validates. Visit C is in training. The final test stays sealed.`;
+  });},
   check: wireQuiz,
   guess(){
     const ui=$('ui');
@@ -453,7 +610,7 @@ const wire = {
       ui.querySelector('.bands button[data-i="7"]').classList.add('real');
       const i=+b.dataset.i, fb=$('gfb'); SC.s12.pin(stage,i);
       fb.innerHTML = i===7 ? '<b class="ok">Excellent guess.</b> The jump really starts in the 80–90 minute band. Next, you will see the full picture.'
-        : i<7 ? `<b class="no">Earlier than reality.</b> At ${bandsL[i]} minutes only ${bandsR[i]}% of patients complain. The rate stays between 2% and 4% until 80 minutes, then jumps (highlighted band).`
+        : i<7 ? `<b class="no">Earlier than reality.</b> At ${bandsL[i]} minutes only ${bandsR[i]}% of patients complain. The sustained climb starts in the highlighted 80–90 minute band.`
         : `<b class="no">A little later than reality.</b> By ${bandsL[i]} minutes ${bandsR[i]}% already complain, but the jump begins in the 80–90 minute band (highlighted).`;
       $('cont').hidden=false;
     });
@@ -463,8 +620,7 @@ const wire = {
     const r=$('cut'), fmt=n=>n.toLocaleString('en-US');
     const upd=()=>{ const [x,fl,tp,fn,fp]=CUT.find(z=>z[0]===+r.value);
       $('cv').textContent=x; $('k1').textContent=fmt(fl); $('k2').textContent=fmt(tp)+' ('+Math.round(100*tp/758)+'%)'; $('k3').textContent=fmt(fn); $('k4').textContent=fmt(fp);
-      $('verdict').innerHTML=`With this rule, <b>${Math.round(10*tp/fl)} of every 10 patients you call</b> would really have complained, and <b>${fmt(fn)} complaints</b> still slip through. `+
-        (x<=50?'Your team would spend days on the phone with patients who were happy.':x<=80?'This catches most complaints, but many calls are wasted. Is your team big enough?':x<=110?'Calls are now well targeted, but you are starting to miss many complaints.':'Almost every call is useful, but most complaints are missed.');
+      $('verdict').textContent=`${fl.toLocaleString('en-US')} visits would be flagged. Of those, ${(100*tp/fl).toFixed(1)}% had a recorded complaint. ${fmt(fn)} complaints fall outside the call list.`;
       r.style.setProperty('--p',((x-20)/130*100)+'%'); };
     r.oninput=()=>{ upd(); SC.s13.cut(stage,+r.value); };
     upd(); $('cont').onclick=()=>load(si+1,true);
@@ -481,23 +637,25 @@ const wire = {
   quiz(){
     let qi=0, score=0; const marks=[];
     const dots=()=>QZ.map((_,j)=>`<i class="${j<marks.length?(marks[j]?'ok':'no'):j===qi?'cur':''}"></i>`).join('');
-    const show=()=>{ const q=QZ[qi]; $('qn').textContent=`Question ${qi+1} of ${QZ.length}`; $('qdots').innerHTML=dots();
+    const show=()=>{ const q=QZ[qi]; SC.s15.update(stage,marks,qi); $('qn').textContent=`Question ${qi+1} of ${QZ.length}`; $('qdots').innerHTML=dots();
       $('qq').textContent=q.q; $('qwhy').innerHTML=''; $('qnext').hidden=true;
       $('qo').innerHTML=q.o.map((o,j)=>`<button data-j="${j}"><span>${'ABCD'[j]}</span>${o}</button>`).join('');
       $('qo').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok);
+        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok); SC.s15.update(stage,marks,qi);
         $('qo').querySelectorAll('button').forEach(x=>{x.disabled=true; if(+x.dataset.j===q.a) x.classList.add('right')}); if(!ok) b.classList.add('wrong');
         $('qwhy').innerHTML=`<b class="${ok?'ok':'no'}">${ok?'Correct.':'Not quite.'}</b> ${q.why}`; $('qdots').innerHTML=dots();
         $('qnext').textContent= qi<QZ.length-1?'Next question ▶':'See my score ▶'; $('qnext').hidden=false; });
     };
     $('qnext').onclick=()=>{ if(qi<QZ.length-1){qi++;show();return}
-      quizScore=score; const msg=score===QZ.length?'Perfect score. You are ready for Chapter 2.':score>=Math.ceil(QZ.length*.6)?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on the accuracy trap and the cut-off rule, then try again.';
+      quizScore=score; SC.s15.update(stage,marks,QZ.length);
+      const msg=score===QZ.length?'All fourteen answers are correct.':`You answered ${score} of ${QZ.length} questions correctly. The scene menu is available for review.`;
       $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/QZ.length*100}%"><b>${score}/${QZ.length}</b></div><p>${msg}</p></div>`;
       $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=QZ.length-1) burst();
       $('qnext').textContent='Continue ▶'; $('qnext').onclick=()=>load(si+1,true); };
     show();
   },
   takeaways(){
+    if(location.protocol==='file:') $('endbox').querySelector('a').hidden=true;
     const acts=S.filter(x=>isAct(x)&&x.kind!=='quiz'); $('final').textContent='Well done. Here is what you did in this chapter.';
     $('eS').textContent=seen.size+' / '+S.length; $('eA').textContent=acts.filter(x=>tried.has(x.id)).length+' / '+acts.length; $('eQ').textContent=quizScore===null?'not taken':quizScore+' / '+QZ.length;
     $('again').onclick=()=>{ quizScore=null; seen.clear(); tried.clear(); load(0,true) };
@@ -505,12 +663,19 @@ const wire = {
 };
 function burst(n){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<(n||40);i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
 
+selectMode(true);
 load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks
 })();
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('1')<0){v.push('1');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
+<script>
+// The course shell supplies the chapter picker on the hosted edition.
+if (location.protocol==='file:') document.querySelectorAll('.chmenu,.endcard a').forEach(el=>el.hidden=true);
+else if (/\/week11\/chapter1\//.test(location.pathname)) {
+  const course=document.createElement('script');course.src='../../course.js';document.head.appendChild(course);
+}
+</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261117d"></script>
 </body>
 </html>

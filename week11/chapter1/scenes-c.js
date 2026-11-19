@@ -18,7 +18,7 @@
     copy: [
       { k: "Three kinds", m: "What does the computer learn from?", s: "That question sorts machine learning into three kinds.", l: "Three kinds of learning" },
       { k: "1 · Supervised", m: "Every past case comes with its answer.", s: "Like a teacher marking homework: complaint, or no complaint.", l: "With answers" },
-      { k: "2 · Unsupervised", m: "No answers at all. Find structure alone.", s: "Groups of similar patients: Week 12.", l: "Without answers" },
+      { k: "2 · Unsupervised", m: "No answers at all. Find structure alone.", s: "For example, finding groups of similar patients.", l: "Without answers" },
       { k: "3 · Reinforcement", m: "Learn by trial and error, for a reward.", s: "As game-playing programs do.", l: "By reward" },
       { k: "In quality research", m: "You will mostly meet the first two.", s: "This chapter is about supervised learning.", l: "Supervised, here" }
     ],
@@ -37,7 +37,7 @@ ${[0, 1, 2].map(i => `<g class="pn17" data-i="${i}" style="transition:opacity .6
   <g transform="translate(${336 + 3 * 28 + 13} ${78 + 3 * 28 + 13})"><circle r="10" fill="${GOLD}"/>${t(0, 5, "★", 13, "#fff")}</g>
   <g class="bot17" style="transition:transform .6s"><circle cx="349" cy="91" r="9" fill="${GREEN}"/><circle cx="346" cy="89" r="2" fill="#fff"/><circle cx="352" cy="89" r="2" fill="#fff"/></g>
   <g class="a o0 rw17">${t(392, 222, "+1 reward", 14, GOLD, "middle", 800)}${t(392, 242, "try, fail, try again", 12, MUTED, "middle", 700)}</g></g>
-<g class="a o0 ban17" style="transform:translateY(14px)"><rect x="40" y="298" width="400" height="48" rx="12" fill="${INK}"/>${t(240, 320, "This chapter: supervised learning", 16, "#fff", "middle", 800)}${t(240, 338, "Week 12: unsupervised", 12, GOLD, "middle", 700)}</g>`,
+<g class="a o0 ban17" style="transform:translateY(14px)"><rect x="40" y="298" width="400" height="48" rx="12" fill="${INK}"/>${t(240, 320, "This chapter: supervised learning", 16, "#fff", "middle", 800)}${t(240, 338, "Unsupervised: grouping without labels", 12, GOLD, "middle", 700)}</g>`,
     render(r, b) {
       const live = alive(r); clearInterval(r._t17);
       H.q(r, ".pn17").forEach(g => { const i = +g.dataset.i, on = b === 0 || b === 4 || b === i + 1; g.style.opacity = on ? 1 : .3; g.querySelector(".pr17").style.stroke = b === i + 1 ? [NAVY, TERRA, GREEN][i] : ""; g.querySelector(".pr17").style.strokeWidth = b === i + 1 ? "3.5" : ""; });
@@ -96,23 +96,30 @@ ${X.rows.map((row, i) => row.slice(1).map((v, j) => `<g class="a o0 c18" style="
   SC.s19 = {
     copy: [
       { k: "The most important habit", m: "Before training anything, split the data.", s: `${fmt(X.n)} visits, each square = 52.`, l: "Split first" },
-      { k: "Training set · 75%", m: `${fmt(RA.ntrain)} visits to learn from.`, s: "The model sees only these.", l: `train ${fmt(RA.ntrain)}` },
+      { k: "Development pool · 75%", m: `${fmt(RA.ntrain)} visits to learn from.`, s: "Training and validation take place here.", l: `development ${fmt(RA.ntrain)}` },
       { k: "Test set · 25%", m: `${fmt(RA.ntest)} visits, locked away.`, s: "The model never sees them while it learns.", l: `test ${fmt(RA.ntest)}` },
-      { k: "The final exam", m: "Unlock the test set and predict it.", s: "That score tells us how the model will do on tomorrow's patients.", l: "Score on unseen rows" },
-      { k: "Remember", m: "A training score is a student marking their own exam.", s: "Only the test score counts.", l: "Test score only" }
+      { k: "The final exam", m: "Unlock the test set and predict it.", s: "Estimate performance on similar unseen episodes.", l: "Score on unseen rows" },
+      { k: "Remember", m: "A training score is a student marking their own exam.", s: "A new sample is needed for final evaluation.", l: "Training optimism" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
 ${G19.map(i => { const x = 40 + (i % 10) * 22, y = 40 + Math.floor(i / 10) * 22; return `<rect class="sq19" data-i="${i}" x="${x}" y="${y}" width="18" height="18" rx="3" fill="${GREY}" style="transition:transform 1.1s cubic-bezier(.3,.8,.25,1) ${(i * .012).toFixed(2)}s, fill .5s"/>`; }).join("")}
-<g class="a o0 trb19"><rect x="22" y="26" width="270" height="200" rx="14" fill="none" stroke="${NAVY}" stroke-width="3" stroke-dasharray="8 5"/>${t(157, 18, "TRAINING · learn from these", 13, NAVY, "middle", 800)}</g>
-<g class="a o0 teb19"><rect class="vault19" x="318" y="66" width="140" height="120" rx="14" fill="${INK}" fill-opacity=".06" stroke="${TERRA}" stroke-width="3"/>${t(388, 204, "TEST · locked", 14, TERRA, "middle", 800)}
+<g class="a o0 trb19"><rect x="22" y="26" width="270" height="200" rx="14" fill="none" stroke="${NAVY}" stroke-width="3" stroke-dasharray="8 5"/>${t(157, 18, "DEVELOPMENT · fit and validate", 13, NAVY, "middle", 800)}</g>
+<g class="a o0 teb19"><rect class="vault19" x="318" y="66" width="140" height="120" rx="14" fill="${INK}" fill-opacity=".06" stroke="${TERRA}" stroke-width="3"/>${t(388, 204, "FINAL TEST", 14, TERRA, "middle", 800)}
   <g class="lock19" style="transition:transform .6s"><rect x="376" y="40" width="24" height="18" rx="3" fill="${INK}"/><path class="sh19" d="M381 40 v-7 a7 7 0 0 1 14 0 v7" fill="none" stroke="${INK}" stroke-width="3.5" style="transition:transform .6s;transform-box:fill-box;transform-origin:left bottom"/></g></g>
-<g class="a o0 sc19" style="transform:scale(1.5)"><rect x="300" y="236" width="170" height="64" rx="12" fill="${GREEN}"/>${t(385, 262, "test score", 13, "#E7F3EA", "middle", 700)}${t(385, 288, "= the real grade", 17, "#fff", "middle", 800)}</g>
+<g class="a o0 sc19" style="transform:scale(1.5)"><rect x="300" y="236" width="170" height="64" rx="12" fill="${GREEN}"/>${t(385, 262, "test score", 13, "#E7F3EA", "middle", 700)}${t(385, 288, "on held-out rows", 17, "#fff", "middle", 800)}</g>
 <g class="a o0 self19" style="transform:translateY(10px)"><rect x="22" y="272" width="270" height="72" rx="12" fill="#fff" stroke="${TERRA}" stroke-width="2.5"/>${person(54, 334, NAVY, .85)}<path d="M82 300 l10 -10 l30 30 l-10 10 z" fill="${GOLD}" stroke="${INK}" stroke-width="1.5"/>${fo(126, 280, 160, 58, "Marking your own exam: training score ✗", 13, TERRA, 800)}</g>`,
     render(r, b) {
-      H.q(r, ".sq19").forEach(e => { const i = +e.dataset.i, test = i % 4 === 3, k = Math.floor(i / 4) % 25;
-        if (b >= 2 && test) { const tx = 330 + (k % 5) * 24 - (40 + (i % 10) * 22), ty = 78 + Math.floor(k / 5) * 20 - (40 + Math.floor(i / 10) * 22); e.style.transform = `translate(${tx}px,${ty}px) scale(.85)`; e.style.fill = TERRA; }
-        else { e.style.transform = "none"; e.style.fill = b >= 1 ? NAVY : GREY; } });
+      H.q(r, ".sq19").forEach(e => {
+        const i=+e.dataset.i, test=i%4===3, x=40+(i%10)*22, y=40+Math.floor(i/10)*22;
+        // Give the 75 development blocks and 25 reserved blocks distinct slots.
+        const k=test?Math.floor(i/4):i-Math.floor(i/4);
+        const tx=test?333+k%5*23:38+k%12*20;
+        const ty=test?79+Math.floor(k/5)*20:45+Math.floor(k/12)*23;
+        const moved=b>=1;
+        e.style.transform=moved?`translate(${tx-x}px,${ty-y}px)`:"none";
+        e.style.fill=!moved?GREY:test?(b>=2?TERRA:GREY):NAVY;
+      });
       H.show(r, ".trb19", b >= 1); H.show(r, ".teb19", b >= 2);
       r.querySelector(".sh19").style.transform = b >= 3 ? "rotate(-35deg) translateY(-6px)" : "none";
       H.show(r, ".sc19", b >= 3); H.tf(r, ".sc19", b >= 3 ? "scale(1)" : "scale(1.5)"); H.delay(r, ".sc19", b >= 3 ? .8 : 0);
@@ -123,14 +130,14 @@ ${G19.map(i => { const x = 40 + (i % 10) * 22, y = 40 + Math.floor(i / 10) * 22;
   /* ------------------------------------------------------------ s20 · overfitting (real depth curve, readmissions) */
   const DP = RA.depth, CX = (i) => 70 + i * (380 / (DP.length - 1)), CY = v => 270 - (v - .5) / .5 * 220;
   const line = k => "M" + DP.map((d, i) => `${CX(i).toFixed(1)} ${CY(d[k]).toFixed(1)}`).join(" L");
-  const BEST = DP.reduce((b, d, i) => d[2] > DP[b][2] ? i : b, 0), FULL = DP[DP.length - 1];
+  const FULL = DP[DP.length - 1];
   SC.s20 = {
     copy: [
       { k: "The biggest danger", m: "Predict 30-day readmissions with a decision tree.", s: "Score = AUC: 1 is perfect, 0.5 is a coin flip.", l: "Readmissions · AUC" },
       { k: "Training data", m: "Deeper tree, more questions: the score climbs to 1.", s: `A fully grown tree: ${FULL[3]} leaves, perfect on the training data.`, l: `train → ${FULL[1].toFixed(2)}` },
-      { k: "Test data", m: `Best at depth ${DP[BEST][0]}: ${DP[BEST][2].toFixed(2)}. Then it falls.`, s: `Fully grown: ${FULL[2].toFixed(2)} on new patients. Barely better than a coin.`, l: `test peak ${DP[BEST][2].toFixed(2)}` },
+      { k: "Archived test", m: "The full tree scores 0.558 on held-out episodes.", s: "Compare that with 1.000 on training episodes.", l: "A generalisation gap" },
       { k: "Overfitting", m: "The deep tree memorised the training patients.", s: "Their noise too, instead of the pattern.", l: "Memorising ≠ learning" },
-      { k: "The rule", m: "Choose a model by its test score.", s: "Never by its training score.", l: "Test score decides" }
+      { k: "The rule", m: "Set depth using development validation.", s: "Reserve final test outcomes for reporting.", l: "Choose before testing" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -143,13 +150,11 @@ ${DP.map((d, i) => i % 2 === 0 || i === DP.length - 1 ? t(CX(i), 288, d[0] === 9
 <path class="dr te20" pathLength="1" d="${line(2)}" fill="none" stroke="${TERRA}" stroke-width="4" stroke-linejoin="round" style="transition:stroke-dashoffset 2.4s ease"/>
 <g class="a o0 ltr20">${t(CX(DP.length - 1) - 4, CY(FULL[1]) - 10, "training " + FULL[1].toFixed(2), 13, NAVY, "end", 800)}</g>
 <g class="a o0 lte20">${t(CX(DP.length - 1) - 4, CY(FULL[2]) + 22, "test " + FULL[2].toFixed(2), 13, TERRA, "end", 800)}</g>
-<g class="a o0 pk20"><circle class="pulse2" cx="${CX(BEST)}" cy="${CY(DP[BEST][2])}" r="11" fill="none" stroke="${GREEN}" stroke-width="3.5"/>${t(CX(BEST), CY(DP[BEST][2]) + 30, `best: depth ${DP[BEST][0]} · ${DP[BEST][2].toFixed(2)}`, 13, GREEN, "middle", 800)}</g>
 <g class="a o0 st20" style="transform:scale(1.6)"><g transform="rotate(-6 300 120)"><rect x="196" y="98" width="208" height="42" rx="8" fill="#fff" stroke="${TERRA}" stroke-width="4"/>${t(300, 127, "OVERFITTING", 21, TERRA, "middle", 800)}</g></g>
-<g class="a o0 rule20"><rect x="120" y="318" width="240" height="26" rx="13" fill="${INK}"/>${t(240, 336, "choose by the TEST score", 13.5, "#fff", "middle", 800)}</g>`,
+<g class="a o0 rule20"><rect x="120" y="318" width="240" height="26" rx="13" fill="${INK}"/>${t(240, 336, "choose depth by validation", 13.5, "#fff", "middle", 800)}</g>`,
     render(r, b) {
       H.draw(r, ".tr20", b >= 1); H.show(r, ".ltr20", b >= 1); H.delay(r, ".ltr20", b >= 1 ? 2 : 0);
       H.draw(r, ".te20", b >= 2); H.show(r, ".lte20", b >= 2); H.delay(r, ".lte20", b >= 2 ? 2 : 0);
-      H.show(r, ".pk20", b >= 2); H.delay(r, ".pk20", b >= 2 ? 1.2 : 0);
       r.querySelector(".gap20").style.opacity = b >= 3 ? 1 : 0;
       H.show(r, ".st20", b === 3); H.tf(r, ".st20", b === 3 ? "scale(1)" : "scale(1.6)");
       H.show(r, ".rule20", b >= 4);
@@ -160,8 +165,8 @@ ${DP.map((d, i) => i % 2 === 0 || i === DP.length - 1 ? t(CX(i), 288, d[0] === 9
   const NODE = (x, y, c) => `<circle cx="${x}" cy="${y}" r="6" fill="${c}"/>`;
   SC.s21 = {
     copy: [
-      { k: "Your turn", m: "Grow the tree: from one question to fully grown.", s: "Readmissions, real data.", l: "Grow the tree" },
-      { k: "Your turn", m: "Find the depth you would choose.", s: "Then press Continue.", l: "Pick a depth" }
+      { k: "Your turn", m: "Grow the tree: from one question to fully grown.", s: "Tree shape is schematic. Leaf counts and AUCs are measured.", l: "Grow the tree" },
+      { k: "Your turn", m: "Inspect the fully grown tree’s gap.", s: "Then press Continue.", l: "Inspect the gap" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -181,7 +186,7 @@ ${[["training", NAVY, 344], ["test", TERRA, 404]].map(([n, c, x], i) => `<rect c
         lvl.forEach(([x, y]) => { [[x - w / 2, y + 36], [x + w / 2, y + 36]].forEach(([cx, cy]) => { s += `<path d="M${x} ${y} L${cx} ${cy}" stroke="${GREY}" stroke-width="${Math.max(1, 2.5 - L * .3)}"/>`; nx.push([cx, cy]); }); s += NODE(x, y, NAVY); });
         lvl = nx; }
       lvl.forEach(([x, y]) => { s += NODE(x, y, d[2] < .6 ? TERRA : GREEN); });
-      if (depth > 6) s += `<text x="157" y="${64 + 6 * 36 + 24}" text-anchor="middle" font-size="13" fill="${TERRA}" font-weight="800">… and ${depth - 6} more levels of questions</text>`;
+      if (depth > 6) s += `<text x="157" y="${64 + 6 * 36 + 24}" text-anchor="middle" font-size="13" fill="${TERRA}" font-weight="800">… additional levels omitted</text>`;
       g.innerHTML = s;
       r.querySelector(".lv21").textContent = `depth ${d[0] === 99 ? "full" : d[0]} · ${d[3]} leaves`;
       [1, 2].forEach((k, j) => { r.querySelector(".b21-" + j).style.transform = `scaleY(${Math.max(0, (d[k] - .5) / .5).toFixed(3)})`; r.querySelector(".bv21-" + j).textContent = d[k].toFixed(2); });
@@ -210,10 +215,10 @@ ${CM.map(([v, n, c], i) => { const x = 106 + (i === 1 || i === 3 ? 144 : 0), y =
   ${t(x + 69, y + 52, "", 28, c === GOLD ? "#9A6B0A" : c, "middle", 800, "cv22-" + i)}${t(x + 69, y + 76, n, 12.5, INK, "middle", 700)}</g>`; }).join("")}
 <g class="a o0 rc22" style="transform:translateX(16px)"><rect x="394" y="62" width="78" height="94" rx="12" fill="#fff" stroke="${GREEN}" stroke-width="2.5"/>${t(433, 88, "recall", 13, GREEN, "middle", 800)}${t(433, 118, "80%", 24, GREEN, "middle", 800)}${t(433, 140, "605 ÷ 758", 11, MUTED, "middle", 700)}</g>
 <g class="a o0 pr22" style="transform:translateY(14px)"><rect x="106" y="266" width="138" height="66" rx="12" fill="#fff" stroke="${NAVY}" stroke-width="2.5"/>${t(175, 288, "precision", 13, NAVY, "middle", 800)}${t(175, 314, "74%", 22, NAVY, "middle", 800)}${t(175, 328, "605 ÷ 814 called", 10.5, MUTED, "middle", 700)}</g>
-<g class="a o0 ac22"><rect x="262" y="266" width="210" height="66" rx="12" fill="${INK}"/>${t(367, 290, "accuracy 93% mixes", 13.5, GOLD, "middle", 800)}${t(367, 312, "all four boxes together", 13, "#fff", "middle", 600)}</g>`,
+<g class="a o0 ac22"><rect x="262" y="266" width="210" height="66" rx="12" fill="${INK}"/>${t(367, 290, "Accuracy 93.0%", 13.5, GOLD, "middle", 800)}${t(367, 312, "Complaint base rate 14.6%", 13, "#fff", "middle", 600)}</g>`,
     render(r, b) {
       CM.forEach(([v], i) => { const on = (i < 2 && b >= 1) || (i >= 2 && b >= 2), el = r.querySelector(".cv22-" + i);
-        if (on) H.count(el, v, 1100); else { el._to = null; el._cur = 0; el.textContent = b === 0 ? "?" : ""; }
+        if (on) H.count(el, v, 1100); else { cancelAnimationFrame(el._raf); el._to = null; el._cur = 0; el.textContent = b === 0 ? "?" : ""; }
         const rc = r.querySelectorAll(".cmr22")[i]; rc.style.fillOpacity = (b === 1 && i < 2) || (b === 2 && i >= 2) ? ".28" : ".12"; });
       H.show(r, ".rc22", b >= 3); H.tf(r, ".rc22", b >= 3 ? "none" : "translateX(16px)");
       H.show(r, ".pr22", b >= 3); H.tf(r, ".pr22", b >= 3 ? "none" : "translateY(14px)"); H.delay(r, ".pr22", b >= 3 ? 1.2 : 0);
@@ -222,28 +227,28 @@ ${CM.map(([v, n, c], i) => { const x = 106 + (i === 1 || i === 3 ? 144 : 0), y =
   };
 
   /* ------------------------------------------------------------ s23 · four algorithms */
-  const ALG = [["Logistic regression", "a smooth probability curve", NAVY], ["Decision tree", "a chain of yes/no questions", GREEN], ["Random forest", "hundreds of trees vote", "#2A7A4A"], ["k-nearest neighbours", "copy the most similar patients", TERRA]];
+  const ALG = [["Logistic regression", "a smooth probability curve", NAVY], ["Decision tree", "a chain of yes/no questions", GREEN], ["Random forest", "combine many trees", "#2A7A4A"], ["k-nearest neighbours", "use nearby visits", TERRA]];
   const pic = i => { const x = 34 + (i % 2) * 226, y = 34 + Math.floor(i / 2) * 140;
     return [
       `<path d="M${x} ${y + 82} H${x + 120}" stroke="${GREY}" stroke-width="1.5"/><path class="dr" pathLength="1" d="M${x} ${y + 80} C${x + 50} ${y + 80}, ${x + 60} ${y + 22}, ${x + 120} ${y + 20}" fill="none" stroke="${NAVY}" stroke-width="4"/>${[[8, 80], [24, 79], [40, 78], [88, 24], [100, 22], [114, 21]].map(([a, c], k) => `<circle cx="${x + a}" cy="${y + c + (k < 3 ? -2 : 2)}" r="4" fill="${k < 3 ? GREEN : TERRA}"/>`).join("")}`,
       `<g><rect x="${x + 44}" y="${y + 6}" width="34" height="18" rx="5" fill="${GREEN}"/>${t(x + 61, y + 19, "> 90?", 10, "#fff", "middle", 800)}<path d="M${x + 61} ${y + 24} L${x + 26} ${y + 50} M${x + 61} ${y + 24} L${x + 96} ${y + 50}" stroke="${GREY}" stroke-width="2"/><rect x="${x + 10}" y="${y + 50}" width="32" height="18" rx="5" fill="${GREEN}" fill-opacity=".7"/><rect x="${x + 80}" y="${y + 50}" width="32" height="18" rx="5" fill="${GREEN}" fill-opacity=".7"/><path d="M${x + 26} ${y + 68} l-12 18 M${x + 26} ${y + 68} l12 18 M${x + 96} ${y + 68} l-12 18 M${x + 96} ${y + 68} l12 18" stroke="${GREY}" stroke-width="2"/>${[14, 38, 84, 108].map((a, k) => `<circle cx="${x + a}" cy="${y + 89}" r="5" fill="${k === 3 ? TERRA : NAVY}"/>`).join("")}</g>`,
-      `${[0, 1, 2, 3, 4].map(k => `<g class="bob" style="animation-delay:${k * .3}s"><path d="M${x + 12 + k * 24} ${y + 30} l11 22 h-22 z M${x + 12 + k * 24} ${y + 44} l13 24 h-26 z" fill="#2A7A4A" fill-opacity="${.55 + k * .09}"/><rect x="${x + 10 + k * 24}" y="${y + 68}" width="4" height="10" fill="#7A5A3A"/></g>`).join("")}${t(x + 60, y + 96, "vote: 4 × no · 1 × yes", 11, MUTED, "middle", 700)}`,
+      `${[0, 1, 2, 3, 4].map(k => `<g class="bob" style="animation-delay:${k * .3}s"><path d="M${x + 12 + k * 24} ${y + 30} l11 22 h-22 z M${x + 12 + k * 24} ${y + 44} l13 24 h-26 z" fill="#2A7A4A" fill-opacity="${.55 + k * .09}"/><rect x="${x + 10 + k * 24}" y="${y + 68}" width="4" height="10" fill="#7A5A3A"/></g>`).join("")}${t(x + 60, y + 96, "average tree predictions", 11, MUTED, "middle", 700)}`,
       `${[[20, 30], [40, 64], [70, 24], [96, 70], [110, 36], [30, 84], [84, 90]].map(([a, c], k) => `<circle cx="${x + a}" cy="${y + c}" r="5" fill="${k % 3 ? NAVY : TERRA}"/>`).join("")}<circle cx="${x + 62}" cy="${y + 56}" r="6" fill="${GOLD}" stroke="${INK}" stroke-width="2"/><circle class="pulse2" cx="${x + 62}" cy="${y + 56}" r="34" fill="none" stroke="${GOLD}" stroke-width="2.5" stroke-dasharray="5 4"/>`
     ][i]; };
   SC.s23 = {
     copy: [
       { k: "The toolbox", m: "Four algorithms you will meet again and again.", s: "", l: "Four algorithms" },
-      { k: "1 · Logistic regression", m: "A smooth curve turns features into a probability.", s: "You met it in Week 10.", l: "Logistic regression" },
+      { k: "1 · Logistic regression", m: "A smooth curve turns features into a probability.", s: "Like the waiting-time complaint curve.", l: "Logistic regression" },
       { k: "2 · Decision tree", m: "A chain of yes or no questions.", s: "Did the patient wait more than 90 minutes?", l: "Decision tree" },
-      { k: "3 · Random forest", m: "Hundreds of different trees, and a vote.", s: "Each tree sees a slightly different sample.", l: "Random forest" },
-      { k: "4 · k-nearest neighbours", m: "Find the most similar past patients, and copy them.", s: "k = how many neighbours to ask.", l: "k-nearest neighbours" },
-      { k: "No single winner", m: "None of them is best everywhere.", s: "Test them on data they have never seen.", l: "Test them all" }
+      { k: "3 · Random forest", m: "Average the predictions of many trees.", s: "Each tree sees a slightly different sample.", l: "Random forest" },
+      { k: "4 · k-nearest neighbours", m: "Estimate risk from the outcomes of similar past visits.", s: "k = how many neighbours to ask.", l: "k-nearest neighbours" },
+      { k: "No single winner", m: "None of them is best everywhere.", s: "Compare them using the same validation visits.", l: "Use shared validation folds" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
 ${ALG.map(([n, s, c], i) => { const x = 14 + (i % 2) * 230, y = 14 + Math.floor(i / 2) * 140; return `<g class="al23" data-i="${i}" style="transition:opacity .6s,transform .6s"><rect class="alr23" x="${x}" y="${y}" width="222" height="130" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2" style="transition:stroke .4s"/>
-  ${pic(i)}${fo(x + 146, y + 30, 70, 90, `<b style="color:${c}">${n}</b><br><span style="font-weight:400;color:${MUTED}">${s}</span>`, 12, INK, 700)}</g>`; }).join("")}
-<g class="a o0 nw23"><rect x="90" y="298" width="300" height="48" rx="12" fill="${INK}"/>${t(240, 320, "No algorithm wins everywhere.", 15, "#fff", "middle", 800)}${t(240, 338, "Test them on unseen data.", 12, GOLD, "middle", 700)}</g>`,
+  ${pic(i)}${fo(x + 146, y + 30, 70, 90, `<b style="color:${c}">${n}</b><br/><span style="font-weight:400;color:${MUTED}">${s}</span>`, 12, INK, 700)}</g>`; }).join("")}
+<g class="a o0 nw23"><rect x="90" y="298" width="300" height="48" rx="12" fill="${INK}"/>${t(240, 320, "No algorithm wins everywhere.", 15, "#fff", "middle", 800)}${t(240, 338, "Use matched validation folds.", 12, GOLD, "middle", 700)}</g>`,
     render(r, b) {
       H.q(r, ".al23").forEach(g => { const i = +g.dataset.i, on = b === 0 || b === 5 || b === i + 1; g.style.opacity = on ? 1 : .3; const rc = g.querySelector(".alr23"); rc.style.stroke = b === i + 1 ? ALG[i][2] : ""; rc.style.strokeWidth = b === i + 1 ? "3.5" : ""; });
       H.draw(r, ".al23 .dr", b >= 1);
@@ -251,46 +256,38 @@ ${ALG.map(([n, s, c], i) => { const x = 14 + (i % 2) * 230, y = 14 + Math.floor(
     }
   };
 
-  /* ------------------------------------------------------------ s24 · predict the winner (activity) */
+  /* Archived paired scores, shown for interpretation after fitting. */
   SC.s24 = {
     copy: [
-      { k: "Your turn", m: "Which algorithm predicts readmissions best?", s: "On patients it has never seen.", l: "Make your pick" },
-      { k: "Your turn", m: "Pick, then compare the real test results.", s: "Then press Continue.", l: "Real results" }
+      {k:"Inspect the archive",m:"Choose the outcome to inspect.",s:"Each pair comes from one fitted procedure.",l:"Choose an outcome"},
+      {k:"Read across a row",m:"Compare training and held-out AUC for the same model.",s:"Selection in a new study belongs in development.",l:"Read the paired scores"}
     ],
-    svg: `
-<rect width="480" height="360" fill="${PAPER}"/>
-<rect x="12" y="12" width="456" height="336" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-${t(240, 38, "", 14, MUTED, "middle", 800, "ti24")}
-${[0.5, 0.6, 0.7, 0.8, 0.9, 1].map(v => { const x = 196 + (v - .5) / .5 * 250; return `<path d="M${x} 52 V300" stroke="#EEE8DC" stroke-width="1.5"/>${t(x, 316, v.toFixed(1), 10.5, MUTED, "middle", 600)}`; }).join("")}
-${[0, 1, 2, 3].map(i => `<g class="row24" data-i="${i}">${t(186, 86 + i * 60, "", 13, INK, "end", 800, "nm24-" + i)}
-  <rect class="btr24" x="196" y="${68 + i * 60}" width="250" height="14" rx="3" fill="${NAVY}" fill-opacity=".35" style="transform-box:fill-box;transform-origin:left;transform:scaleX(0);transition:transform .8s ${i * .15}s"/>
-  <rect class="bte24" x="196" y="${84 + i * 60}" width="250" height="18" rx="3" fill="${TERRA}" style="transform-box:fill-box;transform-origin:left;transform:scaleX(0);transition:transform .9s ${.3 + i * .15}s"/>
-  ${t(0, 80 + i * 60, "", 11, NAVY, "start", 700, "vtr24-" + i)}${t(0, 98 + i * 60, "", 12.5, TERRA, "start", 800, "vte24-" + i)}
-  <g class="win24" style="opacity:0;transition:opacity .5s 1.2s"><circle cx="452" cy="${93 + i * 60}" r="11" fill="${GOLD}"/>${t(452, 98 + i * 60, "★", 12, "#fff")}</g></g>`).join("")}
-${t(240, 336, "light bar = training AUC · dark bar = test AUC", 11.5, MUTED, "middle", 700)}`,
-    update(r, target, show, pick) {
-      const M = X[target].models, best = M.reduce((b, m, i) => m[2] > M[b][2] ? i : b, 0);
-      r.querySelector(".ti24").textContent = target === "readmitted_30d" ? "30-day readmissions · real held-out results" : "complaints · real held-out results";
-      M.forEach((m, i) => { const g = r.querySelectorAll(".row24")[i];
-        r.querySelector(".nm24-" + i).textContent = m[0].replace(" (depth 4)", "");
-        const sx = v => Math.max(0, (v - .5) / .5), xr = v => 196 + sx(v) * 250 + 6;
-        g.querySelector(".btr24").style.transform = `scaleX(${show ? sx(m[1]).toFixed(3) : 0})`; g.querySelector(".bte24").style.transform = `scaleX(${show ? sx(m[2]).toFixed(3) : 0})`;
-        const a = r.querySelector(".vtr24-" + i), b2 = r.querySelector(".vte24-" + i);
-        a.setAttribute("x", Math.min(410, xr(m[1]))); b2.setAttribute("x", Math.min(410, xr(m[2]))); a.textContent = show ? m[1].toFixed(3) : ""; b2.textContent = show ? m[2].toFixed(3) : "";
-        g.querySelector(".win24").style.opacity = show && i === best ? 1 : 0;
-        g.style.opacity = pick === null || pick === undefined || pick === i || show ? 1 : .45; });
-      return best;
+    svg: `<rect width="480" height="360" fill="${PAPER}"/>${t(240,36,"Archived ranking scores",20,NAVY)}
+      ${t(300,76,"Train",15,NAVY)}${t(393,76,"Test",15,TERRA)}
+      ${RA.models.map((m,i)=>`<g>${t(24,114+i*46,m[0],14,INK,"start")}
+        ${t(300,114+i*46,"",18,NAVY,"middle",700,"train"+i)}${t(393,114+i*46,"",18,TERRA,"middle",700,"test"+i)}
+        <path d="M24 ${125+i*46} H450" stroke="${EDGE}"/></g>`).join("")}
+      ${t(240,314,"",16,GREEN,"middle",700,"target")}`,
+    update(r,target) {
+      X[target].models.forEach((m,i)=>{
+        r.querySelector(".train"+i).textContent=m[1].toFixed(3);
+        r.querySelector(".test"+i).textContent=m[2].toFixed(3);
+      });
+      r.querySelector(".target").textContent=target==="readmitted_30d"?"30-day readmission":"Complaint filed";
     },
-    render(r, b) { const s = r.querySelector("svg"); if (!s._init) { s._init = 1; SC.s24.update(r, "readmitted_30d", false, null); } }
+    render(r,b) {
+      SC.s24.update(r,r.dataset.outcome||"readmitted_30d");
+      H.set(r,".test0,.test1,.test2,.test3","opacity",b||r.dataset.outcome?1:.55);
+    }
   };
 
   /* ------------------------------------------------------------ s25 · cross-validation and the scikit-learn workflow */
   const CV = RA.cv;
   SC.s25 = {
     copy: [
-      { k: "Cross-validation", m: "One split can be lucky. Test five times.", s: "", l: "5 folds" },
-      { k: "How it works", m: "Train on four folds, test on the fifth. Repeat.", s: "Every visit is tested exactly once.", l: "Rotate the test fold" },
-      { k: "Readmissions · logistic regression", m: `Five scores from ${Math.min(...CV).toFixed(2)} to ${Math.max(...CV).toFixed(2)}. Average ${RA.cvMean.toFixed(2)}.`, s: "More honest than any single split.", l: `mean ${RA.cvMean.toFixed(2)}` },
+      { k: "Cross-validation", m: "Rotate which development rows are held out.", s: "", l: "5 folds" },
+      { k: "How it works", m: "Fit on four groups and validate on the fifth.", s: "Each development visit has one held-out prediction.", l: "Rotate the validation fold" },
+      { k: "Readmissions · logistic regression", m: `Five scores from ${Math.min(...CV).toFixed(2)} to ${Math.max(...CV).toFixed(2)}. Average ${RA.cvMean.toFixed(2)}.`, s: "Archived results. Separate from the final test score.", l: `mean ${RA.cvMean.toFixed(2)}` },
       { k: "In Python", m: "Split, fit, predict, score.", s: "The same four steps for every model.", l: "The workflow" },
       { k: "The heart of scikit-learn", m: "fit learns. predict applies.", s: "You will type these two words again and again.", l: "fit · predict" }
     ],
@@ -302,9 +299,9 @@ ${[0, 1, 2, 3, 4].map(rw => `<g class="fr25" data-r="${rw}" style="opacity:.25;t
   ${t(392, 45 + rw * 26, CV[rw].toFixed(3), 13, TERRA, "start", 800, "cvv25")}</g>`).join("")}
 <g class="a o0 mn25"><rect x="378" y="160" width="82" height="22" rx="11" fill="${GREEN}"/>${t(419, 176, "mean " + RA.cvMean.toFixed(3), 11.5, "#fff", "middle", 800)}</g>
 <rect x="12" y="198" width="456" height="150" rx="12" fill="#1E2430"/>
-${[["X_tr, X_te, y_tr, y_te = train_test_split(X, y)", 1], ["model = LogisticRegression()", 2], ["model.fit(X_tr, y_tr)", 2], ["p = model.predict_proba(X_te)[:, 1]", 3], ["print(roc_auc_score(y_te, p))", 4], ["cross_val_score(model, X, y, cv=5, scoring=\"roc_auc\")", 5]].map(([s, g], i) =>
+${[["# X_dev, y_dev: development rows only", 1], ["model = LogisticRegression()", 2], ["cross_val_score(model, X_dev, y_dev, cv=5,", 2], ['                scoring="roc_auc")', 2], ["model.fit(X_dev, y_dev)  # after selection", 2], ["p = model.predict_proba(X_test)[:, 1]", 3]].map(([s, g], i) =>
   `<text class="cd25" data-g="${g}" x="26" y="${220 + i * 22}" font-family="Consolas,monospace" font-size="${s.length > 52 ? 11 : 12.5}" fill="#E6EAF0" xml:space="preserve" style="opacity:0;transition:opacity .5s,fill .5s">${s.replace(/</g, "&lt;")}</text>`).join("")}
-<g class="a o0 tags25">${[["split", 220], ["fit", 264], ["predict", 286], ["score", 308]].map(([n, y]) => `<rect x="404" y="${y - 14}" width="56" height="19" rx="9" fill="${GOLD}"/>${t(432, y, n, 11, INK, "middle", 800)}`).join("")}</g>`,
+<g class="a o0 tags25">${[["fit", 308], ["predict", 330]].map(([n, y]) => `<rect x="404" y="${y - 14}" width="56" height="19" rx="9" fill="${GOLD}"/>${t(432, y, n, 11, INK, "middle", 800)}`).join("")}</g>`,
     render(r, b) {
       const live = alive(r); clearInterval(r._t25);
       const rows = H.q(r, ".fr25");

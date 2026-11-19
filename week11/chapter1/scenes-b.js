@@ -15,7 +15,7 @@
       { k: "The traditional way", m: "A person writes the rule from experience.", s: "It uses one piece of information: the waiting time.", l: "Written by a person" },
       { k: "The machine-learning way", m: "We show the computer thousands of past cases, with what really happened.", s: "Every folder is a past visit whose outcome we know.", l: "Past cases go in" },
       { k: "The machine-learning way", m: "The computer finds the patterns that link the information to the outcome.", s: "It can use many variables at the same time.", l: "Patterns are learned" },
-      { k: "The machine-learning way", m: "Then we test those patterns on cases it has never seen.", s: "A pattern that only fits old cases is useless.", l: "Tested on new cases" },
+      { k: "The machine-learning way", m: "Then we test those patterns on cases it has never seen.", s: "Check whether the pattern carries over to the new visits.", l: "Tested on new cases" },
       { k: "One thing does not change", m: "The computer predicts. People decide what to do with the predictions.", s: "", l: "People still decide" }
     ],
     svg: `
@@ -120,7 +120,7 @@ ${t(20, 192, "Machine learning", 16, GREEN, "start", 800, "a o0 lab2")}
       { k: "The task", m: "Say whether a patient will complain.", s: "", l: "The task" },
       { k: "The experience", m: "Thousands of past visits whose outcome we already know.", s: "", l: "The experience" },
       { k: "The measure", m: "On new visits: how many complaints it catches, misses, and wrongly flags.", s: "", l: "The measure" },
-      { k: "Careful with accuracy", m: "A lazy model that always says “no complaint” is 85% accurate, yet catches nothing.", s: "Most patients do not complain, so saying “no” is usually right.", l: "The accuracy trap" }
+      { k: "Careful with accuracy", m: "A lazy model that always says “no complaint” is 85% accurate, yet catches nothing.", s: "Complaint base rate: 14.6% in this file.", l: "The accuracy trap" }
     ],
     svg: `
 <rect width="480" height="360" fill="#FBF8F1"/>
@@ -151,7 +151,7 @@ ${t(20, 192, "Machine learning", 16, GREEN, "start", 800, "a o0 lab2")}
   <g>${["z", "z", "Z"].map((z, k) => `<text x="${290 + k * 12}" y="${96 - k * 14}" font-size="${14 + k * 4}" font-weight="800" fill="${MUTED}">${z}<animate attributeName="opacity" values="0;1;0" dur="2s" begin="${k * .4}s" repeatCount="indefinite"/></text>`).join("")}</g>
   <path d="M190 262 L206 300 H274 L290 262" fill="none" stroke="${MUTED}" stroke-width="4"/>${t(240, 292, "0", 18, TERRA, "middle", 900)}
   ${[0, 1, 2, 3, 4, 5].map(k => `<circle cx="${150 + (k % 3) * 90 + (k > 2 ? 45 : 0)}" cy="-10" r="6" fill="${TERRA}"><animate attributeName="cy" values="-10;380" dur="1.7s" begin="${k * .28}s" repeatCount="indefinite"/></circle>`).join("")}
-  <rect x="60" y="314" width="360" height="36" rx="18" fill="${GOLD}"/>${t(240, 338, "85.4% accurate · 0 complaints caught", 16, INK, "middle", 800)}
+  <rect x="60" y="314" width="360" height="36" rx="18" fill="${GOLD}"/>${t(240, 338, "85.4% accurate · 14.6% complained", 15, INK, "middle", 800)}
 </g>`,
     render(r, b) {
       H.draw(r, ".lc .dr", true); H.set(r, ".lc", "opacity", b === 0 ? "1" : ".1");
@@ -175,14 +175,15 @@ ${t(20, 192, "Machine learning", 16, GREEN, "start", 800, "a o0 lab2")}
   SC.s14 = {
     copy: [
       { k: "Your turn", m: "Two models for the clinic.", s: "Model A always says “no complaint”. Model B calls everyone who waits more than 90 minutes.", l: "Model A or model B?" },
-      { k: "Your turn", m: "Which one would you put to work?", s: "Choose under the picture.", l: "Choose a model" },
-      { k: "Model A", m: "85.4% accurate, yet it never catches a single complaint.", s: "", l: "A: 85.4% accurate, 0 caught" },
-      { k: "Model B", m: "93.0% accurate, and it catches 605 of the 758 complaints.", s: "It also makes 209 false alarms.", l: "B: 93.0% accurate, 605 caught" },
+      { k: "Your turn", m: "Which rule reaches visits with recorded complaints?", s: "Choose under the picture.", l: "Choose a model" },
+      { k: "Model A", m: "85.4% accurate with zero complaints caught.", s: "Complaint base rate: 14.6%.", l: "A: 85.4% accurate, 0 caught" },
+      { k: "Model B", m: "93.0% accurate, and it catches 605 of the 758 complaints.", s: "Complaint base rate: 14.6%. False alarms: 209.", l: "B: 93.0% accurate, 605 caught" },
       { k: "The lesson", m: "Always ask: how often is it right, and how many of the cases that matter does it catch?", s: "", l: "Ask two questions" }
     ],
     svg: `
 <rect width="480" height="360" fill="#FBF8F1"/>
 ${t(130, 60, "Model A", 18, NAVY, "middle", 800)}${t(350, 60, "Model B", 18, NAVY, "middle", 800)}
+${t(240, 12, "Complaint base rate 14.6%", 11, MUTED)}
 <rect class="a o0 selA" x="40" y="66" width="180" height="262" rx="18" fill="none" stroke="${TERRA}" stroke-width="4"/>
 <rect class="a o0 selB" x="260" y="66" width="180" height="262" rx="18" fill="none" stroke="${TERRA}" stroke-width="4"/>
 ${robot(130, true, "rA")}${robot(350, false, "rB")}
@@ -212,11 +213,11 @@ ${robot(130, true, "rA")}${robot(350, false, "rB")}
   SC.s08 = {
     copy: [
       { k: "Why it matters for quality", m: "Machine learning already works in quality management.", s: "Here are six examples.", l: "Six examples" },
-      { k: "1 · Predictive maintenance", m: "Sensor readings warn that a machine will fail, so repairs are planned, not urgent.", s: "Your Assessment 3 is exactly this kind of problem.", l: "Predictive maintenance" },
-      { k: "2 · Visual inspection", m: "Cameras spot scratches, cracks or missing parts on a production line.", s: "Faster than a tired human eye.", l: "Visual inspection" },
+      { k: "1 · Predictive maintenance", m: "Sensor readings warn that a machine will fail, so repairs are planned, not urgent.", s: "Inspection happens before a breakdown disrupts service.", l: "Predictive maintenance" },
+      { k: "2 · Visual inspection", m: "Cameras spot scratches, cracks or missing parts on a production line.", s: "A second inspection can check the flag.", l: "Visual inspection" },
       { k: "3 · Complaint prediction", m: "Staff can reach a patient before the complaint is written.", s: "Just like in our clinic.", l: "Complaint prediction" },
       { k: "4 · Demand forecasting", m: "Predict tomorrow’s patients, orders or calls to plan staff and stock.", s: "", l: "Demand forecasting" },
-      { k: "5 and 6", m: "Spot unusual readings no rule expected, and sort thousands of comments by topic and tone.", s: "Text analytics comes in Week 13.", l: "Anomalies and text" }
+      { k: "5 and 6", m: "Spot unusual readings no rule expected, and sort thousands of comments by topic and tone.", s: "Anomaly detection and text analytics extend these ideas to sensors and comments.", l: "Anomalies and text" }
     ],
     svg: `
 <rect width="480" height="360" fill="#FBF8F1"/>
@@ -350,8 +351,28 @@ ${t(240, 66, "1943 → 2022", 34, NAVY, "middle", 800, "a o0 ov")}
     }
   };
 
-  /* ------------------------------------------------------------ s15 · chapter quiz (full-width interaction, no stage) */
-  SC.s15 = { full: true, copy: [{ k: "Check yourself", m: "Five quick questions.", s: "", l: "Chapter quiz" }], svg: "", render() {} };
+  /* ------------------------------------------------------------ s15 · chapter quiz */
+  SC.s15 = {
+    copy: [{k:"Chapter quiz",m:"Check your reasoning on fourteen questions.",s:"Read the explanation after each choice.",l:"Chapter quiz"}],
+    svg: `<rect width="480" height="360" fill="#F6F1E7"/>
+      ${t(240,72,"Chapter quiz",25,NAVY)}
+      ${window.CHAPTER.quiz.map((_,i)=>{
+        const x=63+(i%7)*59,y=139+Math.floor(i/7)*77;
+        return `<g><circle class="quiz-mark" cx="${x}" cy="${y}" r="23" fill="#DCE7F2"/>
+          <text class="quiz-label" x="${x}" y="${y+5}" text-anchor="middle" font-size="16" font-weight="700" fill="${NAVY}">${i+1}</text></g>`;
+      }).join("")}
+      ${t(240,294,"Question 1 of 14",16,NAVY,"middle",700,"quiz-position")}`,
+    update(r,marks,index) {
+      r._quizDrawn=true;
+      H.q(r,".quiz-mark").forEach((c,i)=>c.setAttribute("fill",i<marks.length?(marks[i]?GREEN:TERRA):i===index?NAVY:"#DCE7F2"));
+      H.q(r,".quiz-label").forEach((el,i)=>{
+        el.setAttribute("fill",i<=index||i<marks.length?"#fff":NAVY);
+        el.textContent=i<marks.length?(marks[i]?"✓":"×"):i+1;
+      });
+      r.querySelector(".quiz-position").textContent=index>=window.CHAPTER.quiz.length?"Quiz complete":`Question ${index+1} of ${window.CHAPTER.quiz.length}`;
+    },
+    render(r) { if (!r._quizDrawn) SC.s15.update(r,[],0); }
+  };
 
   /* ------------------------------------------------------------ s16 · four ideas to keep */
   const IDEA = [
@@ -366,7 +387,7 @@ ${t(240, 66, "1943 → 2022", 34, NAVY, "middle", 800, "a o0 ov")}
       { k: "Idea 2", m: "A flexible model can follow real shapes in the data, like the jump after 80 minutes.", s: "", l: "Flexible shapes" },
       { k: "Idea 3", m: "Every rule trades complaints caught against false alarms, so accuracy alone can fool you.", s: "", l: "Caught vs false alarms" },
       { k: "Idea 4", m: "Your research question decides: understand a relationship, or predict an outcome.", s: "", l: "Your question decides" },
-      { k: "Next", m: "Chapter 2: how a machine learns, and how we check that it has not simply memorised the past.", s: "", l: "On to Chapter 2" }
+      { k: "Without labels", m: "Without an answer key, unsupervised methods still look for groups among visits.", s: "", l: "Finding groups without labels" }
     ],
     svg: `
 <rect width="480" height="360" fill="#FBF8F1"/>
@@ -377,7 +398,7 @@ ${IDEA.map(([art, a, bb], k) => { const x = 12 + (k % 2) * 234, y = 12 + Math.fl
       ${lines2(x + 111, y + 106, a, bb, 15, NAVY)}</g>`; }).join("")}
 <g class="a o0 next"><rect x="12" y="312" width="456" height="42" rx="21" fill="${NAVY}"/>
   <rect x="30" y="318" width="22" height="30" fill="${GOLD}"/><rect class="a nd" x="30" y="318" width="22" height="30" fill="#7A5A3A" style="transform-origin:left center"/>
-  ${t(258, 339, "Next: Chapter 2 · how a machine learns from data", 15, "#fff")}</g>`,
+  ${t(258, 339, "Unsupervised · finding groups in visits", 15, "#fff")}</g>`,
     render(r, b) {
       for (let k = 1; k <= 4; k++) { H.show(r, ".i" + k, b >= k || b === 0); H.set(r, ".i" + k, "opacity", b === 0 ? ".25" : b >= k ? "1" : "0"); H.draw(r, ".i" + k + " .dr", b >= k); H.tf(r, ".i" + k, k === b ? "scale(1.03)" : "none"); }
       H.show(r, ".next", b >= 5); H.tf(r, ".nd", b >= 5 ? "scaleX(.15)" : "none"); H.delay(r, ".nd", b >= 5 ? .8 : 0);

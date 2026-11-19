@@ -42,8 +42,8 @@
   /* ------------------------------------------------------------ s01 · the clinic */
   SC.s01 = {
     copy: [
-      { k: "Week 11 · Chapter 1", m: "What is machine learning, and why should a quality manager care?", s: "We will answer this one idea at a time.", l: "A question to answer" },
-      { k: "Our running case", m: "We start with a clinic you already know: Al Waha.", s: "You met its patients and their complaints in Week 10.", l: "Back to the Al Waha clinic" }
+      { k: "Introduction", m: "What is machine learning, and why should a quality manager care?", s: "We will answer this one idea at a time.", l: "A question to answer" },
+      { k: "Our running case", m: "We start with a clinic case: Al Waha.", s: "Its record of patient visits and complaints gives us a place to begin.", l: "The Al Waha clinic" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -78,10 +78,10 @@
   const RED2 = [2, 9, 15, 20, 29];
   SC.s02 = {
     copy: [
-      { k: "Week 10 in one minute", m: "We followed more than 5,000 patient visits.", s: "For each visit, we knew whether the patient later complained.", l: "5,204 visits" },
-      { k: "Week 10 in one minute", m: "About 15 visits in every 100 ended with a complaint.", s: "Complaints are a minority, but an expensive one.", l: "14.6% complained" },
-      { k: "Week 10 in one minute", m: "Every 10 extra minutes of waiting roughly doubled the odds of a complaint.", s: "Logistic regression: odds ratio 2.08 for each 10 minutes.", l: "+10 minutes: odds × 2.08" },
-      { k: "The surprise", m: "That logistic regression was already a machine-learning tool.", s: "You have done machine learning without calling it that.", l: "Already machine learning" }
+      { k: "The waiting-time case", m: "We followed more than 5,000 patient visits.", s: "For each visit, we knew whether the patient later complained.", l: "5,204 visits" },
+      { k: "The waiting-time case", m: "About 15 visits in every 100 ended with a complaint.", s: "758 of the 5,204 visits with a valid wait.", l: "14.6% complained" },
+      { k: "The waiting-time case", m: "Ten more minutes went with roughly double the odds of a complaint.", s: "Odds compare the chance of a complaint with the chance of no complaint.", l: "+10 minutes: odds × 2.08" },
+      { k: "The surprise", m: "That fitted logistic regression is already a machine-learning tool.", s: "Fitting a curve from past examples is already machine learning.", l: "Already machine learning" }
     ],
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/><rect y="292" width="480" height="68" fill="#E2D6C0"/>
@@ -122,7 +122,7 @@ ${Array.from({ length: 32 }, (_, i) => { const x = 34 + (i % 8) * 36, y = 150 + 
   const BANDS = ["0", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120"];
   SC.s12 = {
     copy: [
-      { k: "Your turn", m: "Before we look at the real numbers, make a guess.", s: "Watch the patient: the longer the wait, the worse the mood.", l: "Make a guess" },
+      { k: "Your turn", m: "Before we look at the real numbers, make a guess.", s: "Follow the clock across the waiting bands.", l: "Make a guess" },
       { k: "Your turn", m: "In which waiting band do complaints start to jump?", s: "Tap a band under the picture.", l: "Tap a waiting band" }
     ],
     svg: `
@@ -161,9 +161,9 @@ ${t(240, 302, "waiting time (minutes)", 14, MUTED, "middle", 400)}
   SC.s03 = {
     copy: [
       { k: "What our data shows", m: "Each bar is the share of patients who complained, for one band of waiting time.", s: "5,204 real visits from the course dataset.", l: "Complaint rate by waiting time" },
-      { k: "What our data shows", m: "Up to 80 minutes, the rate stays low: between 2% and 4%.", s: "Most patients accept a normal wait.", l: "Flat and low up to 80 minutes" },
+      { k: "What our data shows", m: "The 20–80 minute bands range from 1.8% to 3.5%.", s: "The under-20-minute band is higher at 8.5%.", l: "Compare the shorter waits" },
       { k: "What our data shows", m: "After 80 minutes it climbs fast: 15%, 45%, 71%, then over 90%.", s: "Beyond two hours, almost every patient complains.", l: "Then it jumps" },
-      { k: "The shape matters", m: "The risk does not rise in a straight line. It stays flat, then it jumps.", s: "Like water held back by a wall.", l: "A straight line misses the jump" },
+      { k: "The shape matters", m: "The 20–80 minute bands stay low before the steep rise.", s: "Compare the bands on either side of 80 minutes.", l: "A straight line misses the jump" },
       { k: "Why machine learning", m: "A flexible method can bend with this shape.", s: "That flexibility is one thing machine learning offers.", l: "A flexible model fits the shape" }
     ],
     svg: `
@@ -173,7 +173,7 @@ ${[0, 25, 50, 75, 100].map(g => `<line x1="48" x2="474" y1="${Y(g)}" y2="${Y(g)}
 <line x1="48" x2="474" y1="${BASE}" y2="${BASE}" stroke="${MUTED}" stroke-width="2"/>
 ${RATES.map((p, i) => `<rect class="a bar g${i < 7 ? 1 : 2}" x="${CX(i) - 13}" y="${Y(p)}" width="26" height="${p * 2.5}" rx="3" fill="${i < 7 ? NAVY : TERRA}" style="transform:scaleY(0);transform-origin:center bottom"/>` +
       `<text class="a o0 val g${i < 7 ? 1 : 2}" x="${CX(i)}" y="${Y(p) - 7}" font-size="12.5" font-weight="800" fill="${i < 7 ? NAVY : TERRA}" text-anchor="middle" data-v="${p}">0%</text>` +
-      t(CX(i), 318, ["<20", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120+"][i], 12, MUTED, "middle", 600)).join("")}
+      t(CX(i), 318, ["&lt;20", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120+"][i], 12, MUTED, "middle", 600)).join("")}
 ${t(260, 342, "waiting time (minutes)", 13, MUTED, "middle", 400)}
 <g class="a avg"><line x1="48" x2="474" y1="${Y(14.6)}" y2="${Y(14.6)}" stroke="${TERRA}" stroke-width="2" stroke-dasharray="6 5"/>
 <text x="150" y="${Y(14.6) - 6}" font-size="12.5" font-weight="700" fill="${TERRA}" stroke="#FBF8F1" stroke-width="4" paint-order="stroke">average 14.6%</text></g>
@@ -182,7 +182,7 @@ ${clock(84, 82, 18, "bc")}
   <rect x="${48 + 7 * 35.5 - 6}" y="190" width="10" height="110" fill="#8D6E52"/>
   ${[0, 1, 2, 3, 4, 5].map(k => `<line x1="${48 + 7 * 35.5 - 6}" x2="${48 + 7 * 35.5 + 4}" y1="${200 + k * 18}" y2="${200 + k * 18}" stroke="#6B5038"/>`).join("")}
   <rect x="50" y="${BASE - 12}" width="${7 * 35.5 - 8}" height="12" fill="#7FB3D5" fill-opacity=".55"><animate attributeName="y" values="${BASE - 12};${BASE - 14};${BASE - 12}" dur="2.4s" repeatCount="indefinite"/></rect>
-  ${t(170, 196, "flat …", 18, NAVY, "middle", 800)}${t(236, 112, "… then a jump", 18, TERRA, "middle", 800)}
+  ${t(170, 196, "lower bands …", 18, NAVY, "middle", 800)}${t(236, 112, "… then a jump", 18, TERRA, "middle", 800)}
 </g>
 <g class="a o0 straight"><line x1="${CX(0)}" y1="${Y(-4)}" x2="${CX(11)}" y2="${Y(58)}" stroke="${MUTED}" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round"/>
   <text x="96" y="236" font-size="14" font-weight="700" fill="${MUTED}" stroke="#FBF8F1" stroke-width="4" paint-order="stroke">a straight line misses it</text></g>
@@ -209,9 +209,9 @@ ${clock(84, 82, 18, "bc")}
   SC.s04 = {
     copy: [
       { k: "A rule written by a person", m: "The manager writes a simple rule: call every patient who waits longer than X minutes.", s: "The clinic had 758 complaints in total.", l: "Call if the wait is longer than X" },
-      { k: "Cut-off at 60 minutes", m: "The clinic catches 90% of complaints, but makes almost 1,500 needless calls.", s: "681 caught, 77 missed, 1,479 false alarms.", l: "60 minutes: many false alarms" },
+      { k: "Cut-off at 60 minutes", m: "The clinic catches 90% of complaints, but makes almost 1,500 false alarms.", s: "681 caught, 77 missed, 1,479 false alarms.", l: "60 minutes: many false alarms" },
       { k: "Cut-off at 110 minutes", m: "False alarms fall to only 27, but half of the complaints are missed.", s: "380 caught, 378 missed, 27 false alarms.", l: "110 minutes: many misses" },
-      { k: "The trade-off", m: "There is no free lunch: catching more always costs more false alarms.", s: "Every machine-learning model faces this same trade-off.", l: "No free lunch" }
+      { k: "The trade-off", m: "Moving this cut-off changes both hits and false alarms.", s: "Which workload could the clinic support?", l: "The cut-off trade-off" }
     ],
     svg: `
 <rect width="480" height="360" fill="#FBF8F1"/>
@@ -232,7 +232,7 @@ ${[["caught", NAVY], ["missed", TERRA], ["false alarms", GOLD]].map(([lab, c], j
 </g>
 <g class="a o0 saw">
   <rect x="80" y="110" width="320" height="200" rx="16" fill="#FBF8F1" fill-opacity=".92"/>
-  ${t(240, 150, "No free lunch", 26, TERRA, "middle", 800)}
+  ${t(240, 150, "The cut-off trade-off", 26, TERRA, "middle", 800)}
   <path d="M226 290 L240 262 L254 290Z" fill="${INK}"/>
   <g class="rock" style="transform-box:view-box;transform-origin:240px 262px">
     <rect x="96" y="256" width="288" height="9" rx="4" fill="${INK}"/>
@@ -261,8 +261,8 @@ ${[["caught", NAVY], ["missed", TERRA], ["false alarms", GOLD]].map(([lab, c], j
     return `<circle class="dt${c ? " cmp" : ""}" data-w="${w}" cx="${x}" cy="${y}" r="3.6"/>`; }).join(""); })();
   SC.s13 = {
     copy: [
-      { k: "Hands-on", m: "You are the clinic manager now.", s: "Each dot is one real patient from the course data (a sample of 260). Red dots complained.", l: "260 real patients" },
-      { k: "Hands-on", m: "Move the slider: everyone to the right of the line gets a call.", s: "Green rings are complaints you catch. Yellow dots are calls for nothing.", l: "Move the cut-off" },
+      { k: "Hands-on", m: "You are the clinic manager now.", s: "Each dot is one visit from the course data (a sample of 260). Red dots complained.", l: "260 sampled visits" },
+      { k: "Hands-on", m: "Move the slider: everyone to the right of the line gets a call.", s: "Green rings are complaints you catch. Gold dots are flagged visits without a complaint.", l: "Move the cut-off" },
       { k: "Hands-on", m: "Find a cut-off you could defend to your director.", s: "Then press Continue.", l: "Choose your cut-off" }
     ],
     svg: `
@@ -270,7 +270,7 @@ ${[["caught", NAVY], ["missed", TERRA], ["false alarms", GOLD]].map(([lab, c], j
 <circle cx="36" cy="22" r="5" fill="${TERRA}"/>${t(46, 27, "complained", 13, INK, "start", 600)}
 <circle cx="136" cy="22" r="5" fill="${NAVY}" fill-opacity=".45"/>${t(146, 27, "no complaint", 13, INK, "start", 600)}
 <g class="a o0 leg2"><circle cx="36" cy="44" r="5" fill="${TERRA}" stroke="${GREEN}" stroke-width="2.6"/>${t(46, 49, "caught", 13, INK, "start", 600)}
-  <circle cx="136" cy="44" r="5" fill="${GOLD}"/>${t(146, 49, "called for nothing", 13, INK, "start", 600)}</g>
+  <circle cx="136" cy="44" r="5" fill="${GOLD}"/>${t(146, 49, "false alarm", 13, INK, "start", 600)}</g>
 <line x1="26" x2="462" y1="306" y2="306" stroke="${MUTED}" stroke-width="2"/>
 ${[0, 30, 60, 90, 120, 150, 180].map(m => `<line x1="${DX(m)}" x2="${DX(m)}" y1="306" y2="312" stroke="${MUTED}" stroke-width="2"/>` + t(DX(m), 326, m, 12.5, MUTED, "middle", 600)).join("")}
 ${t(244, 348, "waiting time (minutes)", 13, MUTED, "middle", 400)}
