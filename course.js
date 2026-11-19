@@ -3,20 +3,20 @@
 window.VL_COURSE = {
   title: "Machine learning for quality research",
   chapters: [
-    { n: 1, week: 11, title: "What machine learning is", href: "week11/chapter1/", minutes: 22, live: true,
-      meta: "Week 11 · 25 scenes · about 22 minutes · grow a decision tree, pick the best algorithm, six activities and a quiz",
+    { n: 1, week: 11, title: "What machine learning is", href: "week11/chapter1/", minutes: 32, live: true,
+      meta: "Week 11 · 48 scenes · about 32 minutes · grow a decision tree, pick the best algorithm, six activities and a quiz",
       targets: ["Define machine learning", "Features and labels", "Train and test", "Overfitting", "Confusion matrix", "Cross-validation"] },
-    { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 23, live: true,
-      meta: "Week 12 · 26 scenes · about 23 minutes · run k-means yourself, seven activities and a quiz",
+    { n: 2, week: 12, title: "Finding groups nobody labelled", href: "week12/chapter1/", minutes: 28, live: true,
+      meta: "Week 12 · 49 scenes · about 28 minutes · run k-means yourself, seven activities and a quiz",
       targets: ["How k-means works", "Standardise before distance", "The noise floor", "Elbow and silhouette", "Hierarchical and DBSCAN", "From clusters to segments"] },
     { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 30, live: true,
       meta: "Week 13 · 31 scenes · about 30 minutes · TF-IDF, transformers and attention, BERTopic, a leak hunt, six activities and a quiz",
       targets: ["Text as variables", "TF-IDF", "Topics and BERTopic", "Tokens and transformers", "Fit on train only", "Read the sentences"] },
-    { n: 4, week: 14, title: "Neural network concepts for prediction", href: "week14/chapter1/", minutes: 15, live: true,
-      meta: "Week 14 · 23 scenes · about 15 minutes · build a neuron by hand, bend a line with hinges, five seeds, four activities and a quiz",
+    { n: 4, week: 14, title: "Neural network concepts for prediction", href: "week14/chapter1/", minutes: 31, live: true,
+      meta: "Week 14 · 48 scenes · about 31 minutes · build a neuron by hand, bend a line with hinges, five seeds, four activities and a quiz",
       targets: ["What one neuron computes", "Why the rule lets it bend", "How a network learns", "RMSE and scaling", "Overfitting and seeds", "What accuracy costs"] },
-    { n: 5, week: 15, title: "Evidence synthesis and responsible reporting", href: "week15/chapter1/", minutes: 14, live: true,
-      meta: "Week 15 · 22 scenes · about 14 minutes · five answers to one question, MAE vs RMSE, split luck, five activities and a quiz",
+    { n: 5, week: 15, title: "Evidence synthesis and responsible reporting", href: "week15/chapter1/", minutes: 49, live: true,
+      meta: "Week 15 · 49 scenes · about 49 minutes · five answers to one question, MAE vs RMSE, split luck, five activities and a quiz",
       targets: ["Which question each result answers", "When agreement counts", "MAE and RMSE", "One split for all models", "Report the search", "Structure of the analysis chapter"] }
   ]
 };
