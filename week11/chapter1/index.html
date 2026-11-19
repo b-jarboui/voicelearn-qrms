@@ -371,13 +371,12 @@ function load(i,auto){
   if(auto) play(); else pause();
 }
 // Timings estimate reading progress. A speaking voice controls its own beat ends.
-const synth=window.speechSynthesis;
-let voiceMode=true, clock=0, ticker=null, transition=null, generation=0, utterance=null;
+const au=new Audio(); au.preload='auto'; const badUnits=new Set();
+let voiceMode=true, clock=0, ticker=null, transition=null, generation=0;
 let localBeat=0, finished=false, unavailable=false;
 function stopPlayback(){
   playing=false; generation++; clearInterval(ticker); clearTimeout(transition);
-  if(utterance&&synth){ utterance.onend=null; utterance.onerror=null; synth.cancel(); }
-  utterance=null;
+  try{ au.pause(); }catch(e){}
 }
 function left(){
   let seconds=0;
@@ -456,37 +455,39 @@ function readBeat(){
     last=now;paintProgress();if(clock>=end) nextBeat();
   },100);
 }
+function beatAt(t,c){ let b=0; for(let i=0;i<t.cues.length;i++) if(t.cues[i]<=c+0.02) b=i; return b; }
 function startBeat(){
-  const ticket=++generation,t=T[unitId()];
-  const k=lineIndex(localBeat),line=S[si].lines[k];
-  setStep(k);paintProgress();
-  if(!voiceMode||unavailable){readBeat();return;}
-  const u=new SpeechSynthesisUtterance(line);
-  utterance=u;u.lang='en-US';
-  const voices=synth.getVoices();
-  const english=voices.find(v=>v.localService&&/^en[-_]/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang));
-  if(english)u.voice=english;
-  u.rate=.81*(+$('speed').value);
-  const begin=t.cues[localBeat],end=t.cues[localBeat+1]??t.dur;
-  const fallback=()=>{
-    if(ticket!==generation||!playing)return;
-    stopPlayback();playing=true;unavailable=true;syncMode();
-    readBeat();
+  const ticket=++generation, id=unitId(), t=T[id];
+  setStep(lineIndex(localBeat)); paintProgress();
+  if(!voiceMode||!t||!t.file||badUnits.has(id)){ readBeat(); return; }
+  const want=new URL(t.file,location.href).href;
+  if(au.src!==want){ au.src=want; au.dataset.unit=id; }
+  au.playbackRate=+$('speed').value;
+  const go=()=>{
+    if(ticket!==generation||!playing) return;
+    try{ if(Math.abs(au.currentTime-clock)>0.3) au.currentTime=clock; }catch(e){}
+    au.play().catch(err=>{
+      if(ticket!==generation||!playing) return;
+      if(err&&err.name==='NotAllowedError'){ pause(); $('caption').textContent='Press ▶ Play to hear the narration.'; }
+      else { badUnits.add(id); syncMode(); readBeat(); }
+    });
   };
-  u.onstart=()=>{
-    if(ticket!==generation)return;
-    clearTimeout(transition);
-    transition=setTimeout(fallback,Math.max(16000,(end-begin)*3200/u.rate));
-  };
-  u.onboundary=e=>{
-    if(ticket!==generation||!playing)return;
-    clock=begin+(end-begin)*Math.min(1,e.charIndex/line.length);paintProgress();
-  };
-  u.onend=()=>{if(ticket!==generation||!playing)return;utterance=null;nextBeat();};
-  u.onerror=fallback;
-  transition=setTimeout(fallback,4500);
-  try{synth.speak(u);}catch(e){fallback();}
+  if(au.readyState>=1) go(); else au.addEventListener('loadedmetadata',go,{once:true});
 }
+au.ontimeupdate=()=>{
+  if(!playing||au.dataset.unit!==unitId()) return;
+  const t=T[unitId()]; clock=au.currentTime;
+  const b=beatAt(t,clock); if(b!==localBeat){ localBeat=b; setStep(lineIndex(b)); }
+  paintProgress();
+};
+au.onended=()=>{
+  if(!playing||au.dataset.unit!==unitId()) return;
+  const t=T[unitId()]; clock=t.dur; localBeat=t.cues.length-1; paintProgress(); onEnd();
+};
+au.onerror=()=>{
+  const id=au.dataset.unit; if(!playing||id!==unitId()) return;
+  badUnits.add(id); syncMode(); clearInterval(ticker); readBeat();
+};
 function play(){
   if(waitingQuiz||playing)return;
   if(finished){localBeat=0;clock=0;finished=false;step=-1;}
@@ -497,11 +498,11 @@ function updBtn(){$('play').textContent=playing?'❚❚ Pause':'▶ Play';}
 function syncMode(){
   $('mode').textContent=voiceMode&&!unavailable?'Voice on':'Read along';
   $('mode').setAttribute('aria-pressed',String(voiceMode&&!unavailable));
-  $('mode-note').textContent=voiceMode&&unavailable?'Voice unavailable on this device. Following timed captions.':'';
+  $('mode-note').textContent=voiceMode&&badUnits.has(unitId())?'Narration could not load. Following timed captions.':'';
   if(!voiceMode||unavailable){$('caption').classList.remove('off');$('cc').textContent='Captions on';$('cc').setAttribute('aria-pressed','true');}
 }
 function selectMode(wantVoice){
-  voiceMode=wantVoice;unavailable=!synth||typeof SpeechSynthesisUtterance!=='function';
+  voiceMode=wantVoice;unavailable=false;
   syncMode();
 }
 $('mode').onclick=()=>{
