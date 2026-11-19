@@ -1,4 +1,4 @@
-/* Week 13 · Chapter 3 animated scenes, part C (s21–s27, added 17 Nov 2026). Uses window.SCH from scenes-a.js.
+/* Text analytics animated scenes, part C (s21–s27, added 17 Nov 2026). Uses window.SCH from scenes-a.js.
    Data: window.W13X (real figures from the 5,200 Al Waha reviews, scikit-learn 1.8). Scene s26 is an illustration (marked on screen). */
 (function () {
   "use strict";
@@ -15,7 +15,7 @@
       { k: "One giant table", m: "5,200 reviews become one table of numbers.", s: "It is called the document-term matrix.", l: "Document-term matrix" },
       { k: "Rows and columns", m: `One row per review, one column per term (${DT.cols}).`, s: "Each cell: that term's weight in that review.", l: `${fmt(DT.rows)} × ${DT.cols}` },
       { k: "Mostly empty", m: `Only ${DT.fill}% of the cells are filled.`, s: `About ${Math.round(DT.perRow)} terms per review, out of ${DT.cols}.`, l: `${DT.fill}% filled` },
-      { k: "Sparse", m: "A sparse table: exactly what a model needs.", s: "Rows of numbers, like Weeks 9 to 11.", l: "Ready for a model" }
+      { k: "Sparse", m: "Most terms are absent in a given review.", s: "Store the nonzero values and their positions.", l: "Ready for a model" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -35,41 +35,6 @@ ${[[fmt(DT.rows) + " × " + DT.cols, "reviews × terms", NAVY], [DT.fill + "%", 
     }
   };
 
-  /* ------------------------------------------------------------ s22 · stemming, helpful and dangerous */
-  const ST = X.stems;
-  SC.s22 = {
-    copy: [
-      { k: "Another choice", m: "Stemming cuts words back to their root.", s: "waited, waiting → wait.", l: "Stemming" },
-      { k: "When it helps", m: `waited (${ST.waited}) + waiting (${ST.waiting}) → wait (${ST.waited + ST.waiting}).`, s: "Two columns become one stronger feature.", l: "Helpful merge" },
-      { k: "When it hurts", m: "complain + complaint → complain.", s: `Happy patients (${ST.complain}) merged with unhappy ones (${ST.complaint}).`, l: "Harmful merge" },
-      { k: "So", m: "Record it, and check what it merged.", s: "Like every preparation choice.", l: "Record and check" }
-    ],
-    svg: `
-<rect width="480" height="360" fill="${PAPER}"/>
-<g class="a sc22"><rect x="150" y="16" width="180" height="44" rx="22" fill="${INK}"/>${t(240, 44, "✂  cut to the root", 16, GOLD, "middle", 800)}</g>
-<g class="a o0 pn22a"><rect x="12" y="74" width="222" height="200" rx="14" fill="#fff" stroke="${GREEN}" stroke-width="2.5"/>${t(123, 98, "helps", 15, GREEN, "middle", 800)}
-  <g class="a mv22a1">${tile(30, 116, "waited", { size: 15, stroke: NAVY })}${t(66, 162, ST.waited, 12, MUTED, "middle", 700)}</g>
-  <g class="a mv22a2">${tile(130, 116, "waiting", { size: 15, stroke: NAVY })}${t(170, 162, ST.waiting, 12, MUTED, "middle", 700)}</g>
-  <g class="a o0 res22a" style="transform:scale(.6)">${tile(78, 196, "wait", { size: 20, h: 38, stroke: GREEN, fill: "#EAF5EE" })}${t(123, 256, (ST.waited + ST.waiting) + " uses, one feature", 12.5, GREEN, "middle", 800)}</g></g>
-<g class="a o0 pn22b"><rect x="246" y="74" width="222" height="200" rx="14" fill="#fff" stroke="${TERRA}" stroke-width="2.5"/>${t(357, 98, "hurts", 15, TERRA, "middle", 800)}
-  <g class="a mv22b1">${tile(258, 116, "complain", { size: 15, stroke: GREEN })}${t(305, 162, ST.complain + " · happy", 11.5, GREEN, "middle", 700)}</g>
-  <g class="a mv22b2">${tile(360, 116, "complaint", { size: 15, stroke: TERRA })}${t(410, 162, ST.complaint + " · unhappy", 11.5, TERRA, "middle", 700)}</g>
-  <g class="a o0 res22b" style="transform:scale(.6)">${tile(298, 196, "complain", { size: 20, h: 38, stroke: TERRA, fill: "#FCEFE9" })}${t(357, 256, "opposite meanings, one feature", 12.5, TERRA, "middle", 800)}</g>
-  <g class="a o0 wr22"><g class="shake"><circle cx="446" cy="214" r="14" fill="${TERRA}"/>${t(446, 220, "!", 17, "#fff")}</g></g></g>
-<g class="a o0 ck22" style="transform:translateY(12px)"><rect x="60" y="286" width="360" height="58" rx="12" fill="${INK}"/>${["record the choice", "check what it merged"].map((s, i) => `<circle cx="${92 + i * 172}" cy="315" r="10" fill="${GREEN}"/>${t(92 + i * 172, 320, "✓", 12, "#fff")}${t(108 + i * 172, 320, s, 14, "#fff", "start", 700)}`).join("")}</g>`,
-    render(r, b) {
-      H.show(r, ".pn22a", b >= 1); H.show(r, ".pn22b", b >= 2);
-      H.tf(r, ".mv22a1", b >= 1 ? "translate(40px,40px) scale(.7)" : "none"); H.tf(r, ".mv22a2", b >= 1 ? "translate(-48px,40px) scale(.7)" : "none"); H.delay(r, ".mv22a1,.mv22a2", b >= 1 ? .8 : 0);
-      H.set(r, ".mv22a1,.mv22a2", "opacity", b >= 1 ? "0" : "1");
-      H.show(r, ".res22a", b >= 1); H.tf(r, ".res22a", b >= 1 ? "scale(1)" : "scale(.6)"); H.delay(r, ".res22a", b >= 1 ? 1.6 : 0);
-      H.tf(r, ".mv22b1", b >= 2 ? "translate(36px,40px) scale(.7)" : "none"); H.tf(r, ".mv22b2", b >= 2 ? "translate(-50px,40px) scale(.7)" : "none"); H.delay(r, ".mv22b1,.mv22b2", b >= 2 ? .8 : 0);
-      H.set(r, ".mv22b1,.mv22b2", "opacity", b >= 2 ? "0" : "1");
-      H.show(r, ".res22b", b >= 2); H.tf(r, ".res22b", b >= 2 ? "scale(1)" : "scale(.6)"); H.delay(r, ".res22b", b >= 2 ? 1.6 : 0);
-      H.show(r, ".wr22", b >= 2); H.delay(r, ".wr22", b >= 2 ? 2.2 : 0);
-      H.show(r, ".ck22", b >= 3); H.tf(r, ".ck22", b >= 3 ? "none" : "translateY(12px)");
-    }
-  };
-
   /* ------------------------------------------------------------ s23 · words that separate complaints */
   const DC = X.distinct.complaint.slice(0, 5), DN = X.distinct.none.filter(w => ["thank", "kindness", "excellent", "complain"].includes(w[0]));
   const pair = (rows, y0, label, col) => `${t(24, y0, label, 13, col, "start", 800)}${rows.map(([w, c, n], i) => { const y = y0 + 14 + i * 26;
@@ -81,16 +46,16 @@ ${[[fmt(DT.rows) + " × " + DT.cols, "reviews × terms", NAVY], [DT.fill + "%", 
     copy: [
       { k: "Telling them apart", m: "Which words separate complaints from the rest?", s: "Share of reviews containing each word, in each group.", l: "Two groups of reviews" },
       { k: "More in complaints", m: `“long”: ${DC[0][1]}% of complaint reviews, ${DC[0][2]}% of the others.`, s: "Then far, delay, told, waiting.", l: "Complaint words" },
-      { k: "More in happy visits", m: "thank, kindness, excellent.", s: "Found in 13–18% of happy reviews, 2–3% of complaints.", l: "Happy words" },
-      { k: "The story", m: "Complaints are about waiting without information.", s: "Check it by reading the reviews themselves.", l: "A finding to check" }
+      { k: "More in non-filing visits", m: "thank, kindness, excellent.", s: "Found in 13–18% of non-filing reviews, 2–3% of complaints.", l: "Non-filing group" },
+      { k: "The story", m: "Look for passages describing waits without updates.", s: "Check it by reading the reviews themselves.", l: "A finding to check" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
 <rect x="12" y="12" width="456" height="336" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
 <g transform="translate(300 26)"><rect width="12" height="10" rx="2" fill="${TERRA}"/>${t(16, 9, "filed a complaint", 11, MUTED, "start", 700)}<rect y="14" width="12" height="10" rx="2" fill="${NAVY}"/>${t(16, 23, "no complaint", 11, MUTED, "start", 700)}</g>
 <g class="g23a">${pair(DC, 44, "more common in complaints", TERRA)}</g>
-<g class="g23b">${pair(DN, 196, "more common in happy visits", GREEN)}</g>
-<g class="a o0 st23" style="transform:scale(1.5)"><rect x="262" y="276" width="196" height="62" rx="10" fill="${INK}"/>${t(360, 301, "waiting + no information", 14, GOLD, "middle", 800)}${t(360, 325, "= complaint", 15, "#fff", "middle", 800)}</g>`,
+<g class="g23b">${pair(DN, 196, "more common without a complaint", GREEN)}</g>
+<g class="a o0 st23" style="transform:scale(1.5)"><rect x="262" y="276" width="196" height="62" rx="10" fill="${INK}"/>${t(360, 301, "waiting + no information", 14, GOLD, "middle", 800)}${t(360, 325, "read the passages", 15, "#fff", "middle", 800)}</g>`,
     render(r, b) {
       [".g23a", ".g23b"].forEach((s, i) => { const on = b >= i + 1; H.q(r, s + " .pw23").forEach(e => { e.style.opacity = on ? 1 : 0; }); H.q(r, s + " .bc23").forEach(e => { e.style.transform = on ? "scaleX(1)" : "scaleX(0)"; }); });
       H.show(r, ".st23", b >= 3); H.tf(r, ".st23", b >= 3 ? "scale(1)" : "scale(1.5)");
@@ -149,41 +114,6 @@ ${[["share of reviews", 0, 100, MUTED], ["average satisfaction", 1, 100, GREEN],
       [[tp.share, 100, "%"], [tp.sat, 100, ""], [tp.compl, 40, "%"]].forEach(([v, mx, u], i) => { r.querySelector(".b25-" + i).setAttribute("width", Math.min(200, v / mx * 200).toFixed(0)); r.querySelector(".v25-" + i).textContent = v + u; });
     },
     render(r, b) { const s = r.querySelector("svg"); if (!s._init) { s._init = 1; SC.s25.show(r, 0); } }
-  };
-
-  /* ------------------------------------------------------------ s26 · embeddings and language models (illustration) */
-  const EMB = [["Nothing to complain about.", 352, 92, GREEN], ["Very impressed with the whole visit.", 300, 66, GREEN], ["Excellent care from start to finish.", 392, 128, GREEN],
-    ["I will be making a complaint.", 110, 214, TERRA], ["Very disappointing visit.", 64, 182, TERRA], ["I felt completely ignored.", 150, 250, TERRA],
-    ["Reasonable experience overall.", 226, 150, GOLD], ["Acceptable, but not exceptional.", 262, 186, GOLD]];
-  SC.s26 = {
-    copy: [
-      { k: "Beyond word counts", m: "Modern language models do something different.", s: "Everything so far counted words.", l: "Counting words" },
-      { k: "Embeddings", m: "Every sentence becomes a list of numbers: a point in meaning space.", s: "Similar meaning → close together.", l: "Meaning space" },
-      { k: "Context", m: "“Nothing to complain about” sits near “very impressed”.", s: "Far from “making a complaint”: the words are read together.", l: "Read in context" },
-      { k: "Large language models", m: "ChatGPT is built on this idea.", s: "It can label sentiment or topics with no training data from you.", l: "LLMs" },
-      { k: "Same rules", m: "Check it against 30 reviews you read yourself.", s: "Report the agreement. Never let it read the data for you.", l: "Still check" }
-    ],
-    svg: `
-<rect width="480" height="360" fill="${PAPER}"/>
-<g class="bag26" style="transition:opacity .6s"><rect x="40" y="40" width="400" height="190" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>${t(240, 66, "word counts", 14, MUTED, "middle", 800)}
-  ${[["complain", 1], ["nothing", 0], ["complaint", 1], ["making", 1], ["visit", 2], ["impressed", 1]].map(([w, n], i) => `${tile(64 + (i % 3) * 126, 86 + Math.floor(i / 3) * 56, w, { size: 13, h: 26, stroke: GREY })}${t(64 + (i % 3) * 126 + H.tw(w, 13) + 16, 104 + Math.floor(i / 3) * 56, "× " + n, 13, MUTED, "start", 800)}`).join("")}
-  ${t(240, 214, "“nothing” thrown away, “complain” counted: no context", 12.5, TERRA, "middle", 800)}</g>
-<g class="a o0 map26"><rect x="12" y="12" width="456" height="336" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-  <ellipse cx="350" cy="96" rx="100" ry="56" fill="${GREEN}" fill-opacity=".08"/><ellipse cx="108" cy="214" rx="100" ry="58" fill="${TERRA}" fill-opacity=".08"/>
-  ${t(456, 336, "illustration, not a real embedding", 10.5, MUTED, "end", 700)}${t(24, 34, "meaning space", 12.5, MUTED, "start", 800)}
-  ${EMB.map(([s, x, y, c], i) => `<g class="a o0 pt26" data-i="${i}" style="transition-delay:${(.3 + i * .15).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="7" fill="${c}"/>${t(x + (x > 300 ? -10 : 10), y - 10, s, 10.5, INK, x > 300 ? "end" : "start", 700)}</g>`).join("")}
-  <g class="a o0 lk26"><path d="M352 92 L110 214" stroke="${TERRA}" stroke-width="2.5" stroke-dasharray="6 5"/>${t(250, 140, "far apart", 13, TERRA, "middle", 800)}<circle class="pulse2" cx="352" cy="92" r="14" fill="none" stroke="${GREEN}" stroke-width="3"/></g></g>
-<g class="a o0 llm26" style="transform:translateY(12px)"><rect x="258" y="232" width="200" height="104" rx="14" fill="${INK}"/>${t(358, 254, "ChatGPT", 13, GOLD, "middle", 800)}
-  ${fo(270, 260, 180, 70, "“Nothing to complain about.” → <b style='color:#9EE6B8'>positive</b>", 13, "#fff", 600)}</g>
-<g class="a o0 ck26" style="transform:translateY(12px)"><rect x="22" y="282" width="226" height="56" rx="12" fill="#fff" stroke="${GREEN}" stroke-width="2.5"/>${person(46, 330, NAVY, .8)}${fo(64, 288, 180, 48, "Check against 30 reviews you read. Report the agreement.", 12, INK, 700)}</g>`,
-    render(r, b) {
-      r.querySelector(".bag26").style.opacity = b === 0 ? 1 : 0;
-      H.show(r, ".map26", b >= 1); H.show(r, ".pt26", b >= 1);
-      H.q(r, ".pt26").forEach(g => { const i = +g.dataset.i; g.style.opacity = b >= 1 ? (b === 2 && i !== 0 && i !== 3 && i !== 1 ? .35 : 1) : 0; });
-      H.show(r, ".lk26", b >= 2);
-      H.show(r, ".llm26", b >= 3); H.tf(r, ".llm26", b >= 3 ? "none" : "translateY(12px)");
-      H.show(r, ".ck26", b >= 4); H.tf(r, ".ck26", b >= 4 ? "none" : "translateY(12px)");
-    }
   };
 
   /* ------------------------------------------------------------ s27 · the text analytics workflow */

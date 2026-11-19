@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 13 · Turning written reviews into variables</title>
+<title>Turning written reviews into variables</title>
 <style>
 /* ---------- experience upgrades ---------- */
 #prog button.act{background:#EBCFC3}
@@ -203,7 +203,11 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 .chmenu .chpick{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--muted)}
 .chmenu select{font:inherit;font-size:14px;font-weight:700;color:var(--navy);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:38px;padding:6px 10px;max-width:min(78vw,440px);cursor:pointer}
 @media (max-width:760px){.chmenu{padding:8px 16px 0}}</style>
-<script>
+
+<style>
+.studio-frame{transition:opacity .34s ease;pointer-events:none}.studio-frame.active>g,.studio-frame.active>foreignObject,.studio-frame.active>rect{animation:studioIn .48s ease both}@keyframes studioIn{from{opacity:.15;transform:translateY(5px)}to{opacity:1;transform:none}}
+.lab-panel h3{margin:0 0 10px;color:var(--navy);font-size:18px}.lab-panel label{font-weight:650}.lab-panel input:not([type=range]){font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;width:min(100%,300px)}.lab-panel input[type=range]{accent-color:var(--navy)}.lab-panel output{font-variant-numeric:tabular-nums}.start-meta{font-weight:700}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #C0502A;outline-offset:3px}#drawer[aria-hidden=true]{visibility:hidden}#prog button{min-width:0}#prog{gap:3px}.dotsq{flex-wrap:wrap}.stage svg{font-family:Calibri,Segoe UI,sans-serif}@media(max-width:600px){#prog{gap:2px}.qhead{flex-wrap:wrap;gap:6px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.copy .m .w{opacity:1;transform:none}}
+</style><script>
 /* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
 (function(c,l,a,r,i,t,y){
   if(/[?&]qa=1/.test(location.search)||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:")return;
@@ -214,8 +218,8 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 </script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 13</span><h1>Chapter 3 · Turning written reviews into variables</h1></header>
-<nav class="chmenu" data-ch="3" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics</span><h1>Turning written reviews into variables</h1></header>
+
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
@@ -230,7 +234,7 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time" style="min-width:150px">1 / 31</span>
+  <span class="t" id="time" style="min-width:150px">1 / 52</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
   <button id="cc" aria-pressed="true">Captions on</button>
   <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
@@ -241,39 +245,115 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>Turning written reviews into variables</h2>
-  <p>Week 13 · Chapter 3 · about 30 minutes of animated, narrated scenes on text analytics, with six hands-on activities using real patient reviews from the Al Waha hospital file and a ten-question quiz. Turn your sound on.</p>
-  <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
+  <p>Follow Al Waha patient reviews from the original sentence to a tested prediction. Explore wording, topics and coding decisions in 52 animated scenes with 17 practical activities and a 14-question quiz.</p><p class="start-meta">About 45–50 minutes with practice · Read-along edition</p>
+  <button class="cta" id="go">▶ Start learning</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261117d"></script>
-<script src="chapter.js?v=20261117d"></script>
-<script src="timings.js?v=20261117d"></script>
-<script src="scenes-a.js?v=20261117d"></script>
-<script src="data2.js?v=20261117d"></script>
-<script src="scenes-b.js?v=20261117d"></script>
-<script src="scenes-c.js?v=20261117d"></script>
-<script src="scenes-d.js?v=20261117d"></script>
-<script src="scenes-e.js?v=20261117d"></script>
+<script src="data.js?v=20261119c"></script>
+<script src="chapter.js?v=20261119c"></script>
+<script src="timings.js?v=20261119c"></script>
+<script src="scenes-a.js?v=20261119c"></script>
+<script src="data2.js?v=20261119c"></script>
+<script src="scenes-b.js?v=20261119c"></script>
+<script src="scenes-c.js?v=20261119c"></script>
+<script src="scenes-d.js?v=20261119c"></script>
+<script src="scenes-e.js?v=20261119c"></script>
+<script src="scenes-studio.js?v=20261119c"></script>
 <script>
 (function(){
-const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W13DATA;
+const C = window.CHAPTER, T = {...window.TIMINGS}, SC = window.SC, D = window.W13DATA;
 const S = C.scenes, au = document.getElementById('au');
 const $ = id => document.getElementById(id);
+let advanceTimer, renderVersion=0;
 let si = 0, step = -1, playing = false, part = 'a', waitingQuiz = false, aDone = false, pendingB = false, quizScore = null;
-const splitN = s => s.split || (s.quiz ? 1 : 0);
+const splitN = s => s.split || 0;
 const stage = $('stage');
 const fmt = n => n.toLocaleString('en-US');
 
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"Patients care most about complain."','"The most common themes were team, hospital, visit."','"Sentiment analysis shows patients are dissatisfied."','"The reviews confirm the satisfaction scores."'];
-const SENTWHY = ['A coefficient is not a topic, and this one stands for "nothing to complain about".','Those are simply the words that almost every review contains.','Which model, trained on what, and how well did it agree with a human reader?','Written by the same people about the same visits. Agreement is not corroboration.'];
+const SENTWHY = ['A coefficient is not a topic, and this one stands for "nothing to complain about".','Counts describe vocabulary frequency. Themes require an interpretation supported by passages.','Which model, trained on what, and how well did it agree with a human reader?','Written by the same people about the same visits. Agreement is not corroboration.'];
 const SWL = [['low','Lower case'],['stop','Remove stop words'],['bi','Add word pairs'],['md5','Drop words found in fewer than 5 reviews']];
 const WORDS = ['disappointing','ignored','complaint','midwives','kindness','excellent','waiting','care','team','visit','quickly'];
 const LABS = [['1','Positive'],['0','Mixed'],['-1','Negative']];
+// Activity panels are available immediately. Moving a control pauses the clock
+// and holds the learner's figure until Continue or Replay.
+const labButton = (value,label) => `<button type="button" class="chip" data-value="${value}" aria-pressed="false">${label}</button>`;
+const labPanel = (prompt,controls) => `<div class="card lab-panel"><h3>${prompt}</h3><div class="row">${controls}</div><p class="verdict" aria-live="polite"></p><div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`;
+const labUI = {
+  stoplab:()=>labPanel("Which words survive your stop list?",'<label for="sample">Invented review</label><input id="sample" maxlength="100" value="Nothing to complain about." autocomplete="off" spellcheck="false">'+labButton("drop","Apply stop list")+labButton("protect","Protect nothing, no and not")),
+  gramlab:()=>labPanel("Build an ordered phrase",'<label for="width">Window width</label><select id="width" class="chip"><option value="1">1 word</option><option value="2" selected>2 words</option><option value="3">3 words</option></select><label for="offset">Starting word</label><input id="offset" type="range" min="0" max="2" value="0"><output for="offset" id="offsetText">1</output>'),
+  masklab:()=>labPanel("Prepare the fictional excerpt",labButton("name","Mask the name")+labButton("time","Generalise the time")),
+  topiclab:()=>labPanel("Compare two interpretations",labButton("broad","One broader subject")+labButton("fine","Two narrower subjects")),
+  points:()=>labPanel("Compare representations",labButton("count","Count columns")+labButton("map","Word map")),
+  zerolab:()=>labPanel("Apply a definition to the same review",labButton("broad","Any wait or delay")+labButton("narrow","A broken timing promise")),
+  kappalab:()=>labPanel("Move one disagreement in each direction",'<label for="offdiag">Disagreements per off-diagonal cell</label><input id="offdiag" type="range" min="0" max="10" step="1" value="2"><output id="offCount" for="offdiag">2</output>'),
+  joinlab:()=>labPanel("Keep the operational row fixed",labButton("off","Delay flag absent")+labButton("on","Delay flag present")),
+  matrixlab:()=>labPanel("Inspect an outcome",labButton("tp","Correct alert")+labButton("fn","Missed complaint")+labButton("fp","False alert")+labButton("tn","Correct quiet decision")),
+  metrics:()=>labPanel("Choose the class and denominator",labButton("cp","Complaint precision")+labButton("cr","Complaint recall")+labButton("np","No-complaint precision")+labButton("nr","No-complaint recall"))
+};
+function wireLab(){
+  const F=window.TextLabFigures,ui=$('ui'),kind=S[si].kind;
+  const state={protect:false,name:false,time:false};
+  function paint(svg,message){
+    pause();
+    stage.querySelector('svg').innerHTML='<rect width="480" height="360" fill="#F6F1E7"/><text x="24" y="32" fill="#1F4E79" font-size="13" font-weight="700">YOUR EXPERIMENT</text>'+svg;
+    ui.querySelector('.verdict').textContent=message;
+    $('status').textContent='Your result';
+    $('caption').textContent=message;
+    $('play').disabled=true;
+  }
+  function act(v){
+    const buttons=[...ui.querySelectorAll('[data-value]')];
+    if(kind==='masklab'){state[v]=!state[v]}
+    buttons.forEach(b=>{const on=kind==='masklab'?state[b.dataset.value]:b.dataset.value===v;b.classList.toggle('sel',on);b.setAttribute('aria-pressed',String(on))});
+    if(kind==='stoplab'){
+      if(v)state.protect=v==='protect';
+      const tokens=($('sample').value.toLowerCase().match(/[a-z]+(?:'[a-z]+)?/g)||[]);
+      const stops=new Set(['the','were','to','about','at','all','was','a','i',...(state.protect?[]:['nothing','not','no'])]);
+      const kept=tokens.filter(w=>!stops.has(w));
+      const result=kept.join(' ')||'∅';
+      const display=result.length>85?result.slice(0,82)+'…':result;
+      paint(F.quote($('sample').value||'Enter an invented sentence.','LOCAL WORKING COPY')+F.band(181,'STOP LIST',Array.from(stops).join(' · '))+F.band(261,'RETAINED TOKENS',display),tokens.length?kept.length+' of '+tokens.length+' word tokens remain. Retained sequence: '+result+'.':'Enter a short invented sentence to see its English word tokens.');
+    }else if(kind==='gramlab'){
+      const width=+$('width').value,range=$('offset');range.max=4-width;
+      const start=Math.min(+range.value,4-width);range.value=start;$('offsetText').textContent=start+1;
+      const ws=['nothing','to','complain','about'];
+      paint(F.windowView(width,start),'Feature “'+ws.slice(start,start+width).join(' ')+'” begins at word '+(start+1)+'. This sentence has '+(5-width)+' window positions at this width.');
+    }else if(kind==='masklab'){
+      const sample=(state.name?'[patient]':'Mira Vale')+' waited in the night clinic '+(state.time?'during the evening.':'at 23:47.');
+      paint(F.quote(sample,'FICTIONAL EXCERPT')+F.band(179,'NAME',state.name?'Replaced with role marker':'Direct identifier remains')+F.band(257,'TIME',state.time?'Exact time generalised':'Exact time remains'),state.name&&state.time?'Both edits are applied. Consider whether the night clinic is still distinctive for the intended audience.':state.name?'The name is masked. A precise time and a rare service can still identify a visit.':'The fictional patient name remains visible.');
+    }else if(kind==='topiclab'){
+      paint(F.grouping(v==='fine'),v==='fine'?'Two headings distinguish manner from care quality. Check whether new passages support the distinction.':'One heading captures praise but conceals what prompted it. This is a conceptual grouping, not a fitted result.');
+    }else if(kind==='points'){
+      paint(F.wordMap(v==='map'),v==='map'?'These points illustrate similarity learned from context. Their locations are schematic.':'Each spelling has its own column. Neither one-word vector has a nonzero entry in the other’s column.');
+    }else if(kind==='zerolab'){
+      paint(F.zero(v==='broad'),v==='broad'?'Present. The writer explicitly says they waited well over an hour.':'Insufficient evidence. A wait is stated, but the writer gives no promised time.');
+    }else if(kind==='kappalab'){
+      const d=+$('offdiag').value;$('offCount').textContent=d;
+      paint(F.agreement(d),(20-2*d)+' of 20 matches. Each reader still uses each label 10 times. Kappa is '+(1-d/5).toFixed(2)+'.');
+    }else if(kind==='joinlab'){
+      paint(F.joined(v==='on'),v==='on'?'Illustrative output rises from 20% to 36% at fixed operational values. This is a teaching rule, not an Al Waha estimate.':'Illustrative output is 20% with the phrase flag off. The measured wait and staffing ratio stay fixed.');
+    }else if(kind==='matrixlab'){
+      const cells={tp:['1,1','3 filed complaints correctly flagged.'],fn:['1,2','2 filed complaints received no alert.'],fp:['2,1','1 visit was flagged without a filing.'],tn:['2,2','14 visits without complaints stayed quiet.']};
+      paint(F.matrix([cells[v][0]],cells[v][1]),cells[v][1]+' The outcome and the alert are separate observations.');
+    }else if(kind==='metrics'){
+      const no=v[0]==='n',recall=v[1]==='r';
+      paint(F.classMetric(no,recall),recall?'Recall starts from all actual cases in the selected class. Read across the highlighted row.':'Precision starts from all predictions of the selected class. Read down the highlighted column.');
+    }
+  }
+  ui.querySelectorAll('[data-value]').forEach(b=>b.onclick=()=>act(b.dataset.value));
+  if(kind==='stoplab')$('sample').oninput=()=>act(state.protect?'protect':'drop');
+  if(kind==='gramlab'){$('width').onchange=()=>act();$('offset').oninput=()=>act()}
+  if(kind==='kappalab')$('offdiag').oninput=()=>act();
+  $('cont').onclick=()=>load(si+1,true);
+}
+
 const UI = {
+  ...labUI,
   choices: () => `<div class="card">
     <div class="row">${SWL.map(([k,s])=>`<button class="chip sel" data-k="${k}">✓ ${s}</button>`).join('')}</div>
-    <div class="g4"><div class="stat"><b id="cv">290</b><span>columns (terms)</span></div><div class="stat good"><b id="cr">0.739</b><span>held-out R² on 1,300 reviews</span></div><div class="stat"><b id="cn">1</b><span>settings tried, of 16</span></div><div class="stat"><b id="cs">0.733–0.740</b><span>R² range over all 16</span></div></div>
+    <div class="g4"><div class="stat"><b id="cv">290</b><span>columns (terms)</span></div><div class="stat good"><b id="cr">0.739</b><span>held-out R² on 1,300 reviews</span></div><div class="stat"><b id="cn">1</b><span>settings tried, of 16</span></div><div class="stat"><b id="scoreRange">0.733–0.740</b><span>R² range over all 16</span></div></div>
     <p class="verdict" id="chv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   weigh: () => `<div class="card">
@@ -295,8 +375,8 @@ const UI = {
     <p class="verdict" id="fv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   leak: () => `<div class="card">
-    <div class="row"><span class="lab">Tick the leaked words:</span>${D.leak.terms.map((w,i)=>`<button class="chip lw" data-i="${i}">${w}</button>`).join('')}</div>
-    <div class="row" style="margin-top:10px"><button class="chip go" id="refit">Remove the ticked words and refit</button><button class="chip" id="lreset">↻ Start again</button></div>
+    <div class="row"><span class="lab">Words from the declaration of intent</span>${D.leak.terms.map((w,i)=>`<button class="chip lw" data-i="${i}">${w}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><button class="chip go" id="refit">Show the stored refit</button><button class="chip" id="lreset">↻ Start again</button></div>
     <p class="verdict" id="lv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   sentences: () => `<div class="g2">${SENT.map((s,i)=>`<div class="card q" data-q="n"><b>${i+1}.</b> ${s}<div class="opts"><button data-a="y">May write it</button><button data-a="n">May not write it</button></div><div class="fb"></div></div>`).join('')}</div>
@@ -307,8 +387,8 @@ const UI = {
   explore: () => `<div class="card"><div class="row"><span class="lab">Topic:</span>${(window.W13X.topics).map((t,i)=>`<button class="chip tp${i?"":" sel"}" data-i="${i}">${["Kindness and the team","Emergency pressure","Excellent care","Appointment timing"][i]}</button>`).join("")}</div>
     <p class="verdict" id="tverd"></p><div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
-    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
-    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
+    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes opened</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
+    <div class="center"><button class="cta" id="again">↻ Replay the chapter</button></div></div>`
 };
 const waitMsg = {explore:'Your turn: open the four topics, then press Continue.',choices:'Your turn: flip the four switches, then press Continue.',weigh:'Your turn: weigh a few words, then press Continue.',fix:'Your turn: find the line and choose the fix, then press Continue.',leak:'Your turn: tick the leaked words, refit, then press Continue.',quiz:'Answer the questions at your own pace.'};
 const splitMsg = {readit:'Label all six reviews. The narration continues when you have labelled them.',sentences:'Decide for each sentence. The narration continues when all four are answered.'};
@@ -316,33 +396,34 @@ let myLabels = {};
 
 /* ---------- player ---------- */
 const prog = $('prog');
-const KEY='vl-qrms-w13', seen=new Set(), tried=new Set();
+const KEY='al-waha-text-analytics-v2', seen=new Set(), tried=new Set();
 const isAct=s=>!!(s.wait||s.split||s.quiz);
 S.forEach((s,i)=>{const b=document.createElement('button'); if(isAct(s)) b.classList.add('act');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
 function unitId(){const s=S[si];return splitN(s)?s.id+part:s.id}
 function load(i,auto){
+  clearTimeout(advanceTimer); renderVersion++; pause();
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
   const s=S[si], sc=SC[s.id]||{copy:[],svg:'',render(){}};
   $('scene').classList.toggle('full',!!sc.full);
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
-  stage._fresh = true;
+  stage._fresh = true; $('play').disabled=false;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
   seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
   [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
   updTime(); drawList(); toast();
   const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
-  setUnit(); setStep(0);
+  setUnit(); setStep(0); updTime();
   if(wire[s.kind]) wire[s.kind]();
   if(auto) play(); else pause();
 }
 /* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
 let silent=false, clock=0, ticker=null;
 S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
-  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
+  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.trim().split(/\s+/).length*60/140); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
 const nowT=()=>silent?clock:au.currentTime;
-function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
-function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
+function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); if(part==='b') t-=T[S[si].id+'a'].dur; return t - (nowT()||0) }
+function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min playback' }
 function drawList(){ const L=$('dlist'); if(!L) return;
   L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
   L.querySelectorAll('button').forEach(b=>b.onclick=()=>{ openMenu(false); load(+b.dataset.k,true) });
@@ -360,9 +441,9 @@ function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.si
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
   const sc=SC[S[si].id]; if(!sc||sc.full) return;
-  const go=()=>{ stage._pending=false; try{ sc.render(stage,step) }catch(e){ console.error(e) } };  // always draw the latest beat
-  if(stage._pending) return;
-  if(stage._fresh){ stage._fresh=false; stage._pending=true; requestAnimationFrame(()=>requestAnimationFrame(go)) } else go();
+  const version=renderVersion;
+  const go=()=>{ if(version===renderVersion && !$('play').disabled) sc.render(stage,step) };
+  if(stage._fresh){ stage._fresh=false; requestAnimationFrame(()=>requestAnimationFrame(go)) } else go();
 }
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
@@ -385,32 +466,32 @@ function onTime(){
   const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
   prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
 }
-au.addEventListener('timeupdate',onTime);
-au.addEventListener('ended',onEnd);
+au.addEventListener('timeupdate',()=>{if(!silent) onTime()});
+au.addEventListener('ended',()=>{if(!silent) onEnd()});
 function onEnd(){
   const s=S[si];
   if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
-    waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
+    waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='none';
     $('caption').textContent=splitMsg[s.kind]||'';return}
-  if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 3. Well done. Use the chapter menu at the top to open another chapter, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+  if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||'Try the controls below the stage, then choose Continue.'; return }
+  if(si<S.length-1){ advanceTimer=setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='Use Scenes to revisit an example or replay the lesson.'; prog.children[si].firstChild.style.width='100%' }
 }
-function play(){ if(waitingQuiz) return;
+function play(){ if(waitingQuiz || $('play').disabled) return;
   if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
     ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
   if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
 function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
 function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
-$('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
+$('play').onclick=()=>{ if(waitingQuiz || $('play').disabled) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
 $('speed').onchange=()=>au.playbackRate=+$('speed').value;
 $('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
 $('replay').onclick=()=>load(si,true);
 $('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
-$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select,input')) tried.add(S[si].id) }); $('ui').addEventListener('input',()=>tried.add(S[si].id));
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select,input')) tried.add(S[si].id) },true); $('ui').addEventListener('input',()=>tried.add(S[si].id));
 setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT','TEXTAREA'].includes(e.target.tagName)||e.target.closest('button')&&e.code==='Space') return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
 $('go').onclick=()=>{ $('start').remove(); load(0,true) };
 (function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
 
@@ -430,15 +511,16 @@ function showWordList(){
 }
 const QZ = C.quiz, CHIPSEL = (box,b)=>{box.querySelectorAll('.chip').forEach(x=>x.classList.toggle('sel',x===b))};
 const wire = {
+  ...Object.fromEntries(Object.keys(labUI).map(kind=>[kind,wireLab])),
   explore(){
     const ui=$('ui'), seenT=new Set([0]), TP=window.W13X.topics;
     const upd=i=>{ SC.s25.show(stage,i); seenT.add(i); const tp=TP[i];
       $('tverd').innerHTML=`Topic ${i+1}: ${tp.share}% of reviews, average satisfaction <b>${tp.sat}</b>, complaints <b>${tp.compl}%</b>. `+
-        (i===3?'<b class="no">A surprise:</b> “the clinic appointment ran to time” sounds positive, yet this topic has the most complaints. A topic tells you what people talk about, not how they feel.':i===1?'Pressure in the emergency department goes with lower satisfaction: here the topic and the mood do line up.':'The happy topics: kindness and excellent care, with very few complaints.')+
+        (i===3?'<b class="no">A surprise:</b> “the clinic appointment ran to time” sounds positive, yet this topic has the most complaints. A topic tells you what people talk about, not how they feel.':i===1?'Pressure in the emergency department goes with lower satisfaction: here the topic and the mood do line up.':'These groups have higher average satisfaction and relatively few formal complaints.')+
         (seenT.size<4?` <span style="color:var(--muted)">(${4-seenT.size} topic${4-seenT.size>1?'s':''} left to open)</span>`:''); };
     ui.querySelectorAll('.tp').forEach(b=>b.onclick=()=>{ CHIPSEL(ui,b); upd(+b.dataset.i) });
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(()=>{ if($('tverd')) upd(0) },150);
+    upd(0);
   },
   choices(){
     const ui=$('ui'), c={low:true,stop:true,bi:true,md5:true}, seen=new Set(['1111']);
@@ -447,14 +529,14 @@ const wire = {
       $('cv').textContent=m.vocab; $('cr').textContent=m.r2.toFixed(3); $('cn').textContent=seen.size;
       let v=`<b>${m.vocab}</b> columns, held-out R² <b>${m.r2.toFixed(3)}</b>. Top words: <b>${m.top.join(', ')}</b>.`;
       if(!c.low&&c.stop) v+=' Notice <b>“Almost”</b>: the stop-word list is lower case, so a capital “Almost” slips through.';
-      else if(!c.stop&&c.bi) v+=' Without stop words, the pairs are fragments like <b>“attentive will”</b>: the score holds, but you could not report these words.';
+      else if(!c.stop&&c.bi) v+=' With stop words retained, some pairs are fragments like <b>“attentive will”</b>: crossing sentence boundaries changes their interpretation.';
       else if(!c.bi) v+=' Single words only: fewer columns, a slightly lower score, and different top words.';
       else if(c.low&&c.stop&&c.bi) v+=' This is the setting on the slides. <b>“complain”</b> tops the list: remember it.';
       if(seen.size>=3) v+=' <br>Across all 16 settings, R² stays between 0.733 and 0.740, but the words you would report change completely. That is why you record every choice.';
       $('chv').innerHTML=v; };
     ui.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{ const k=b.dataset.k; c[k]=!c[k]; b.classList.toggle('sel',c[k]); b.textContent=(c[k]?'✓ ':'✗ ')+SWL.find(x=>x[0]===k)[1]; upd() });
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(upd,120);
+    upd();
   },
   weigh(){
     const ui=$('ui'); let n=1, L=10;
@@ -464,7 +546,7 @@ const wire = {
     ui.querySelectorAll('.nn').forEach(b=>b.onclick=()=>{ n=+b.dataset.n; ui.querySelectorAll('.nn').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
     ui.querySelectorAll('.ll').forEach(b=>b.onclick=()=>{ L=+b.dataset.l; ui.querySelectorAll('.ll').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(upd,120);
+    upd();
   },
   readit(){
     const ui=$('ui'); myLabels={}; ui._shown=0;
@@ -481,7 +563,7 @@ const wire = {
       $('fv').innerHTML = line===18 ? '<b class="ok">Right: line 18.</b> The traceback names it, and it calls <b>transform</b> on a vectoriser that has not learned a vocabulary yet. Now choose the fix.' : `<b class="no">Not line ${line}.</b> Read the traceback: it names the line where Python stopped. Which line uses the vectoriser first?` });
     ui.querySelectorAll('.ff').forEach(b=>b.onclick=()=>{ ui.querySelectorAll('.ff').forEach(x=>x.classList.toggle('sel',x===b)); const f=b.dataset.f;
       if(f==='a'){ SC.s13.fix(stage,true); $('fv').innerHTML='<b class="ok">Fixed.</b> Line 18 now learns the vocabulary from the training rows (<b>fit_transform</b>), and line 19 applies it to the test rows (<b>transform</b>). The script prints '+D.vocabTrain+' terms and a held-out R² of 0.739. The order is the method.' }
-      else if(f==='b') $('fv').innerHTML='<b class="no">It would run, but it leaks.</b> Fitting on all reviews lets the test rows help choose the features they are scored with. The error would disappear, and every score you report would be too good.';
+      else if(f==='b') $('fv').innerHTML='<b class="no">It would run, but it leaks.</b> Fitting on all reviews lets the test rows help choose the features they are scored with. The error would disappear, but the evaluation would no longer be independent.';
       else $('fv').innerHTML='<b class="no">Not this one.</b> Line 18 would still fail, and fitting on the test rows would build the vocabulary from the very rows you are meant to keep unseen.'; });
     $('cont').onclick=()=>load(si+1,true);
   },
@@ -491,10 +573,9 @@ const wire = {
     const draw=done=>SC.s15.update(stage,key(),done);
     ui.querySelectorAll('.lw').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; m[i]=1-m[i]; b.classList.toggle('sel',!!m[i]); draw(false); $('lv').innerHTML='' });
     $('refit').onclick=()=>{ draw(true); const k=key(), before=D.leak.auc['000000'], after=D.leak.auc[k], right=m[0]&&m[1], extra=m.slice(2).some(x=>x);
-      let v = (right ? '<b class="ok">Good hunting.</b> “complaint” and “making” both come from <i>I will be making a complaint</i>: words written once the patient had decided.' : '<b class="no">Look again.</b> The leak is in <i>I will be making a complaint</i>: “complaint” and “making” could only be written once the patient had decided.')
-        + (extra ? ' The other words you ticked describe the visit itself, so they are fair predictors, not leaks.' : '');
-      v += ` <br>Before ${before}, after ${after.toFixed(3)}. Here the drop is ${Math.max(0,before-after).toFixed(3)}: in this file the leak is tiny, because only ${D.complFiled.filedWrote} of the ${fmt(D.complFiled.filed)} patients who filed wrote that sentence. The method still stands: remove, refit, and report the drop as the size of the leak.`;
-      $('lv').innerHTML=v; };
+      const delta=after-before;
+      const explanation=right?'Both declaration terms selected.':'Inspect “making” and “complaint” in the declaration of intent.';
+      $('lv').textContent=explanation+(extra?' The extra terms may describe the visit itself.':'')+' Ranking AUC changes from '+before.toFixed(3)+' to '+after.toFixed(3)+' ('+(delta>=0?'+':'')+delta.toFixed(3)+'). Of '+D.complFiled.filed+' filings, '+D.complFiled.filedWrote+' included that declaration. Timing determines eligibility, regardless of the score change.'; };
     $('lreset').onclick=()=>{ m.fill(0); ui.querySelectorAll('.lw').forEach(b=>b.classList.remove('sel')); draw(false); $('lv').innerHTML='' };
     $('cont').onclick=()=>load(si+1,true);
   },
@@ -521,7 +602,7 @@ const wire = {
         $('qnext').textContent= qi<QZ.length-1?'Next question ▶':'See my score ▶'; $('qnext').hidden=false; });
     };
     $('qnext').onclick=()=>{ if(qi<QZ.length-1){qi++;show();return}
-      quizScore=score; const msg=score===QZ.length?'Perfect score. You are ready for the self-paced session.':score>=Math.ceil(QZ.length*.6)?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on TF-IDF and on fitting the vectoriser, then try again.';
+      quizScore=score; const msg=score===QZ.length?'You answered every question correctly.':score>=Math.ceil(QZ.length*.6)?'Well done. Read the explanations of the questions you missed, then continue.':'Worth a second look: replay the scenes on TF-IDF and on fitting the vectoriser, then try again.';
       $('qq').textContent=''; $('qo').innerHTML=`<div class="score"><div class="ring" style="--s:${score/QZ.length*100}%"><b>${score}/${QZ.length}</b></div><p>${msg}</p></div>`;
       $('qwhy').innerHTML=''; $('qn').textContent='Your result'; if(score>=QZ.length-1) burst();
       $('qnext').textContent='Continue ▶'; $('qnext').onclick=()=>load(si+1,true); };
@@ -541,6 +622,6 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('3')<0){v.push('3');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261117d"></script>
+<script src="../../course.js?v=20261119c"></script>
 </body>
 </html>

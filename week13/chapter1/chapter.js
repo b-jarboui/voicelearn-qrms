@@ -1,229 +1,404 @@
-// PHQM830 Week 13 · Chapter 1 "Turning written reviews into variables"
-// One scene = one audio file. One sentence = one animation step.
+// One sentence per animation beat. Stable IDs identify MP3 units.
 window.CHAPTER = {
   course: "PHQM830 Quantitative Research Methods and Statistics",
-  week: "Week 13",
   title: "Turning written reviews into variables",
-  subtitle: "Chapter 1 of text analytics",
+  subtitle: "Text analytics with Al Waha hospital reviews",
   scenes: [
-    { id: "s01", kind: "title", heading: "Welcome to Week 13", lines: [
-      "Welcome to Week 13. Five thousand two hundred patients at Al Waha wrote a few sentences about their visit.",
-      "This week, we ask a simple question: can those sentences be measured, and used as variables?"
+    { id: "s01", kind: "title", heading: "What can a review tell us?", lines: [
+      "At Al Waha, a file of five thousand two hundred visits contains remarks as different as praise for a team and a description of feeling ignored.",
+      "Using a computer to work with human language is called natural language processing, and our question is what survives when words become numbers."
     ]},
-    { id: "s02", kind: "recap", heading: "What you already have", lines: [
-      "Three ideas from the last two weeks come with us. First, split before you fit, and score on rows the model has never seen.",
-      "Second, the units of a variable decide how much it counts.",
-      "Third, a model that runs perfectly can still be measuring nothing.",
-      "Today, the data arrives as sentences instead of numbers. Nothing about the statistics changes."
+    { id: "s32", kind: "corpus", heading: "A collection, a review, a piece", lines: [
+      "Start with the stack of written comments attached to visits at Al Waha.",
+      "The whole collection chosen for analysis is called a corpus.",
+      "Lift out one visit and read its entire comment as a single item, called a document.",
+      "The first sentence in this document praises the staff.",
+      "The second sentence belongs to the same visit even though it starts after a full stop.",
+      "If we cut the first sentence at word boundaries, each piece we keep is called a token.",
+      "Here the staff remark supplies four word tokens while the document still supplies just one visit to our analysis."
     ]},
-    { id: "s03", kind: "tokens", heading: "From a sentence to a row of numbers", lines: [
-      "Here is a real review, written ninety nine times in the file: The staff were outstanding. Nothing to complain about.",
-      "First, the computer cuts it into words, and makes every letter lower case.",
-      "Next, it throws away stop words, the small words like the, were, and to. Watch which words go. Nothing goes too.",
-      "Then it can keep pairs of neighbouring words as well, called bigrams, like staff outstanding.",
-      "Each word or pair that survives becomes a column, and this review becomes one row of numbers. A text feature is a variable like any other."
+    { id: "s16", kind: "readthirty", heading: "Listen for repetition", lines: [
+      "Read a sample of thirty Al Waha comments and look for a phrase that returns in a different visit.",
+      "The repeated colours trace the same sentence across several reviews, sometimes alongside quite different remarks.",
+      "Across the entire file only thirty distinct sentences make up five hundred and eighty distinct review texts.",
+      "Recognising a familiar template may be easier for a model than reading the language of a new hospital."
     ]},
-    { id: "s21", kind: "dtm", heading: "The document-term matrix", lines: [
-      "Here is what all five thousand two hundred reviews look like after that step: one giant table, called the document term matrix.",
-      "Each row is a review, and each column is one of about three hundred terms. Each cell holds that term's weight in that review.",
-      "Almost every cell is empty. Only about four percent are filled: roughly thirteen terms per review.",
-      "A table like this is called sparse. And it is exactly what the models of Weeks 9 to 11 need: rows of numbers."
+    { id: "s33", kind: "clean", heading: "Make spelling comparable without losing evidence", lines: [
+      "Suppose a second copy of the staff sentence arrives in capital letters with extra spaces.",
+      "We can keep the original wording on one side and tidy a working copy on the other.",
+      "Trimming repeated spaces leaves a single gap where the writer paused between words.",
+      "Converting to lower case allows STAFF and staff to count toward the same column.",
+      "Keeping a sentence boundary tells us where the praise ends before the next remark begins.",
+      "Writing different surface forms in one consistent way is called normalisation.",
+      "Use the untouched original to check whether a choice erased a clue such as emphatic capitals or a meaningful pause."
     ]},
-    { id: "s22", kind: "stem", heading: "Stemming: helpful, and dangerous", lines: [
-      "One more preparation choice is called stemming. It cuts words back to their root.",
-      "Waited and waiting both become wait. In our reviews, that joins three hundred and nineteen uses and three hundred and ninety one uses into one feature.",
-      "But watch what it does to complain and complaint. Both become complain, and the happy patients who had nothing to complain about are merged with the patients who are making a complaint.",
-      "So stemming can help, and it can hurt. Like every preparation choice, record it, and check what it merged."
+    { id: "s34", kind: "stoplab", heading: "Try removing a word that changes the reading", wait: true, lines: [
+      "Read the reassurance about having nothing to complain about before removing anything.",
+      "A stop-word list is a set of words a researcher elects to leave out of a counting task.",
+      "This list drops nothing along with to and about, leaving complain as the only trace of the sentence.",
+      "Protect nothing and the two surviving words give you a better chance of spotting the reassurance.",
+      "Try a short invented response and check which of your words this particular list discards.",
+      "Use the comparison to decide which words your question needs you to preserve."
     ]},
-    { id: "s04", kind: "choices", heading: "Try it: four choices, and the results move", wait: true, lines: [
-      "Between the raw sentence and the variable, there are four decisions, and every one of them is yours.",
-      "Switch them on and off: lower case, stop words, word pairs, and dropping rare words. Each setting is a real model, scored on thirteen hundred reviews it has never seen.",
-      "Watch the score, and then watch the top words. Then press Continue."
+    { id: "s38", kind: "pos", heading: "What job is the word doing?", lines: [
+      "The review about waiting time describes a delay that lasted too long.",
+      "Consider two short rewrites of that idea, the wait was long and we wait for news.",
+      "In the first rewrite a speaker can put the before wait because it names an experience.",
+      "In the second rewrite wait describes something the speakers do.",
+      "Assigning noun or verb according to that job is called part-of-speech tagging.",
+      "This grammatical distinction helps a system interpret the same spelling in its surrounding sentence.",
+      "In other cases a change of sense goes further, as when discharge refers to leaving hospital or to a fluid."
     ]},
-    { id: "s05", kind: "tfidf", heading: "Frequent, and distinctive", lines: [
-      "Now, how much should each word count? The method we use is called TF-IDF.",
-      "TF means term frequency. Count how often the word appears in this review.",
-      "IDF means inverse document frequency. Ask how many of all the reviews contain the word at all.",
-      "Hospital appears in almost thirteen hundred of our five thousand two hundred reviews. Disappointing appears in only three hundred and fifty three.",
-      "So a word that is everywhere gets almost no weight, and a word found in only a few reviews gets a lot. That is the whole idea."
+    { id: "s35", kind: "lemma", heading: "Look up the form a dictionary would use", lines: [
+      "Suppose we want a single column for people who waited and people who are waiting.",
+      "An ending rule can handle both of these regular verb forms by removing letters.",
+      "The same shortcut offers little help with were, which shares no obvious ending with be.",
+      "A language-aware lookup can use the verb's role to return its dictionary form, called a lemma.",
+      "In the sentence about attentive midwives the plural noun similarly leads back to midwife.",
+      "This process is called lemmatisation and its choices depend on the language and the grammatical information available.",
+      "Keep the original wording nearby so a reader can recover distinctions such as tense when they matter to the question."
     ]},
-    { id: "s06", kind: "formula", heading: "Same count, twenty times the weight", lines: [
-      "Let us work one by hand. A review has sixty words, and the word disappointing appears three times. So the term frequency is three divided by sixty, which is zero point zero five.",
-      "Disappointing appears in five hundred of five thousand reviews. The natural log of five thousand over five hundred is the log of ten, which is two point three.",
-      "Multiply them: zero point zero five times two point three gives zero point one one five.",
-      "Now take hospital, which appears in four and a half thousand of the five thousand reviews. Its log is only zero point one, so the same three appearances give zero point zero zero five.",
-      "Same count, about twenty times the weight. A word that is everywhere distinguishes nothing."
+    { id: "s22", kind: "stem", heading: "Trim endings with a rule", lines: [
+      "A quick way to pool related spellings is to trim endings using a rule called a stemmer.",
+      "The file contains three hundred and nineteen uses of waited and three hundred and ninety-one of waiting.",
+      "A rule that strips both endings lets those occurrences contribute to a common stem called wait.",
+      "An aggressive rule that also combines complaint with complain could mix two very different Al Waha expressions."
     ]},
-    { id: "s07", kind: "weigh", heading: "Try it: weigh a word", wait: true, lines: [
-      "Now weigh some real words from the Al Waha reviews.",
-      "Choose a word, set how often it appears in a review, and compare its weight with hospital. Then press Continue."
+    { id: "s39", kind: "entities", heading: "Mark the spans worth extracting", lines: [
+      "Trace the words emergency department in the Al Waha sentence about pressure.",
+      "Together they identify a service even though a count of separate words would put them in two columns.",
+      "In another comment midwives names a staff role, while over an hour in the waiting review describes a duration.",
+      "A system can mark the start, end and category of a meaningful span using named-entity recognition.",
+      "A hospital-specific set of categories can include departments and roles that a general name finder might miss.",
+      "Distinguish an approximate duration from a clock time before converting either into a variable.",
+      "Inspect missed spans as well as correct ones, especially when the next step is to share an excerpt."
     ]},
-    { id: "s08", kind: "complain", heading: "The word complain: why one term is not a finding", lines: [
-      "Here is a puzzle. In our satisfaction model, the word with the largest positive weight is complain. Read alone, that looks absurd.",
-      "Some form of the word appears in one thousand one hundred and sixty three reviews. Those episodes average seventy three point three in satisfaction. All the others average seventy three point one. On its own, the word seems to carry nothing.",
-      "So read the sentences. Seven hundred and twenty eight reviews say: Nothing to complain about. Those patients average eighty five point eight.",
-      "Four hundred and thirty five say: I will be making a complaint. They average fifty two point five, and the computer counts that as a different word, complaint.",
-      "And remember the stop words: the word nothing was thrown away. So the model only sees complain, and here that word means a happy patient. A single coefficient from a text model is never the meaning of a word."
+    { id: "s40", kind: "masklab", heading: "Prepare a review for sharing", wait: true, lines: [
+      "Imagine a training example in which a fictional patient name appears beside a department and an exact time.",
+      "Replace the name with a role marker in the working excerpt before anyone outside the authorised team sees it.",
+      "Even with the name gone, a rare shift and a precise time may let someone reconstruct the visit.",
+      "Generalising the time preserves the fact that a wait occurred while reducing that particular clue.",
+      "Keep only the detail needed for the approved question and restrict access to the source and any linkage key.",
+      "Inspect the candidate release yourself because automatic name detection can miss unusual spellings.",
+      "Try the two edits and decide whether the remaining details suit the audience and the purpose."
     ]},
-    { id: "s23", kind: "distinct", heading: "Words that separate complaints", lines: [
-      "Which words separate the visits that ended in a complaint from the ones that did not? Compare how often each word appears in each group.",
-      "Long appears in forty nine percent of the reviews from patients who complained, and in only eight percent of the others. Far, delay, told, and waiting follow.",
-      "On the other side are thank, kindness, and excellent: found in thirteen to eighteen percent of the happy reviews, and in only two or three percent of the complaints.",
-      "Together, the words tell a story: complaints are about waiting without information. That is a finding you can check, by reading the reviews themselves."
+    { id: "s36", kind: "bag", heading: "Count two excerpts into the same columns", lines: [
+      "Take just the staff sentence from one Al Waha review and the midwives sentence from another.",
+      "Choose staff, outstanding and attentive as the small vocabulary for this demonstration.",
+      "The first excerpt puts one count under staff and one under outstanding.",
+      "The second puts a single count under attentive and zeros under the two other headings.",
+      "A zero means that chosen word is absent from this excerpt even though the writer supplied a complete sentence.",
+      "This representation is called a bag of words because shuffling the words inside an excerpt leaves all its counts unchanged.",
+      "A model given only this table cannot recover who was described as attentive."
     ]},
-    { id: "s24", kind: "topics", heading: "Topic modelling: what are the reviews about?", lines: [
-      "A different question: what are the reviews about? Topic modelling groups the words that tend to appear together into topics. It needs no labels, so it is unsupervised, like Week 12.",
-      "Here we asked for four topics, with a method called non negative matrix factorisation. Each topic is a list of words, and each review gets a share of each topic.",
-      "The four topics are: kindness and the team, pressure in the emergency department, excellent care, and appointment timing.",
-      "Like the number of clusters in Week 12, the number of topics is your choice, and the names are your interpretation. Read the reviews behind each topic before you name it."
+    { id: "s37", kind: "gramlab", heading: "Slide a window along a sentence", wait: true, lines: [
+      "Listen to the phrase nothing to complain about and imagine a frame wide enough to hold two words.",
+      "Moving it one place at a time gives us nothing to, to complain, and complain about.",
+      "A sequence of two adjacent tokens is a bigram and the general term for a sequence of a chosen length is an n-gram.",
+      "Widen the frame to three words to carry nothing along with complain in a single feature.",
+      "Longer phrases preserve more local order, but each exact phrase may occur in fewer training reviews.",
+      "Try each width and inspect which part of the reassurance any single column can now express."
     ]},
-    { id: "s25", kind: "explore", heading: "Try it: explore the four topics", wait: true, lines: [
-      "Your turn. Open each topic, and read its words, a real example review, and how its patients scored.",
-      "Notice that a topic is what people talk about, not whether they are happy. Then press Continue."
+    { id: "s03", kind: "tokens", heading: "Follow one review into a row", lines: [
+      "This exact review about outstanding staff and having nothing to complain about occurs ninety-nine times in the file.",
+      "Watch the eight pieces arrive in reading order as the letters change to lower case.",
+      "The chosen list of common words removes five pieces, including the word that reversed the sense of complain.",
+      "Pairing neighbours in the shortened stream now puts outstanding beside complain, even across the original sentence break.",
+      "The surviving words and pairs give this review five nonzero columns, with their weights shown in the bars."
     ]},
-    { id: "s09", kind: "assume1", heading: "The assumptions, part one", lines: [
-      "Text analytics has six assumptions. Here are the first three.",
-      "One: your preparation choices change the result. So record them, lower case, stop words, word pairs, rare words, and fix them before you compare anything.",
-      "Two: frequent is not the same as important. If hospital and staff top every list, use TF-IDF, and extend the stop word list for this collection of reviews.",
-      "Three: a sentiment model trained somewhere else may not transfer. Read a sample by hand, compare it with the model, and report the agreement rate."
+    { id: "s21", kind: "dtm", heading: "Why a large word table is mostly zero", lines: [
+      "Stack the review rows and give every retained term its own column to form a document-term matrix.",
+      "The descriptive matrix for the entire Al Waha file has five thousand two hundred rows and two hundred and ninety-six columns.",
+      "Only four point four percent of its cells have a nonzero entry because each short review uses so few of the available terms.",
+      "We call that pattern sparse and can save space by recording just the positions and values of the nonzero entries."
     ]},
-    { id: "s10", kind: "readit", heading: "Try it: you read, the word list reads", split: 2, lines: [
-      "Let us test assumption three. Here are six real reviews from the file.",
-      "Read each one, and label it positive, mixed, or negative. A general purpose sentiment word list will then read the same six.",
-      "Now compare. The word list counts good words and bad words, and it has never seen a hospital review.",
-      "It counts complain as a bad word, so Nothing to complain about scores negative. And it counts improve as a good word, so This needs to improve scores positive.",
-      "Across all five thousand two hundred reviews, the word list agreed with a careful human reading only about seven times in ten. That agreement rate is what you report."
+    { id: "s05", kind: "tfidf", heading: "A word used here and elsewhere", lines: [
+      "Imagine comparing two words that each occur once in a short Al Waha review.",
+      "Counting one occurrence in ten words gives each word the same local share, called its term frequency.",
+      "Now count the reviews containing each word, giving a review just one vote however often it repeats the word.",
+      "Hospital appears in nearly thirteen hundred reviews while disappointing appears in three hundred and fifty-three.",
+      "Multiplying the local share by a measure of rarity across documents gives the weight called term frequency times inverse document frequency."
     ]},
-    { id: "s11", kind: "assume2", heading: "The assumptions, part two", lines: [
-      "Here are the other three assumptions, and two of them are unique to text.",
-      "Four: the people who wrote the text are not everyone in your sample. Often the reviews come from the most delighted and the most angry. Report the coverage, and say whose voice you are analysing.",
-      "Five: a feature built from text can contain the outcome. A patient who writes I will be making a complaint has partly told you the answer already.",
-      "Six: text features still need honest held-out evaluation, and that has a trap of its own. Let us look at it."
+    { id: "s06", kind: "formula", heading: "Two words with the same local count", lines: [
+      "In this worked example, three mentions in a sixty-word review give disappointing a local share of one twentieth.",
+      "Finding it in one tenth of the imaginary collection gives a rarity weight of about two point three on the natural log scale.",
+      "Multiplying those two numbers gives a weight of roughly zero point one one five.",
+      "Hospital occurs in nine tenths of this collection and gets a much smaller rarity weight.",
+      "With equal counts inside this review, disappointing gets about twenty-two times the weight of hospital under this particular rule."
     ]},
-    { id: "s12", kind: "pipeline", heading: "Fit on train, transform on test", lines: [
-      "First, split. Three thousand nine hundred reviews go to training, and thirteen hundred are locked away for testing.",
-      "Then the vectoriser reads the training reviews only, and learns its vocabulary. This is fit transform. Here it learns two hundred and ninety terms.",
-      "Next, the test reviews pass through that same vocabulary, without learning anything new. This is transform. A word the training reviews never used is simply ignored.",
-      "The classic mistake is to fit the vectoriser on all the reviews before the split. Then the test rows help choose the very features they are scored with.",
-      "The order is the method. Fit transform on the training rows, and transform on the test rows."
+    { id: "s07", kind: "weigh", heading: "Weigh a word from Al Waha", wait: true, lines: [
+      "Choose a word to see its actual document count alongside the count for hospital.",
+      "Keep the word fixed and double the length of the imagined review to see what happens to both weights."
     ]},
-    { id: "s13", kind: "fix", heading: "Try it: fix a broken script", wait: true, lines: [
-      "This script will not run. Read the error before you change anything.",
-      "Find the line that causes it, and choose the fix. Then press Continue."
+    { id: "s02", kind: "recap", heading: "Three decisions before measuring", lines: [
+      "Keep some visits aside so you can see how well a rule works on reviews it has never seen.",
+      "Decide what one unit means before you count, because a minute of waiting and a mention of waiting answer different questions.",
+      "A program can count perfectly even when its count tells you very little about someone's experience.",
+      "Imagine putting the words “poor communication” beside the recorded wait for the very same visit."
     ]},
-    { id: "s14", kind: "results", heading: "Three feature sets, one held-out test", lines: [
-      "Here is the honest result, on the same thirteen hundred test episodes. The review text alone explains seventy four percent of the variation in satisfaction. That is an R squared of zero point seven three nine.",
-      "The six operational measures, everything the hospital recorded, reach zero point eight zero six.",
-      "Both together reach zero point eight six eight. So the text adds about six points on top of everything the hospital measured.",
-      "And with the vectoriser leaked, fitted on all the rows? Also zero point seven three nine. Here, the leak changed nothing.",
-      "That is because these reviews are built from just thirty sentences, so the vocabulary barely changes. In real review data, the leak flatters every number, and the output looks identical. You cannot know in advance that a check will cost nothing, which is exactly why you run it."
+    { id: "s12", kind: "pipeline", heading: "Learn the columns on training reviews", lines: [
+      "Set aside thirteen hundred episodes and use the other three thousand nine hundred to learn the model.",
+      "The tool that turns words into columns is a vectoriser, and fitting it to the training reviews learns two hundred and ninety terms.",
+      "Apply those same columns and training weights to the test reviews, ignoring terms outside the learned vocabulary.",
+      "Letting every review help build the vocabulary gives information from the test set a route into the model.",
+      "During model selection repeat the fitting inside each training fold, then freeze the whole procedure before the final test."
     ]},
-    { id: "s15", kind: "leak", heading: "Try it: hunt for leaked words", wait: true, lines: [
-      "Now switch the outcome to a yes or no: did the patient file a formal complaint? Here, leaked words are far more dangerous.",
-      "Read the six words below, and tick every one that could only have been written once the outcome was known. Then remove them, and watch the score."
+    { id: "s13", kind: "fix", heading: "Repair a vectoriser that cannot run", wait: true, lines: [
+      "The error says the vectoriser was asked to use a vocabulary before it had learned one.",
+      "Follow the line number to the first use of the training reviews and choose a repair that keeps the test reviews separate."
     ]},
-    { id: "s16", kind: "readthirty", heading: "Read thirty reviews, by hand, every time", lines: [
-      "Before any modelling, read thirty reviews at random, and write down what you see. It takes ten minutes.",
-      "Do it here, and something jumps out at once. The same sentences keep coming back.",
-      "In fact, all five thousand two hundred reviews are built from just thirty sentences. No score and no coefficient would ever tell you that.",
-      "That is why reading comes first. Mejia and colleagues did exactly this before their operations analysis. It is standard practice, not a precaution."
+    { id: "s14", kind: "results", heading: "Does text add to the satisfaction model?", lines: [
+      "On the same thirteen hundred held-out visits, the text model reduces squared prediction error by about seventy-four percent relative to using the test mean.",
+      "This measure of error reduction is called R squared, and the six operational measures on their own reach about zero point eight one.",
+      "Using both sets of columns raises the reported R squared to about zero point eight seven on these visits.",
+      "Learning the text vocabulary before the split yields the same rounded text-only score despite giving the procedure access to test reviews.",
+      "The vocabulary grows from two hundred and ninety to two hundred and ninety-six terms when the test reviews are included."
     ]},
-    { id: "s28", kind: "subword", heading: "How language models cut text: sub-word tokens", lines: [
-      "Everything so far counted whole words. Modern language models, called transformers, read text differently, and it starts with how they cut it.",
-      "They cut text into tokens: pieces of words from a fixed list, here about thirty thousand pieces. Common words stay whole: nothing, complain, complaint.",
-      "Rarer words are split into pieces. Midwives becomes mid and wives. Attentive becomes at, ten, and tive.",
-      "And no word is ever unknown. Even unprofessionalism can be built from six pieces. That is why a language model can read new words and misspellings that TF-IDF would simply ignore."
+    { id: "s04", kind: "choices", heading: "Try four preparation choices", wait: true, lines: [
+      "These switches replay sixteen recorded analyses of the same reviews with different rules for building columns.",
+      "Change one switch at a time and watch which words have the largest positive multipliers in the satisfaction model.",
+      "Treat the spread of test scores as a description of this completed comparison and make future choices within training data."
     ]},
-    { id: "s29", kind: "attention", heading: "The transformer and attention", lines: [
-      "The engine inside these models is called a transformer. Its key idea is attention.",
-      "Attention lets every token look at every other token in the sentence, and decide how much each one matters for its meaning.",
-      "Here are the real attention weights of the token complain, in the first layer of a small transformer, reading: Nothing to complain about. It looks at to, at itself, and at nothing.",
-      "TF-IDF threw the word nothing away. A transformer keeps it in view. Stacked in many layers, attention lets context change meaning.",
-      "That is the T in GPT: generative, pre-trained, transformer."
+    { id: "s08", kind: "complain", heading: "Read the sentence behind a coefficient", lines: [
+      "In the fitted satisfaction model, complain has the largest positive coefficient, the multiplier attached to its feature.",
+      "Grouping reviews that contain either complain or complaint gives almost the same average satisfaction as grouping those containing neither.",
+      "Read the first phrase and you can hear why its users averaged eighty-five point eight.",
+      "The group that said it would make a complaint averaged fifty-two point five and supplied a different final word.",
+      "Removing nothing leaves complain to carry an association that only makes sense when you read the original phrase."
     ]},
-    { id: "s26", kind: "embed", heading: "Embeddings, tested on our reviews", lines: [
-      "Inside a transformer, every sentence becomes a list of numbers called an embedding. Sentences with similar meanings are meant to sit close together.",
-      "So we tested a small transformer on three real sentences, and measured how close they are, from zero, unrelated, to one, the same.",
-      "Nothing to complain about scored zero point five six with I will be making a complaint, and only zero point one nine with Very impressed with the whole visit. The shared word complain still pulled them together.",
-      "TF-IDF scored zero for every pair. Bigger language models such as ChatGPT usually do better, and they can label sentiment without any training data from you.",
-      "But the rules of this chapter still apply. Check the model against thirty reviews you read yourself, report the agreement, and never let it read the data for you."
+    { id: "s41", kind: "lex", heading: "Score a review one marked word at a time", lines: [
+      "Read the staff review as a patient would, keeping both the praise and the reassurance in view.",
+      "One mechanical way of estimating its tone is to keep a list of words associated with positive or negative feeling.",
+      "That list is called a sentiment lexicon and here we can follow each match in reading order.",
+      "Outstanding contributes one positive mark to this simple tally.",
+      "Complain contributes a negative mark even though the writer has just said there was nothing to complain about.",
+      "The two marks cancel and the list assigns the middle label to a review a reader could reasonably call positive.",
+      "A middle score can therefore mean opposing word matches, silence from the dictionary, or genuine mixed feeling."
     ]},
-    { id: "s31", kind: "bertprocess", heading: "How BERTopic works, step by step", lines: [
-      "How does BERTopic actually find topics? Let us follow eight real reviews through the whole process, step by step.",
-      "Step one: embedding. A transformer reads each review, and turns it into a list of three hundred and eighty four numbers. Think of it as an address in a meaning space: reviews that mean similar things get nearby addresses.",
-      "Step two: UMAP. Nobody can picture three hundred and eighty four dimensions, and clustering struggles in so many. UMAP squeezes them down to a few, while keeping neighbours next to each other.",
-      "Step three: HDBSCAN. It looks for crowded areas on that map. Each crowd becomes a topic. A review that sits alone, far from any crowd, is marked as an outlier, instead of being forced into a group.",
-      "Step four: class based TF-IDF. All the reviews of one topic are joined into one long document. Words that are frequent in this topic, but rare in the others, become the topic's key words.",
-      "Step five is yours. Read the key words, and the reviews behind them, before you give the topic a name. The method finds the groups. You decide what they mean."
+    { id: "s42", kind: "scope", heading: "Where a sentiment rule breaks", lines: [
+      "Read the Al Waha phrase acceptable, but not exceptional with the word not still in place.",
+      "A simple rule can reverse the score of the evaluative word inside the reach of a negation.",
+      "In the invented phrase not bad, reversing bad makes the reading more favourable.",
+      "A longer sentence can put a new clause outside that reach, so reversing every later word creates a different error.",
+      "Now read great, another delay aloud as someone who has just missed an appointment.",
+      "The positive word can express sarcasm, which a dictionary lacks the situation to resolve.",
+      "Even a negative test result can be welcome news, so check ambiguous language against readings from this setting."
     ]},
-    { id: "s30", kind: "bertopic", heading: "BERTopic on our 5,200 reviews", lines: [
-      "Now the same five steps, on all five thousand two hundred reviews.",
-      "BERTopic found twenty three topics by itself, much finer than the four topics from before.",
-      "One gathers patients who felt ignored, with forty seven percent complaints. Another gathers real kindness, with two percent.",
-      "But more than half of the reviews were left as outliers, and one setting changes everything: a minimum topic size of thirty gave more than eighty topics, and one hundred and fifty gave none at all.",
-      "So choose the setting, report it, and read the reviews."
+    { id: "s09", kind: "codebook", heading: "What counts as a negative experience?", lines: [
+      "Two readers can disagree about a review before either reader makes a mistake.",
+      "Consider the Al Waha review that combines being ignored with praise for a surgical explanation.",
+      "A rule about the tone of the whole visit might give a different answer from a rule about whether any criticism appears.",
+      "Write the unit, labels and boundary cases in a coding guide that both readers can use.",
+      "Checking whether the labels capture the idea you intended is a question of validity.",
+      "Having readers apply the same guide independently lets you examine reliability before they discuss difficult cases."
     ]},
-    { id: "s17", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
-      "Here are four sentences that often appear in reports about text. Decide for each one: may you write it, or not?",
-      "Patients care most about complain. No. A coefficient is not a topic, and this one is not even about complaining.",
-      "The most common themes were team, hospital, and visit. No. Those are simply the words that almost every review contains.",
-      "Sentiment analysis shows patients are dissatisfied. No. Which model, trained on what, and how well did it agree with a human reader?",
-      "The reviews confirm the satisfaction scores. No. They were written by the same people, about the same visits. Agreement is not corroboration. All four are off limits."
+    { id: "s10", kind: "readit", heading: "Read six reviews before seeing the scores", split: 2, lines: [
+      "Read these six complete Al Waha reviews and judge the tone of each visit as a whole.",
+      "Choose positive, mixed or negative for each one before revealing what the word list counted.",
+      "Compare your labels with the green and red words that contributed to the automated score.",
+      "Look at how improve adds praise to a review whose writer is asking for something to change.",
+      "Across the file the word list matched the reference labels derived from readings of the recurring sentences on about seven reviews in ten."
     ]},
-    { id: "s18", kind: "helper", heading: "You decide; ChatGPT assists", lines: [
-      "As in every week, you decide, and ChatGPT assists.",
-      "A good helper question is this one: explain what min d f equals five removes, and what n gram range one to two adds.",
-      "A bad one is this: what are patients complaining about? That is a reading of qualitative data, and it starts with you reading some. Reading thirty reviews by hand is the one step in this course that cannot be delegated at all."
+    { id: "s48", kind: "kappalab", heading: "How much agreement exceeds chance?", wait: true, lines: [
+      "Imagine two independent readers each marking ten of twenty practice excerpts as concerns.",
+      "If they assigned labels independently at those rates, they would match on about half the excerpts by chance.",
+      "Suppose they actually agree on sixteen of the twenty excerpts under the same coding guide.",
+      "Of the ten matches available beyond the chance expectation, they achieved six.",
+      "Cohen's kappa expresses that fraction, giving zero point six in this balanced teaching example.",
+      "Change the number of disagreements and watch observed agreement move while the two readers' label totals stay fixed.",
+      "Use the same comparison for a frozen model and an independent human reference, alongside class counts and examples of disputed cases."
     ]},
-    { id: "s27", kind: "workflow", heading: "The whole workflow in six steps", lines: [
-      "Here is the whole text analytics workflow, in six steps.",
-      "First, read a sample of reviews. Second, prepare the text, and record every choice.",
-      "Third, split the data. Fourth, fit the vectoriser on the training rows only, and build your model.",
-      "Fifth, inspect the result: the top terms, the errors, possible leaks, and negation.",
-      "Sixth, report what the text adds, whose voices it represents, and what it cannot tell you."
+    { id: "s43", kind: "lda", heading: "Allow one review to mix two subjects", lines: [
+      "Read the Al Waha review that praises the staff and also asks why a delay lasted so long.",
+      "Imagine two bowls of words, one favouring staff and thanks and the other favouring delays and waiting.",
+      "A single review could draw several words from one bowl and just one or two from the other.",
+      "Each bowl represents a distribution of likely words and each review has its own mixture of the bowls.",
+      "A topic model called latent Dirichlet allocation, or L D A, tries to infer these hidden mixtures from observed counts.",
+      "A word such as time may receive support from more than one topic depending on the other words around it in the document.",
+      "The coloured allocations illustrate the idea and do not claim that this model was fitted to Al Waha."
     ]},
-    { id: "s19", kind: "quiz", heading: "Chapter quiz: ten questions", wait: true, lines: [
-      "Let us finish with ten quick questions. Take your time, and read the explanation after each answer."
+    { id: "s24", kind: "topics", heading: "Find recurring combinations of words", lines: [
+      "If two words keep appearing in the same comments they may point to a subject that nobody labelled in advance.",
+      "Here a method called nonnegative matrix factorisation approximates the word table using four additive patterns.",
+      "Reading the words together suggests kindness, pressure in emergency care, excellent care and appointment timing.",
+      "A name for a pattern is a researcher's interpretation that should make sense in the reviews contributing to it."
     ]},
-    { id: "s20", kind: "takeaways", heading: "Four ideas to keep", lines: [
-      "Well done. Here are the four ideas to keep from this chapter.",
-      "First, a text feature is a variable like any other, and every choice between the sentence and the column is yours to record.",
-      "Second, TF-IDF rewards words that are frequent in one review but rare across all of them.",
-      "Third, never read meaning into one coefficient. Go back to the sentences.",
-      "Fourth, fit the vectoriser on the training rows only, and read the text yourself before you trust any model of it.",
-      "In your self-paced session, you will read thirty reviews by hand, predict a yes or no outcome from text, hunt for leaked words on purpose, and compare the model's judgement with your own."
+    { id: "s25", kind: "explore", heading: "Explore the four fitted topics", wait: true, lines: [
+      "Open each group to read a real review beside the words that helped characterise it.",
+      "Compare the timing example with the complaint rate of its group to see how much tone can vary within a subject."
+    ]},
+    { id: "s44", kind: "topiclab", heading: "How many subjects are worth separating?", wait: true, lines: [
+      "Picture reading reviews where thanks for kindness appears alongside praise for excellent care.",
+      "A coarse grouping could put both forms of praise under one heading that is easy to describe.",
+      "A finer grouping might separate how staff spoke from what patients said about treatment.",
+      "Too many groups can turn small variations of one repeated sentence into apparently different findings.",
+      "Compare candidate settings on development reviews for readable word lists, representative passages and stability across repeated fits.",
+      "Open the alternative groupings and choose the level of detail that would answer a stated research question."
+    ]},
+    { id: "s45", kind: "points", heading: "Give words an address", wait: true, lines: [
+      "Imagine two patients describing a discourteous exchange, one using rude and the other using impolite.",
+      "A bag of words creates separate columns for those spellings and gives it no built-in reason to connect them.",
+      "Across many sentences the two words can occur in similar surroundings, such as descriptions of how staff spoke.",
+      "A model can learn a list of coordinates for each word from those recurring contexts.",
+      "That list is a word embedding, drawn here as a point on a deliberately simplified map.",
+      "Switch views to see how nearby points could help with wording absent from the small hospital vocabulary.",
+      "Antonyms can also share surroundings, so closeness alone is a poor test of whether two patients felt the same way."
+    ]},
+    { id: "s46", kind: "analogy", heading: "A direction can carry a relationship", lines: [
+      "On this illustrative word map, take the step from man to king.",
+      "Start at woman and carry the same direction and distance across the map.",
+      "The endpoint lands near queen in the familiar illustration called king minus man plus woman.",
+      "The arithmetic operates on lists of coordinates and the nearest learned word need only be an approximate match.",
+      "In hospital language, test whether a useful relationship holds across many examples before using it to group comments.",
+      "Word vectors can also reproduce social stereotypes present in the texts they learned from."
+    ]},
+    { id: "s28", kind: "subword", heading: "Read an unfamiliar word in pieces", lines: [
+      "A language model can read the reassurance about having nothing to complain about using pieces shorter than whole words.",
+      "This particular vocabulary contains about thirty thousand pieces including the complete word complain.",
+      "Midwives becomes two pieces and attentive becomes three in the tokenizer used here.",
+      "Even unprofessionalism can be assembled from known pieces, though recognising its spelling does not establish its meaning."
+    ]},
+    { id: "s29", kind: "attention", heading: "How surrounding words change a representation", lines: [
+      "A transformer builds a representation of each piece using information from other positions in the sentence.",
+      "The mechanism called attention mixes that information using weights that depend on the pieces being compared.",
+      "In the displayed layer of this encoder, complain gives some weight to nothing as well as to itself and to.",
+      "Successive layers can use those connections to change the representation without guaranteeing a correct reading of negation.",
+      "The same broad architecture also appears in models trained to generate text, including the family abbreviated as GPT."
+    ]},
+    { id: "s26", kind: "embed", heading: "Does a sentence map recognise reassurance?", lines: [
+      "We can combine contextual word representations into one list of numbers for a whole sentence.",
+      "Compare the directions of the lists for three Al Waha sentences using a measure called cosine similarity.",
+      "This encoder puts the reassurance closer to the intention to complain than to the expression of being impressed.",
+      "The fitted word-count representation gives zero similarity for each distinct pair under its retained vocabulary and weighting.",
+      "Check examples that distinguish subject from tone before choosing the task for which these distances will be used."
+    ]},
+    { id: "s31", kind: "bertprocess", heading: "Build topics from review neighbours", lines: [
+      "Follow these eight review excerpts through an illustrated method for finding subjects called BERTopic.",
+      "First the encoder gives each review an address made of three hundred and eighty-four numbers.",
+      "A method called UMAP reduces the number of coordinates while trying to preserve local neighbourhoods.",
+      "A clustering method called HDBSCAN looks for persistent dense groups and can leave isolated reviews unassigned.",
+      "Pooling the text within each group lets a group-level version of term weighting bring its characteristic words to the surface.",
+      "Read several reviews from a group before deciding whether one name fairly describes the experience they share."
+    ]},
+    { id: "s30", kind: "bertopic", heading: "What happens to ungrouped reviews?", lines: [
+      "On this map a dot represents a review from the displayed sample of the Al Waha fit.",
+      "At a minimum group size of sixty the full fit returns twenty-three topics.",
+      "One group centred on feeling ignored has a complaint rate of about forty-seven percent while a kindness group has about two percent.",
+      "More than half the reviews remain unassigned at this setting and increasing the minimum to one hundred and fifty leaves no topics.",
+      "Include unassigned reviews in the account of coverage when describing the subjects people raised."
+    ]},
+    { id: "s47", kind: "zerolab", heading: "Code a review without labelled examples", wait: true, lines: [
+      "Suppose the hospital wants to flag reviews that describe being left without an update.",
+      "Write a category definition and read the comment about waiting well over an hour with no update.",
+      "A large language model has learned patterns from text and can propose a label from instructions like these.",
+      "Giving it a new task without supplying labelled demonstrations is called zero-shot classification.",
+      "Require a choice among the allowed labels and allow insufficient evidence when the review does not decide the question.",
+      "Compare two example coding instructions to see how a broader definition changes the defensible label.",
+      "These are worked responses to inspect locally, so no review needs to leave the page."
+    ]},
+    { id: "s18", kind: "audit", heading: "Audit a machine-coded review", lines: [
+      "Imagine that a language model assigns a communication code to the Al Waha sentence about waiting without an update.",
+      "Ask for the shortest passage supporting that code so a reviewer can inspect the evidence.",
+      "A response claiming a nurse promised an update adds a detail the patient never supplied.",
+      "A fluent invention of this kind is called a hallucination and should be recorded as an error.",
+      "Compare errors across approved language groups to see whether some expressions of concern are systematically missed.",
+      "Save the model version and instructions with the audit so a different researcher can see how each judgement was made."
+    ]},
+    { id: "s11", kind: "coverage", heading: "Whose experience reaches the table?", lines: [
+      "Start with the visits you want a conclusion about and count how many have usable text.",
+      "Look for a department, language or shift that contributes fewer reviews than its share of visits.",
+      "A table of comments can describe what its writers said even when you have no words from the people who stayed silent.",
+      "Set a time for making the prediction so you can tell which comments would actually be available.",
+      "A model built after discharge answers a different question from one that must give an alert at arrival."
+    ]},
+    { id: "s23", kind: "distinct", heading: "Compare words across complaint groups", lines: [
+      "Separate the reviews by whether the visit led to a formal complaint and count each term once per review.",
+      "Long occurs in forty-nine percent of complaint reviews and eight percent of the others.",
+      "Thank and kindness appear more often in reviews of visits without a filed complaint.",
+      "These contrasts suggest reading the passages about delays to see whether lack of information is part of the experience."
+    ]},
+    { id: "s49", kind: "joinlab", heading: "Add text to the same visit", wait: true, lines: [
+      "Imagine a model for flagging complaints after a review arrives but before the filing decision is known.",
+      "The operational row for this invented visit already contains a recorded wait and staffing measure.",
+      "A matching episode key brings the text columns for that very visit onto the same row.",
+      "For this teaching model, changing a flag for a delay phrase moves the predicted probability even when the measured wait stays fixed.",
+      "Move the switch to compare the two outputs and notice that a prediction describes an association.",
+      "A ranking score called the area under the curve asks how often a filed visit scores above a nonfiling visit, counting ties as half.",
+      "Al Waha's operational measures score about zero point eight nine on this scale and text alone scores about zero point eight four.",
+      "To test the value of text at Al Waha, give numeric-only and combined models identical eligible rows, splits and assessment rules.",
+      "Choose settings and a decision threshold within training data and evaluate the frozen models on the same held-out reviews."
+    ]},
+    { id: "s15", kind: "leak", heading: "Audit the words available at prediction time", wait: true, lines: [
+      "A phrase can give away a future outcome, a problem called leakage, if the alert must come before a patient declares an intention to file.",
+      "Flag words from the sentence declaring that intention and compare the stored ranking scores before and after the removal."
+    ]},
+    { id: "s50", kind: "matrixlab", heading: "Count four kinds of decision", wait: true, lines: [
+      "Imagine twenty held-out reviews with known filing outcomes and a fixed rule for flagging a complaint.",
+      "Place each review in a row according to what happened and a column according to what the rule predicted.",
+      "Three filed complaints were flagged correctly, while two more were missed.",
+      "Among visits without a complaint there is one false alert and fourteen correct quiet decisions.",
+      "This table of predictions against known outcomes is called a confusion matrix.",
+      "Seventeen correct decisions give eighty-five percent accuracy on a set where a quarter of the visits had a complaint.",
+      "Always predicting no complaint would already reach seventy-five percent accuracy here.",
+      "Select a cell to read what its count would mean to a team following up on alerts."
+    ]},
+    { id: "s51", kind: "metrics", heading: "Ask two questions about each class", wait: true, lines: [
+      "Start with the four alerts in the worked table and ask how many actually led to a filed complaint.",
+      "Three of four did, so precision for the complaint class is seventy-five percent.",
+      "Now start with the five actual complaints and ask what fraction the alert captured.",
+      "Finding three of the five gives sixty percent recall for the complaint class.",
+      "Switch the target to no complaint and trace the quiet decisions and the visits without a filing.",
+      "For that class precision is fourteen out of sixteen and recall is fourteen out of fifteen.",
+      "Report both classes with their counts so strong performance on common visits cannot conceal missed complaints."
+    ]},
+    { id: "s17", kind: "sentences", heading: "Which claims would survive review?", split: 1, lines: [
+      "Judge each proposed sentence as you would if you were reviewing a thesis about Al Waha.",
+      "A large coefficient for complain tells you about a particular fitted model and its preparation choices.",
+      "Calling hospital a frequent word requires a count, while calling it a theme requires an interpretation of the passages.",
+      "A claim about dissatisfaction needs a defined measure and evidence that its labels work for these patients.",
+      "Agreement between two measures from one visit gives weaker evidence than agreement with a genuinely independent source."
+    ]},
+    { id: "s27", kind: "workflow", heading: "Reconstruct the analysis", lines: [
+      "Begin with a question that can be answered using language available at the intended decision time.",
+      "Read a development sample and write down the preparation choices it suggests.",
+      "Keep the final test separate while you learn features and choose settings using training and validation reviews.",
+      "Inspect missed cases alongside successful ones to find wording that the model handles poorly.",
+      "Report what the text adds and the limits that repeated templates place on transferring the result."
+    ]},
+    { id: "s52", kind: "thesis", heading: "Write a result someone can check", lines: [
+      "Start the methods paragraph with the eligible visits, the source of each review and the unit you treated as a document.",
+      "Describe the language, redactions, feature rules and the point at which you froze the learned vocabulary.",
+      "In the results paragraph put the numeric baseline beside the model that adds review text on the same held-out episodes.",
+      "For a complaint alert give the filing rate, class-specific errors and uncertainty alongside any overall score.",
+      "Show a de-identified passage that helps a reader understand a mistake such as losing nothing before complain.",
+      "Close by explaining why repeated templates and patients without a voice in the sample limit the conclusions you can draw."
+    ]},
+    { id: "s19", kind: "quiz", heading: "Check your understanding", wait: true, lines: [
+      "Use these fourteen questions to decide which claims the evidence from a review can support."
+    ]},
+    { id: "s20", kind: "takeaways", heading: "From a patient's words to a defensible finding", lines: [
+      "Think back to the writer who praised the staff and had nothing to complain about.",
+      "Someone reading your methods should be able to trace a single word from that sentence into its column.",
+      "A weight reflects both how often the term occurs here and how widely it appears elsewhere under the chosen rule.",
+      "Read the complete sentence again before giving a coefficient or a group of words a name.",
+      "Keep unseen reviews separate until every feature rule and decision threshold is fixed.",
+      "A defensible report lets another reader see whose words entered the analysis and where the interpretation could fail."
     ]}
   ],
   quiz: [
-    { q: "A word appears in 4,500 of 5,000 reviews. How much TF-IDF weight does it get?",
-      o: ["A lot, because it is so frequent", "Almost none, because it is everywhere", "Exactly the same as every other word", "It depends only on how long the review is"], a: 1,
-      why: "IDF = ln(5000 / 4500) = 0.105, close to zero. A word that is in almost every review distinguishes nothing, however often it appears." },
-    { q: "Where should the TF-IDF vectoriser learn its vocabulary?",
-      o: ["From all the reviews, before the split", "From the test reviews only", "From the training reviews only: fit_transform on train, transform on test", "It does not matter where"], a: 2,
-      why: "Fitting on all rows lets the test reviews help choose the features they are scored with. In real data that flatters every score, and the output looks identical." },
-    { q: "'complain' has the largest positive weight in the satisfaction model. What do you do?",
-      o: ["Report that complaining patients are more satisfied", "Go back to the sentences that contain it", "Drop the variable, because it is absurd", "Report it as the main theme"], a: 1,
-      why: "Here the stop-word list removed 'nothing', so 'complain' stands for 'Nothing to complain about' (average 85.8). One coefficient is never the meaning of a word." },
-    { q: "Honest R² = 0.739. Leaked vectoriser R² = 0.739. What follows?",
-      o: ["The rule about fitting on training rows is unnecessary", "Keep the rule: here the vocabulary barely changed, but in real data the leak flatters every number", "The leaked model is better", "Text features cannot leak"], a: 1,
-      why: "These reviews use only 30 sentences, so the vocabulary hardly moves. You cannot know in advance that a check will cost nothing, which is why you always run it." },
-    { q: "Which sentence may you write?",
-      o: ["\"Sentiment analysis shows patients are dissatisfied.\"", "\"The most common themes were team, hospital and visit.\"", "\"On thirty reviews I read by hand, the word list agreed with my labels on 21.\"", "\"The reviews confirm the satisfaction scores.\""], a: 2,
-      why: "It names the check, the sample and the agreement rate. The others claim themes, sentiment or corroboration that the method cannot support." },
-    { q: "You apply stemming to the Al Waha reviews. Which merge is misleading?",
-      o: ["waited + waiting → wait", "complain + complaint → complain", "team + teams → team", "None: stemming is always safe"], a: 1,
-      why: "“complain” comes from “Nothing to complain about” (happy patients, 85.8) and “complaint” from “I will be making a complaint” (unhappy, 52.5). Stemming merges opposite meanings into one feature." },
-    { q: "What does topic modelling give you?",
-      o: ["The sentiment of each review", "Groups of words that tend to appear together; the names are your interpretation", "A prediction of complaints", "The true number of topics"], a: 1,
-      why: "Topics are word groups. A topic is what people talk about, not how they feel: the “appointment timing” topic still had 27.5% complaints. You choose the number and the names." },
-    { q: "Only 4.4% of the cells in the document-term matrix are filled. What does that mean?",
-      o: ["The data are broken", "Each review uses only a few of the possible terms: the matrix is sparse", "Most reviews are empty", "TF-IDF failed"], a: 1,
-      why: "About 13 of the 296 terms appear in a typical review. Sparse matrices are normal in text analytics, and models handle them well." },
-    { q: "TF-IDF never saw the word “unprofessionalism”. Why can a transformer still read it?",
-      o: ["It looks the word up on the internet", "It splits the word into known sub-word pieces", "It ignores the word, like TF-IDF", "It guesses a random meaning"], a: 1,
-      why: "Transformers use a fixed list of about 30,000 word pieces. “unprofessionalism” becomes six known pieces, so no word is ever unknown." },
-    { q: "BERTopic on our reviews: minimum topic size 60 gives 23 topics and 53% outliers; size 150 gives no topic at all. What do you report?",
-      o: ["Only the 23 topics", "The setting, the number of topics, the share of outliers, and what you read in each topic", "That BERTopic failed", "The setting that gives the most topics"], a: 1,
-      why: "Like k in Week 12, the setting is your choice and it changes the answer. Report it with the outliers, and read the reviews behind each topic before naming it." }
+    {"q":"One whole review is counted for each visit. What is a document here?","o":["All reviews together","One visit’s complete review","A word occurrence","A vocabulary column"],"a":1,"why":"One row represents one review, which can contain several sentences and many tokens."},
+    {"q":"Which choice best preserves the reassurance in “Nothing to complain about”?","o":["Drop all common words","Count complaint-related stems alone","Keep nothing and consider phrase features","Discard short reviews"],"a":2,"why":"Nothing changes the sense of complain. An ordered phrase can retain that relationship."},
+    {"q":"Why map were to be when processing a review?","o":["To recover the dictionary form of a verb","To locate a named entity","To count neighbouring words","To decide the tone"],"a":0,"why":"Lemmatisation can recover an irregular base form using grammatical information."},
+    {"q":"At equal counts in one review, which term gets more weight under unsmoothed TF-IDF?","o":["The longer word","The term appearing in more documents","Both always get equal weight","The term appearing in fewer documents"],"a":3,"why":"A lower document frequency gives the term a higher inverse document frequency."},
+    {"q":"Where should vocabulary and rarity weights be learned during model selection?","o":["On every review before splitting","Inside each training fold","On validation and test rows together","On the final test reviews"],"a":1,"why":"A held-out fold must use a vocabulary learned without its reviews. Refit the chosen procedure on the training data before final evaluation."},
+    {"q":"What does the large positive coefficient for complain tell us?","o":["Filing improves satisfaction","Complaints are the main topic","The fitted feature has an association that needs a phrase-level check","Patients rarely felt ignored"],"a":2,"why":"The reassurance phrase loses nothing during preprocessing. Reading the original explains what that column can stand for."},
+    {"q":"What does LDA allow in a review that praises staff and describes a delay?","o":["A mixture of subjects in one review","Only its strongest feeling","One compulsory subject for the entire review","Identification of what caused the delay"],"a":0,"why":"LDA represents each review with a distribution over topics and each topic with a distribution over words."},
+    {"q":"What does closeness between rude and impolite in an embedding suggest?","o":["Identical dictionary meanings","Both were frequent at Al Waha","All nearby words express the same feeling","The words may occur in similar surroundings"],"a":3,"why":"Training contexts can bring synonyms or even opposites close together. Check what that similarity captures."},
+    {"q":"What follows from an attention connection from complain to nothing?","o":["The model understood the reassurance","Information can pass between those positions in that layer","Nothing caused a higher satisfaction score","The encoder learned a stop list"],"a":1,"why":"An attention weight describes one mixing operation. It does not establish the interpretation of the final output."},
+    {"q":"How should zero-shot coding be assessed?","o":["Accept fluent answers","Let the model revise its reference labels","Freeze the instructions and compare with independent coding of unseen excerpts","Select the prompt on final test accuracy"],"a":2,"why":"Use a coding guide, inspect evidence spans and compare agreement and class-specific errors."},
+    {"q":"Observed agreement is 80% and expected chance agreement is 50%. What is Cohen’s kappa?","o":["0.30","0.40","0.80","0.60"],"a":3,"why":"The coders gained 30 percentage points beyond chance out of 50 available, giving 0.60."},
+    {"q":"Four alerts include three filed complaints. Two other complaints were missed. What is complaint recall?","o":["3 / 5","3 / 4","4 / 5","2 / 4"],"a":0,"why":"Recall starts with all five actual complaints. Precision starts with all four alerts."},
+    {"q":"Which comparison measures the added value of review text for a complaint alert?","o":["Compare two hospitals with different outcomes","Score only flagged visits","Compare fixed models on identical eligible held-out visits at the same prediction time","Choose features on the final test set"],"a":2,"why":"Match rows, prediction time, splits and assessment rules. Report class-specific results with the filing rate and uncertainty."},
+    {"q":"A review gives a rare service, shift and exact time after the patient name is removed. What should happen before release?","o":["Publish the excerpt immediately","Assess identification risk and minimise the details for the approved use","Upload the full note to check it","Replace only the episode key"],"a":1,"why":"Several indirect details together can identify a visit. Review the audience, permission and need for each detail."}
   ]
 };

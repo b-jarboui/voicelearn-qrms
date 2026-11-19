@@ -1,4 +1,4 @@
-/* Week 13 · Chapter 3, part E (17 Nov 2026): s31 "How BERTopic works, step by step" — a conceptual walkthrough of the
+/* Text analytics, part E (17 Nov 2026): s31 "How BERTopic works, step by step" — a conceptual walkthrough of the
    process with eight real review sentences (positions and groups are an illustration of the logic, marked on screen),
    and a shorter s30 that now only shows what the process found on the 5,200 reviews. */
 (function () {
@@ -20,9 +20,9 @@
   const bar = (x, y, seed) => { let s = seed * 9301 + 49297, out = ""; for (let i = 0; i < 24; i++) { s = (s * 9301 + 49297) % 233280; const h = 4 + (s / 233280) * 14; out += `<rect x="${x + i * 3}" y="${y + 18 - h}" width="2" height="${h.toFixed(1)}" fill="${NAVY}" fill-opacity=".7"/>`; } return out; };
   SC.s31 = {
     copy: [
-      { k: "How BERTopic works", m: "Follow eight real reviews through the whole process.", s: "Five steps, no code.", l: "Eight reviews" },
+      { k: "How BERTopic works", m: "Follow eight real excerpts through the whole process.", s: "Five steps, no code.", l: "Eight excerpts" },
       { k: "Step 1 · Embedding", m: "A transformer turns each review into 384 numbers.", s: "An address in meaning space: similar meanings, nearby addresses.", l: "Reviews → addresses" },
-      { k: "Step 2 · UMAP", m: "Squeeze 384 dimensions down to a few.", s: "Neighbours stay next to each other.", l: "384 → a map" },
+      { k: "Step 2 · UMAP", m: "Squeeze 384 dimensions down to a few.", s: "Local neighbourhoods are approximately preserved.", l: "384 → a map" },
       { k: "Step 3 · HDBSCAN", m: "Crowded areas become topics. Lonely reviews are outliers.", s: "No review is forced into a group.", l: "Crowds = topics" },
       { k: "Step 4 · class-based TF-IDF", m: "Join each topic into one long document. Find its distinctive words.", s: "Frequent in this topic, rare in the others.", l: "Key words" },
       { k: "Step 5 · Your part", m: "Read the words and the reviews. Then name the topic.", s: "The method finds the groups. You decide what they mean.", l: "You name it" }
@@ -74,8 +74,8 @@ ${REV.map(([, g], i) => `<circle class="pt31" data-i="${i}" cx="0" cy="0" r="7" 
   SC.s30 = {
     svg: base.svg,
     copy: [
-      { k: "BERTopic on our reviews", m: "The same five steps, on all 5,200 reviews.", s: "Each dot is one real review on the map.", l: "5,200 reviews" },
-      { k: "The topics", m: `${TPS.length} topics, found by the method itself.`, s: "Much finer than the 4 topics from NMF.", l: `${TPS.length} topics` },
+      { k: "BERTopic on our reviews", m: "The same five steps, on all 5,200 reviews.", s: "The map shows a sample of 700 reviews.", l: "5,200 reviews" },
+      { k: "The topics", m: `${TPS.length} topics, at minimum group size 60.`, s: "Much finer than the 4 topics from NMF.", l: `${TPS.length} topics` },
       { k: "Two examples", m: `“Felt ignored”: ${NEG.compl}% complaints. “Real kindness”: ${POS.compl}%.`, s: "Each named only after reading its words and reviews.", l: "Two topics" },
       { k: "Outliers and settings", m: `${PCT}% of reviews are outliers. One setting changes everything.`, s: `Minimum topic size ${SZ[0][0]}: ${SZ[0][1]} topics · ${SZ[2][0]}: none at all.`, l: "Settings decide" },
       { k: "So", m: "Choose the setting, report it, and read the reviews.", s: "", l: "Choose · report · read" }

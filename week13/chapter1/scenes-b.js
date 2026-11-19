@@ -1,46 +1,10 @@
-/* Week 13 · Chapter 1 animated scenes, part B (s11–s20). Uses window.SCH helpers from scenes-a.js. */
+/* Text analytics animated scenes, part B (s11–s20). Uses window.SCH helpers from scenes-a.js. */
 (function () {
   "use strict";
   const SC = window.SC, H = window.SCH, D = window.W13DATA;
   const { NAVY, TERRA, GREEN, GOLD, INK, SKY, MUTED, GREY, PAPER, EDGE } = H.C;
   const { t, fo, person, tile, bubble } = H;
   const fmt = n => n.toLocaleString("en-US");
-
-  /* ------------------------------------------------------------ s11 · assumptions 4 to 6 */
-  SC.s11 = {
-    copy: [
-      { k: "Six assumptions", m: "The other three. Two are unique to text.", s: "", l: "Assumptions 4 to 6" },
-      { k: "Assumption 4", m: "The writers are not everyone in your sample.", s: "Report the coverage. Say whose voice you are analysing.", l: "4 · whose voice?" },
-      { k: "Assumption 5", m: "A text feature can contain the outcome.", s: "“I will be making a complaint” half-answers the question.", l: "5 · outcome inside the text" },
-      { k: "Assumption 6", m: "Text features still need honest held-out scoring.", s: "And that has a trap of its own.", l: "6 · held-out, honestly" }
-    ],
-    svg: `
-<rect width="480" height="360" fill="#EFE8DA"/>
-${t(240, 30, "Assumptions of text analytics · 4 to 6", 16, NAVY, "middle", 800)}
-<g class="a o0 c11" style="transform:translateY(14px)"><rect x="14" y="44" width="146" height="300" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-  <circle cx="34" cy="64" r="11" fill="${NAVY}"/>${t(34, 69, "4", 13, "#fff")}${t(87, 70, "Whose voice?", 14, INK, "middle", 800)}
-  ${[0, 1, 2, 3, 4, 5, 6].map(i => { const loud = i === 0 || i === 6; return person(30 + i * 19, 200, loud ? (i ? TERRA : GREEN) : GREY, .62, loud ? "bob" : ""); }).join("")}
-  <g class="bob">${bubble(18, 110, "Wonderful!", { size: 11, stroke: GREEN })}</g><g class="bob" style="animation-delay:.6s">${bubble(80, 136, "Awful!", { size: 11, stroke: TERRA })}</g>
-  ${t(87, 226, "the middle stays quiet", 11.5, MUTED, "middle", 700)}
-  ${fo(24, 240, 128, 100, "Compare writers with non-writers on what you already hold. Write the conclusion about the writers.", 12, MUTED, 400)}</g>
-<g class="a o0 c11" style="transform:translateY(14px)"><rect x="168" y="44" width="146" height="300" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-  <circle cx="188" cy="64" r="11" fill="${NAVY}"/>${t(188, 69, "5", 13, "#fff")}${t(241, 70, "Outcome inside", 14, INK, "middle", 800)}
-  <rect x="180" y="88" width="122" height="64" rx="10" fill="${SKY}"/>${fo(186, 92, 112, 58, "“…I will be making a <b style='color:" + TERRA + "'>complaint</b>.”", 13, INK, 600)}
-  <path class="dr ar11" pathLength="1" d="M241 156 V188" stroke="${TERRA}" stroke-width="3" marker-end="url(#ah11)"/>
-  <rect x="186" y="194" width="110" height="34" rx="8" fill="#fff" stroke="${TERRA}" stroke-width="2.5"/>${t(241, 216, "complaint filed?", 13, TERRA, "middle", 800)}
-  ${fo(178, 240, 128, 100, "Read the top terms: could each one only be written once the outcome was known? Remove and refit.", 12, MUTED, 400)}</g>
-<g class="a o0 c11" style="transform:translateY(14px)"><rect x="322" y="44" width="146" height="300" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-  <circle cx="342" cy="64" r="11" fill="${NAVY}"/>${t(342, 69, "6", 13, "#fff")}${t(395, 70, "Held-out", 14, INK, "middle", 800)}
-  <rect x="340" y="104" width="70" height="80" rx="6" fill="${NAVY}" fill-opacity=".18" stroke="${NAVY}" stroke-width="2"/>${t(375, 150, "train", 13, NAVY)}
-  <rect x="414" y="104" width="40" height="80" rx="6" fill="${TERRA}" fill-opacity=".18" stroke="${TERRA}" stroke-width="2"/>${t(434, 150, "test", 12, TERRA)}
-  <g class="shake"><rect x="422" y="190" width="24" height="18" rx="3" fill="${INK}"/><path d="M427 190 v-6 a7 7 0 0 1 14 0 v6" fill="none" stroke="${INK}" stroke-width="3"/></g>
-  ${fo(332, 240, 128, 100, "The vectoriser must be fitted inside the training split. Otherwise the leak is invisible.", 12, MUTED, 400)}</g>
-<defs><marker id="ah11" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="${TERRA}"/></marker></defs>`,
-    render(r, b) {
-      H.q(r, ".c11").forEach((g, i) => { const on = b >= i + 1; g.style.opacity = on ? 1 : b === 0 ? .3 : 0; g.style.transform = on || b === 0 ? "none" : "translateY(14px)"; });
-      H.draw(r, ".ar11", b >= 2);
-    }
-  };
 
   /* ------------------------------------------------------------ s12 · fit on train, transform on test */
   const pile = (x, y, n, col, cls) => `<g class="${cls}">${[0, 1, 2, 3].map(i => `<rect x="${x + i * 4}" y="${y - i * 4}" width="74" height="52" rx="6" fill="#fff" stroke="${col}" stroke-width="2"/>`).join("")}
@@ -112,13 +76,13 @@ ${t(240, 30, "Assumptions of text analytics · 4 to 6", 16, NAVY, "middle", 800)
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/>
 <rect x="10" y="12" width="460" height="214" rx="12" fill="#1E2430"/>
-<circle cx="28" cy="28" r="5" fill="#E86A5A"/><circle cx="44" cy="28" r="5" fill="${GOLD}"/><circle cx="60" cy="28" r="5" fill="#6CCB92"/>${t(250, 32, "week13_broken.py", 12, "#A9B2C0", "middle", 700)}
+<circle cx="28" cy="28" r="5" fill="#E86A5A"/><circle cx="44" cy="28" r="5" fill="${GOLD}"/><circle cx="60" cy="28" r="5" fill="#6CCB92"/>${t(250, 32, "review_features.py", 12, "#A9B2C0", "middle", 700)}
 ${CODE.map(([n, s], i) => `<g class="ln" data-n="${n}"><rect class="lnb" x="14" y="${46 + i * 29}" width="452" height="26" rx="4" fill="transparent" style="transition:fill .4s"/>
   <text x="34" y="${64 + i * 29}" font-family="Consolas,monospace" font-size="12" fill="#6B7383" text-anchor="end">${n}</text>
   <text class="lt" x="44" y="${64 + i * 29}" font-family="Consolas,monospace" font-size="${s.length > 60 ? 10.4 : 12}" fill="#E6EAF0">${s.replace(/</g, "&lt;")}</text></g>`).join("")}
 <rect class="outbox" x="10" y="236" width="460" height="112" rx="12" fill="#2A1A18"/>
 ${t(24, 258, "Output", 12, "#A9B2C0", "start", 700)}
-<g class="err"><text x="24" y="282" font-family="Consolas,monospace" font-size="11.5" fill="#F6B8A0">  File "week13_broken.py", line 18, in &lt;module&gt;</text>
+<g class="err"><text x="24" y="282" font-family="Consolas,monospace" font-size="11.5" fill="#F6B8A0">  File "review_features.py", line 18, in &lt;module&gt;</text>
   <text x="24" y="304" font-family="Consolas,monospace" font-size="11.5" fill="#FF8A75" font-weight="700">sklearn.exceptions.NotFittedError:</text>
   <text x="24" y="324" font-family="Consolas,monospace" font-size="11.5" fill="#FF8A75" font-weight="700">The TF-IDF vectorizer is not fitted</text></g>
 <g class="okout" style="opacity:0;transition:opacity .6s .6s"><text x="24" y="290" font-family="Consolas,monospace" font-size="13" fill="#9EE6B8">vocabulary: ${D.vocabTrain} terms</text>
@@ -138,10 +102,10 @@ ${t(24, 258, "Output", 12, "#A9B2C0", "start", 700)}
   SC.s14 = {
     copy: [
       { k: "Held-out R² · 1,300 test episodes", m: "The review text alone: 0.739.", s: "About 74% of the variation in satisfaction.", l: "text 0.739" },
-      { k: "Held-out R²", m: "Everything the hospital recorded: 0.806.", s: "Wait, staffing, training, occupancy, handoffs, prior visits.", l: "operations 0.806" },
-      { k: "Held-out R²", m: "Both together: 0.868. The text adds +0.062.", s: "Nearly as much as the hospital measured, and something on top.", l: "both 0.868 (+0.062)" },
-      { k: "The leak", m: "Vectoriser fitted on all rows: also 0.739.", s: "Here, the leak changed nothing.", l: "leaked 0.739 = honest" },
-      { k: "Why, and why the rule stands", m: "Thirty sentences → a vocabulary that barely moves.", s: "Real reviews: huge vocabularies, flattered scores, identical-looking output.", l: `${D.vocabTrain} vs ${D.vocabAll} terms` }
+      { k: "Held-out R²", m: "Six operational measures: 0.806.", s: "Wait, staffing, training, occupancy, handoffs, prior visits.", l: "operations 0.806" },
+      { k: "Held-out R²", m: "Both together: 0.868. The text adds +0.062.", s: "Observed increase on the same held-out episodes.", l: "both 0.868 (+0.062)" },
+      { k: "The leak", m: "Vectoriser fitted on all rows: also 0.739.", s: "The rounded test score is unchanged.", l: "leaked 0.739 = honest" },
+      { k: "Why, and why the rule stands", m: "Thirty sentences → a vocabulary that barely moves.", s: "The vocabulary changed even with equal rounded scores.", l: `${D.vocabTrain} vs ${D.vocabAll} terms` }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -156,8 +120,8 @@ ${RES.map(([s, v, c], i) => `<g class="a o0 rr14">${t(172, 70 + i * 40, s, 13, I
 <g class="a o0 why14" style="transform:translateY(12px)">
   <rect x="12" y="230" width="220" height="118" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>${t(122, 252, "this file", 13, NAVY, "middle", 800)}
   ${t(122, 284, `${D.nSent} sentences`, 20, NAVY, "middle", 800)}${t(122, 310, `${D.vocabTrain} terms (train) · ${D.vocabAll} (all)`, 12.5, INK, "middle", 700)}${t(122, 332, "the leak has almost nothing to add", 11.5, MUTED, "middle", 600)}
-  <rect x="248" y="230" width="220" height="118" rx="14" fill="${INK}"/>${t(358, 252, "real review data", 13, GOLD, "middle", 800)}
-  ${fo(262, 262, 194, 84, "Thousands of terms. The leak flatters every number, and the output looks identical. You cannot know in advance: so you always run the check.", 12.5, "#fff", 400)}
+  <rect x="248" y="230" width="220" height="118" rx="14" fill="${INK}"/>${t(358, 252, "evaluation design", 13, GOLD, "middle", 800)}
+  ${fo(262, 262, 194, 84, "Fitting before the split exposes the vocabulary to test reviews. The size and direction of a score change can vary.", 12.5, "#fff", 400)}
 </g>`,
     render(r, b) {
       H.q(r, ".rr14").forEach((g, i) => { const on = b >= i || (b === 4); g.style.opacity = on ? 1 : 0; g.querySelector(".rb").style.transform = on ? "scaleX(1)" : "scaleX(0)"; });
@@ -174,7 +138,7 @@ ${RES.map(([s, v, c], i) => `<g class="a o0 rr14">${t(172, 70 + i * 40, s, 13, I
   SC.s15 = {
     copy: [
       { k: "A yes or no outcome", m: "Did the patient file a formal complaint?", s: `Text-only model, held-out AUC ${D.leak.auc["000000"]}.`, l: `AUC ${D.leak.auc["000000"]}` },
-      { k: "Your turn", m: "Tick the words that could only be written once the outcome was known.", s: "Then remove them and refit. The drop is the size of the leak.", l: "Hunt the leak" }
+      { k: "Your turn", m: "Flag terms from the declaration of intent.", s: "Compare stored refits at the same prediction time.", l: "Hunt the leak" }
     ],
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/>
@@ -189,8 +153,8 @@ ${LK.map((w, i) => { const x = 240 + (i % 2) * 112, y = 48 + Math.floor(i / 2) *
 <g class="a o0 after15" style="transform:translateY(12px)">
   <rect x="12" y="192" width="456" height="156" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
   ${t(24, 214, "", 14, INK, "start", 800, "res15")}
-  ${t(24, 240, `${fmt(CF.filed)} patients filed a complaint. Only ${CF.filedWrote} of them wrote “making a complaint”.`, 12.5, INK, "start", 600)}
-  ${t(24, 262, `And of the ${CF.wrote} who wrote it, only ${Math.round(100 * CF.filedWrote / CF.wrote)}% went on to file one.`, 12.5, INK, "start", 600)}
+  ${t(24, 240, `${fmt(CF.filed)} episodes had a filing. In ${CF.filedWrote} the review declared intent.`, 12.5, INK, "start", 600)}
+  ${t(24, 262, `And of the ${CF.wrote} reviews declaring intent, ${Math.round(100 * CF.filedWrote / CF.wrote)}% had a recorded filing.`, 12.5, INK, "start", 600)}
   ${t(24, 290, "The model's strongest complaint words:", 12.5, MUTED, "start", 800)}
   ${D.complTop.slice(0, 5).map(([w], i) => tile(24 + i * 84, 300, w, { size: 13, h: 26, stroke: NAVY })).join("")}
   ${t(452, 340, "about waiting, not about the complaint", 11.5, NAVY, "end", 700)}
@@ -201,19 +165,19 @@ ${LK.map((w, i) => { const x = 240 + (i % 2) * 112, y = 48 + Math.floor(i / 2) *
       H.count(r.querySelector(".auc15"), a, 900, v => v.toFixed(3));
       const arc = r.querySelector(".arc15"), L = arc.getTotalLength(); arc.style.strokeDasharray = L + " " + L; arc.style.strokeDashoffset = (L * (1 - (a - .5) / .5)).toFixed(1);
       H.show(r, ".after15", !!done); H.tf(r, ".after15", done ? "none" : "translateY(12px)");
-      const res = r.querySelector(".res15"); res.textContent = done ? `Before ${D.leak.auc["000000"]} → after ${a.toFixed(3)}: a drop of ${Math.max(0, D.leak.auc["000000"] - a).toFixed(3)}.` : "";
+      const res = r.querySelector(".res15"); res.textContent = done ? `Before ${D.leak.auc["000000"]} → after ${a.toFixed(3)} (change ${(a - D.leak.auc["000000"]).toFixed(3)}).` : "";
     },
-    render(r, b) { const s = r.querySelector("svg"); if (!s._init) { s._init = 1; setTimeout(() => SC.s15.update(r, "000000", false), 60); } }
+    render(r, b) { const s = r.querySelector("svg"); if (!s._init) { s._init = 1; SC.s15.update(r, "000000", false); } }
   };
 
   /* ------------------------------------------------------------ s16 · read thirty by hand */
   const hue = i => `hsl(${(i * 47) % 360} 55% 58%)`;
   SC.s16 = {
     copy: [
-      { k: "Before any modelling", m: "Read thirty reviews at random, and write down what you see.", s: "It takes ten minutes.", l: "30 random reviews" },
+      { k: "Before any modelling", m: "Read thirty reviews at random, and write down what you see.", s: "Look for repeated wording.", l: "30 random reviews" },
       { k: "Do it here", m: "The same sentences keep coming back.", s: "Same colour = same sentence.", l: "Repeats" },
       { k: "What reading reveals", m: `All ${fmt(D.D)} reviews are built from just ${D.nSent} sentences.`, s: `Only ${fmt(D.nUnique)} different reviews. No score or coefficient would tell you that.`, l: `${D.nSent} sentences` },
-      { k: "Standard practice", m: "Mejia and colleagues read first, too.", s: "Reading is standard practice, not a precaution.", l: "Read first" }
+      { k: "Standard practice", m: "Templates may recur in both train and test.", s: "New language is a different transfer test.", l: "Read first" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -235,12 +199,12 @@ ${D.thirty.map(([id, txt], i) => { const x = 10 + (i % 6) * 77, y = 10 + Math.fl
   };
 
   /* ------------------------------------------------------------ s17 · four sentences you may not write */
-  const SENT = [["“Patients care most about complain.”", "A coefficient is not a topic."], ["“The most common themes were team, hospital, visit.”", "Those are words almost every review contains."], ["“Sentiment analysis shows patients are dissatisfied.”", "Which model? How well did it agree with a human?"], ["“The reviews confirm the satisfaction scores.”", "Same people, same visits: not corroboration."]];
+  const SENT = [["“Patients care most about complain.”", "A coefficient is not a topic."], ["“The most common themes were team, hospital, visit.”", "Frequent terms alone do not establish themes."], ["“Sentiment analysis shows patients are dissatisfied.”", "Which model? How well did it agree with a human?"], ["“The reviews confirm the satisfaction scores.”", "Same people, same visits: not corroboration."]];
   SC.s17 = {
     copy: [
       { k: "Your turn", m: "May you write each sentence, or not?", s: "Decide under the stage.", l: "Four sentences" },
       { k: "Sentence 1", m: "“Care most about complain”? No.", s: "A coefficient is not a topic, and this one is not even about complaining.", l: "1 · not allowed" },
-      { k: "Sentence 2", m: "“Common themes: team, hospital, visit”? No.", s: "Those are the words almost every review contains.", l: "2 · not allowed" },
+      { k: "Sentence 2", m: "“Common themes: team, hospital, visit”? No.", s: "Frequency alone does not establish a theme.", l: "2 · not allowed" },
       { k: "Sentence 3", m: "“Sentiment analysis shows…”? No.", s: "Which model, trained on what, and how well did it agree with a human reader?", l: "3 · not allowed" },
       { k: "Sentence 4", m: "“The reviews confirm the scores”? No.", s: "Same people, same visits. All four are off limits.", l: "4 · not allowed" }
     ],
@@ -259,45 +223,8 @@ ${SENT.map(([s, why], i) => `<g class="sn">${t(38, 92 + i * 70, s, 14, INK, "sta
     }
   };
 
-  /* ------------------------------------------------------------ s18 · you decide; ChatGPT assists */
-  SC.s18 = {
-    copy: [
-      { k: "Every week", m: "You decide. ChatGPT assists.", s: "Interpretation stays on your side.", l: "You decide" },
-      { k: "A good helper question", m: "Explain what min_df=5 removes and ngram_range=(1,2) adds.", s: "It explains a setting. It does not read your data for you.", l: "Explains a setting ✓" },
-      { k: "A bad helper question", m: "“What are patients complaining about?”", s: "That is a reading of qualitative data. It starts with you reading some.", l: "Reads for you ✗" }
-    ],
-    svg: `
-<rect width="480" height="360" fill="${PAPER}"/>
-<rect x="16" y="20" width="168" height="320" rx="14" fill="#fff" stroke="${NAVY}" stroke-width="2.5"/>
-${t(100, 50, "You decide", 17, NAVY, "middle", 800)}
-${["the question", "the text choices", "the core code", "the diagnostics", "reading the reviews"].map((s, i) => t(30, 86 + i * 34, "•  " + s, 13.5, INK, "start", 700)).join("")}
-<g class="a o0 lock"><rect x="24" y="${86 + 4 * 34 - 22}" width="154" height="32" rx="8" fill="${GOLD}" fill-opacity=".3" stroke="${GOLD}" stroke-width="2"/>
-  <g transform="translate(166 ${86 + 4 * 34 - 7})"><rect x="-8" y="-4" width="16" height="12" rx="2" fill="${INK}"/><path d="M-5 -4 v-4 a5 5 0 0 1 10 0 v4" fill="none" stroke="${INK}" stroke-width="2.2"/></g></g>
-${person(100, 318, NAVY, 1.1)}<rect x="62" y="270" width="76" height="8" rx="3" fill="${MUTED}"/>
-<rect x="198" y="20" width="266" height="320" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-<rect x="198" y="20" width="266" height="40" rx="14" fill="${INK}"/><rect x="198" y="46" width="266" height="14" fill="${INK}"/>
-${t(331, 46, "ChatGPT assists", 15, "#fff", "middle", 800)}
-<g class="a o0 gq" style="transform:translateY(16px)">
-  <rect x="214" y="76" width="236" height="96" rx="14" fill="${SKY}"/>
-  ${fo(224, 82, 216, 86, "“Explain what <b>min_df=5</b> removes, and what <b>ngram_range=(1,2)</b> adds.”", 13.5, INK, 600)}
-  <circle cx="446" cy="176" r="15" fill="${GREEN}"/>${t(446, 182, "✓", 16, "#fff", "middle", 800)}
-  ${t(214, 194, "explains a setting", 13, GREEN, "start", 800)}
-</g>
-<g class="a o0 bq" style="transform:translateY(16px)">
-  <rect x="214" y="216" width="236" height="56" rx="14" fill="${SKY}"/>
-  ${fo(224, 222, 216, 46, "“What are patients complaining about?”", 13.5, INK, 600)}
-  <circle cx="446" cy="276" r="15" fill="${TERRA}"/>${t(446, 282, "✗", 16, "#fff", "middle", 800)}
-  ${t(214, 300, "a reading only you can do", 13, TERRA, "start", 800)}
-</g>`,
-    render(r, b) {
-      H.show(r, ".gq", b >= 1); H.tf(r, ".gq", b >= 1 ? "none" : "translateY(16px)");
-      H.show(r, ".bq", b >= 2); H.tf(r, ".bq", b >= 2 ? "none" : "translateY(16px)");
-      H.show(r, ".lock", b >= 2); H.delay(r, ".lock", b >= 2 ? 2.5 : 0);
-    }
-  };
-
   /* ------------------------------------------------------------ s19 · quiz (panel only) */
-  SC.s19 = { full: true, copy: [{ k: "Quiz", m: "Five questions", s: "", l: "" }], svg: "", render() { } };
+  SC.s19 = { full: true, copy: [{ k: "Quiz", m: "Fourteen questions", s: "Apply the methods to review evidence.", l: "Knowledge check" }], svg: '<rect width="480" height="360" fill="#F6F1E7"/>', render() { } };
 
   /* ------------------------------------------------------------ s20 · takeaways */
   const IDEAS = [
@@ -318,7 +245,7 @@ ${t(331, 46, "ChatGPT assists", 15, "#fff", "middle", 800)}
       { k: "Idea 2", m: "TF-IDF rewards words frequent here, rare everywhere else.", s: "A word in every review distinguishes nothing.", l: "2 · TF-IDF" },
       { k: "Idea 3", m: "Never read meaning into one coefficient.", s: "Go back to the sentences.", l: "3 · read the sentences" },
       { k: "Idea 4", m: "Fit the vectoriser on training rows only.", s: "And read the text yourself before you trust any model of it.", l: "4 · fit on train" },
-      { k: "Your self-paced session", m: "Now do it yourself.", s: "Four tasks, real reviews.", l: "Self-paced session" }
+      { k: "Your report", m: "Show how the evidence supports the conclusion.", s: "Unit, evidence, checks and limitations.", l: "Reporting checklist" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -329,8 +256,8 @@ ${IDEAS.map(([h, s, ic], i) => { const x = 20 + (i % 2) * 226, y = 18 + Math.flo
   ${fo(x + 14, y + 62, 190, 42, s, 13, MUTED, 400)}</g>`; }).join("")}
 <g class="a o0 tasks">
   <rect x="20" y="262" width="440" height="86" rx="14" fill="${NAVY}"/>
-  ${t(36, 284, "Self-paced session", 14, GOLD, "start", 800)}
-  ${["read thirty reviews by hand", "predict a yes/no outcome", "hunt leaked words on purpose", "compare the model with you"].map((s, i) =>
+  ${t(36, 284, "Reporting checklist", 14, GOLD, "start", 800)}
+  ${["state the unit and coverage", "show a de-identified example", "report held-out errors", "identify limits of transfer"].map((s, i) =>
     `<g class="tk" style="transition:opacity .5s ${.4 + i * .5}s"><circle cx="${42 + (i % 2) * 214}" cy="${304 + Math.floor(i / 2) * 24}" r="7" fill="${GREEN}"/>${t(42 + (i % 2) * 214, 308 + Math.floor(i / 2) * 24, "✓", 10, "#fff")}${t(56 + (i % 2) * 214, 309 + Math.floor(i / 2) * 24, s, 13, "#fff", "start", 600)}</g>`).join("")}
 </g>`,
     render(r, b) {

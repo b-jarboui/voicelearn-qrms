@@ -1,4 +1,4 @@
-/* Week 13 · Chapter 1 animated scenes, part A (s01–s10).
+/* An episode row · Chapter 1 animated scenes, part A (s01–s10).
    Each scene: SC[id] = { svg, copy[beat], render(root, beat) } on a 480 x 360 stage.
    render() sets the full state for a beat (so jumping between beats works); CSS transitions do the motion.
    Data: window.W13DATA (real Al Waha reviews and results computed with scikit-learn 1.8). */
@@ -55,8 +55,8 @@
   const B01 = [[196, 26, "Thank you to the whole team.", GREEN], [236, 70, "Very disappointing visit.", TERRA], [200, 114, "I felt completely ignored.", TERRA], [232, 158, "Excellent care from start to finish.", GREEN]];
   SC.s01 = {
     copy: [
-      { k: "Week 13 · Chapter 1", m: "5,200 patients wrote a few sentences about their visit.", s: "Text analytics: turning written reviews into variables.", l: "5,200 written reviews" },
-      { k: "The question", m: "Can those sentences be measured, and used as variables?", s: "If they can, everything from Weeks 9 to 12 still applies.", l: "Words → numbers?" }
+      { k: "An episode row", m: "5,200 episode reviews from Al Waha.", s: "Text analytics: turning written reviews into variables.", l: "5,200 written reviews" },
+      { k: "The question", m: "Can those sentences be measured, and used as variables?", s: "What can a count preserve about an experience?", l: "Words → numbers?" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -83,7 +83,7 @@
   };
 
   /* ------------------------------------------------------------ s02 · what you already have */
-  const R02 = [["Split before you fit", "Score on rows the model has never seen.", "split"], ["Units decide", "A variable's units decide how much it counts.", "ruler"], ["Runs ≠ measures", "A perfect run can still measure nothing.", "gauge"]];
+  const R02 = [["Split before you fit", "Score on rows the model has never seen.", "split"], ["Choose a unit", "A minute and a mention measure different things.", "ruler"], ["Runs ≠ measures", "A perfect run can still measure nothing.", "gauge"]];
   const ic02 = (k, x, y) => ({
     split: `<rect x="${x - 40}" y="${y - 9}" width="58" height="18" rx="4" fill="${NAVY}"/><rect x="${x + 22}" y="${y - 9}" width="20" height="18" rx="4" fill="${TERRA}"/>${t(x - 11, y + 24, "train", 11, NAVY, "middle", 700)}${t(x + 32, y + 24, "test", 11, TERRA, "middle", 700)}`,
     ruler: `<rect x="${x - 34}" y="${y - 11}" width="68" height="22" rx="3" fill="${GOLD}" stroke="${INK}" stroke-width="2"/>${[-24, -12, 0, 12, 24].map(a => `<path d="M${x + a} ${y - 11} v8" stroke="${INK}" stroke-width="2"/>`).join("")}`,
@@ -91,10 +91,10 @@
   })[k];
   SC.s02 = {
     copy: [
-      { k: "From Week 11", m: "Split before you fit, and score on unseen rows.", s: "", l: "1 · split first" },
-      { k: "From Week 12", m: "The units of a variable decide how much it counts.", s: "", l: "2 · units decide" },
-      { k: "From Weeks 11 and 12", m: "A model that runs perfectly can still measure nothing.", s: "", l: "3 · runs ≠ measures" },
-      { k: "Week 13", m: "Today the data arrives as sentences instead of numbers.", s: "Nothing about the statistics changes.", l: "Same statistics" }
+      { k: "Evaluation", m: "Split before you fit, and score on unseen rows.", s: "", l: "1 · split first" },
+      { k: "Units", m: "The units of a variable decide how much it counts.", s: "", l: "2 · units decide" },
+      { k: "Measurement", m: "A model that runs perfectly can still measure nothing.", s: "", l: "3 · runs ≠ measures" },
+      { k: "An episode row", m: "Today the data arrives as sentences instead of numbers.", s: "Join the text to the correct visit.", l: "Same statistics" }
     ],
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/>
@@ -132,7 +132,7 @@ ${R02.map(([h, s, ic], i) => { const x = 14 + i * 154; return `<g class="a o0 c0
     copy: [
       { k: "A real review", m: "“The staff were outstanding. Nothing to complain about.”", s: `Written ${EX.n} times in the file.`, l: "One review" },
       { k: "Step 1", m: "Cut it into words, all lower case.", s: "These pieces are called tokens.", l: "Tokens" },
-      { k: "Step 2", m: "Throw away the stop words.", s: "The, were, to, about… and nothing.", l: "Stop words removed" },
+      { k: "Step 2", m: "Apply the selected stop list.", s: "The, were, to, about… and nothing.", l: "Stop words removed" },
       { k: "Step 3", m: "Keep pairs of neighbouring words too: bigrams.", s: "“staff outstanding”, “outstanding complain”.", l: "Bigrams" },
       { k: "Step 4", m: "Each survivor is a column. The review is one row of numbers.", s: `Only 5 of the ${D.vocabTrain} columns are not zero for this review.`, l: "A row of numbers" }
     ],
@@ -164,7 +164,7 @@ ${BI.map(o => `<g class="a o0 bi03" style="transform:translateY(12px)">${tile(o.
     copy: [
       { k: "Your decisions", m: "Four decisions sit between the sentence and the variable.", s: "Every one of them is yours.", l: "Four switches" },
       { k: "Your turn", m: "Flip the switches under the stage.", s: "Each setting is a real model, scored on 1,300 unseen reviews.", l: "16 real models" },
-      { k: "Watch", m: "Watch the score, then watch the top words.", s: "Then press Continue.", l: "Score and words" }
+      { k: "Watch", m: "Inspect how the top words change.", s: "Use training validation for choosing settings.", l: "Score and words" }
     ],
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/>
@@ -209,8 +209,8 @@ ${t(170, 320, "290 → ?", 14, MUTED, "middle", 700, "vct")}
       { k: "How much should a word count?", m: "TF-IDF: frequent here, and distinctive everywhere else.", s: "", l: "TF-IDF" },
       { k: "TF · term frequency", m: "How often does the word appear in this review?", s: "Here: 1 time in 10 words, for each word.", l: "TF = count ÷ length" },
       { k: "IDF · inverse document frequency", m: "How many of all the reviews contain it at all?", s: `${fmt(D.D)} reviews; each square = 26 of them.`, l: "IDF = rare across reviews" },
-      { k: "Real counts", m: `“hospital”: ${fmt(D.dfreq.hospital)} reviews. “disappointing”: ${D.dfreq.disappointing}.`, s: "Darker squares contain the word more often.", l: "Where each word appears" },
-      { k: "The whole idea", m: "Everywhere → almost no weight. In a few reviews → a lot.", s: "IDF = ln(5,200 ÷ reviews containing the word).", l: "Rare = heavy" }
+      { k: "Real counts", m: `“hospital”: ${fmt(D.dfreq.hospital)} reviews. “disappointing”: ${D.dfreq.disappointing}.`, s: "Darker squares represent more reviews containing the word.", l: "Where each word appears" },
+      { k: "The whole idea", m: "At equal local frequency, rarer terms weigh more.", s: "IDF = ln(5,200 ÷ reviews containing the word).", l: "Rare = heavy" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -242,11 +242,11 @@ ${fo(26, 52, 172, 90, REV05.replace("disappointing", '<b class="hd" style="trans
   /* ------------------------------------------------------------ s06 · worked by hand */
   SC.s06 = {
     copy: [
-      { k: "Step 1 · TF", m: "A 60-word review says “disappointing” 3 times.", s: "tf = 3 ÷ 60 = 0.05", l: "tf = 0.05" },
+      { k: "Teaching example · TF", m: "A 60-word review says “disappointing” 3 times.", s: "tf = 3 ÷ 60 = 0.05", l: "tf = 0.05" },
       { k: "Step 2 · IDF", m: "“disappointing” is in 500 of 5,000 reviews.", s: "idf = ln(5,000 ÷ 500) = ln(10) = 2.30", l: "idf = 2.30" },
       { k: "Step 3 · multiply", m: "0.05 × 2.30 = 0.115", s: "The weight of “disappointing” in this review.", l: "w = 0.115" },
       { k: "Now “hospital”", m: "In 4,500 of 5,000 reviews: idf = ln(1.11) = 0.105", s: "Same 3 times: 0.05 × 0.105 = 0.005", l: "w = 0.005" },
-      { k: "The point", m: "Same count, about twenty times the weight.", s: "A word that is everywhere distinguishes nothing.", l: "≈ 20× the weight" }
+      { k: "The point", m: "Same count, about twenty-two times the weight.", s: "A word that is everywhere distinguishes nothing.", l: "≈ 22× the weight" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -273,7 +273,7 @@ ${[["tf = 3 ÷ 60 = 0.05", 15, INK], ["idf = ln(5,000 ÷ 500) = 2.30", 15, INK],
   ${t(105, 240, "0.115", 14, TERRA, "middle", 800)}${t(235, 324, "0.005", 14, NAVY, "middle", 800)}
   ${t(105, 352, "disappointing", 12, INK, "middle", 700)}${t(235, 352, "hospital", 12, INK, "middle", 700)}
 </g>
-<g class="a o0 x20" style="transform:scale(1.7)"><circle cx="384" cy="282" r="50" fill="${GOLD}"/>${t(384, 282, "≈ 20×", 26, INK, "middle", 800)}${t(384, 304, "the weight", 13, INK, "middle", 700)}</g>`,
+<g class="a o0 x20" style="transform:scale(1.7)"><circle cx="384" cy="282" r="50" fill="${GOLD}"/>${t(384, 282, "≈ 22×", 26, INK, "middle", 800)}${t(384, 304, "the weight", 13, INK, "middle", 700)}</g>`,
     render(r, b) {
       H.show(r, ".card06", true);
       H.q(r, ".w06").forEach((g, i) => { const on = b >= i; g.style.opacity = on ? 1 : 0; g.style.transform = on ? "none" : "translateX(-12px)"; });
@@ -323,10 +323,10 @@ ${t(145, 356, "", 12.5, INK, "middle", 700, "wwn")}${t(335, 356, "hospital", 12.
   SC.s08 = {
     copy: [
       { k: "A puzzle", m: "The biggest positive weight in the model: “complain”.", s: "Read alone, that looks absurd.", l: `complain: +${TOP8[0][1]}` },
-      { k: "Count it", m: `${fmt(CP.any.n)} reviews contain it: ${CP.any.mean} against ${CP.none.mean}.`, s: "On its own, the word seems to carry nothing.", l: `${CP.any.mean} vs ${CP.none.mean}` },
-      { k: "Read the sentences", m: `“Nothing to complain about.” ${CP.nothing.n} reviews, average ${CP.nothing.mean}.`, s: "Happy patients.", l: `${CP.nothing.n} · ${CP.nothing.mean}` },
+      { k: "Count it", m: `${fmt(CP.any.n)} reviews contain either form: ${CP.any.mean} against ${CP.none.mean}.`, s: "On its own, the word seems to carry nothing.", l: `${CP.any.mean} vs ${CP.none.mean}` },
+      { k: "Read the sentences", m: `“Nothing to complain about.” ${CP.nothing.n} reviews, average ${CP.nothing.mean}.`, s: "Mean satisfaction in this phrase group.", l: `${CP.nothing.n} · ${CP.nothing.mean}` },
       { k: "Read the sentences", m: `“I will be making a complaint.” ${CP.making.n} reviews, average ${CP.making.mean}.`, s: "Counted as a different word: “complaint”.", l: `${CP.making.n} · ${CP.making.mean}` },
-      { k: "The stop words", m: "“nothing” was thrown away. “complain” now means a happy patient.", s: "One coefficient is never the meaning of a word.", l: "complain = nothing to complain about" }
+      { k: "The stop words", m: "This pipeline loses the word “nothing”.", s: "One coefficient is never the meaning of a word.", l: "complain = nothing to complain about" }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -342,12 +342,12 @@ ${t(145, 356, "", 12.5, INK, "middle", 700, "wwn")}${t(335, 356, "hospital", 12.
 </g>
 <g class="a o0 cmp"><rect x="14" y="196" width="452" height="150" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
   ${t(28, 220, "Average satisfaction", 12.5, MUTED, "start", 800)}
-  ${[["contains “complain…”", CP.any, TERRA], ["does not", CP.none, GREY]].map(([s, c, col], i) => `${t(200, 256 + i * 44, s + " · " + fmt(c.n), 13, INK, "end", 700)}<rect class="cb" x="208" y="${240 + i * 44}" width="${(c.mean * 2.8).toFixed(0)}" height="22" rx="4" fill="${col}" style="transform-box:fill-box;transform-origin:left;transform:scaleX(0);transition:transform 1s ${i * .3}s"/>${t(214 + c.mean * 2.8, 257 + i * 44, c.mean, 14, INK, "start", 800)}`).join("")}
+  ${[["either word form", CP.any, TERRA], ["does not", CP.none, GREY]].map(([s, c, col], i) => `${t(200, 256 + i * 44, s + " · " + fmt(c.n), 13, INK, "end", 700)}<rect class="cb" x="208" y="${240 + i * 44}" width="${(c.mean * 2.8).toFixed(0)}" height="22" rx="4" fill="${col}" style="transform-box:fill-box;transform-origin:left;transform:scaleX(0);transition:transform 1s ${i * .3}s"/>${t(214 + c.mean * 2.8, 257 + i * 44, c.mean, 14, INK, "start", 800)}`).join("")}
 </g>
 <g class="a o0 stopdemo"><rect x="14" y="196" width="452" height="150" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
   ${t(28, 220, "What the model actually sees", 12.5, MUTED, "start", 800)}
   ${(() => { const ws = ["nothing", "to", "complain", "about"]; let x = 60; return ws.map(w => { const wd = H.tw(w, 17); const s = `<g class="a sd ${w === "complain" ? "sdk" : "sdx"}">${tile(x, 236, w, { size: 17, h: 34, stroke: w === "complain" ? NAVY : TERRA })}</g>`; x += wd + 12; return s; }).join(""); })()}
-  <g class="a o0 eq">${t(240, 316, "→  “complain”  =  a happy patient", 18, GREEN, "middle", 800)}<circle cx="432" cy="310" r="14" fill="${GOLD}"/><path d="M425 313 q7 7 14 0" stroke="${INK}" stroke-width="2.5" fill="none"/><circle cx="427" cy="306" r="2" fill="${INK}"/><circle cx="437" cy="306" r="2" fill="${INK}"/></g>
+  <g class="a o0 eq">${t(240, 316, "“complain” survives the reassurance", 18, GREEN, "middle", 800)}<circle cx="432" cy="310" r="14" fill="${GOLD}"/><path d="M425 313 q7 7 14 0" stroke="${INK}" stroke-width="2.5" fill="none"/><circle cx="427" cy="306" r="2" fill="${INK}"/><circle cx="437" cy="306" r="2" fill="${INK}"/></g>
 </g>`,
     render(r, b) {
       H.show(r, ".lead", b < 2); H.show(r, ".wow", b < 2);
@@ -360,33 +360,6 @@ ${t(145, 356, "", 12.5, INK, "middle", 700, "wwn")}${t(335, 356, "hospital", 12.
     }
   };
 
-  /* ------------------------------------------------------------ s09 · assumptions 1 to 3 */
-  const A1 = [
-    ["1", "Preparation choices change the result.", "Record lower case, stop words, pairs, rare words. Fix them before comparing.", "sliders"],
-    ["2", "Frequent is not important.", "“hospital” and “staff” top every raw count. Use TF-IDF; extend the stop words.", "podium"],
-    ["3", "A sentiment model may not transfer.", "Hand-read a sample, compare with the model, report the agreement rate.", "globe"]];
-  const ic09 = (k, x, y) => ({
-    sliders: [0, 1, 2].map(i => `<path d="M${x - 16} ${y - 10 + i * 10} H${x + 16}" stroke="${INK}" stroke-width="2.5"/><circle cx="${x - 8 + i * 9}" cy="${y - 10 + i * 10}" r="4" fill="${TERRA}"/>`).join(""),
-    podium: `<rect x="${x - 18}" y="${y - 2}" width="12" height="14" fill="${GREY}"/><rect x="${x - 6}" y="${y - 12}" width="12" height="24" fill="${GOLD}"/><rect x="${x + 6}" y="${y + 3}" width="12" height="9" fill="${GREY}"/>`,
-    globe: `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${NAVY}" stroke-width="2.5"/><ellipse cx="${x}" cy="${y}" rx="6" ry="14" fill="none" stroke="${NAVY}" stroke-width="2"/><path d="M${x - 14} ${y} H${x + 14}" stroke="${NAVY}" stroke-width="2"/>`
-  })[k];
-  SC.s09 = {
-    copy: [
-      { k: "Six assumptions", m: "Text analytics has six assumptions. First, three.", s: "Each one: how you check it, and what to do if it fails.", l: "Assumptions 1 to 3" },
-      { k: "Assumption 1", m: "Your preparation choices change the result.", s: "Record them, and fix them before you compare anything.", l: "1 · record the choices" },
-      { k: "Assumption 2", m: "Frequent is not the same as important.", s: "Use TF-IDF, and extend the stop-word list for this collection.", l: "2 · frequent ≠ important" },
-      { k: "Assumption 3", m: "A sentiment model trained elsewhere may not transfer.", s: "Hand-read a sample and report the agreement rate.", l: "3 · check transfer" }
-    ],
-    svg: `
-<rect width="480" height="360" fill="#EFE8DA"/>
-${t(240, 34, "Assumptions of text analytics · 1 to 3", 16, NAVY, "middle", 800)}
-${A1.map(([n, h, s, ic], i) => { const y = 50 + i * 100; return `<g class="a o0 a09" style="transform:translateX(-20px)"><rect x="16" y="${y}" width="448" height="88" rx="14" fill="#fff" stroke="${EDGE}" stroke-width="2"/>
-  <circle cx="58" cy="${y + 44}" r="28" fill="#F1ECE2"/>${ic09(ic, 58, y + 44)}
-  <circle cx="34" cy="${y + 18}" r="11" fill="${NAVY}"/>${t(34, y + 23, n, 13, "#fff")}
-  ${t(100, y + 30, h, 16, INK, "start", 800)}${fo(100, y + 38, 350, 46, s, 13.5, MUTED, 400)}</g>`; }).join("")}`,
-    render(r, b) { H.q(r, ".a09").forEach((g, i) => { const on = b >= i + 1; g.style.opacity = on ? 1 : b === 0 ? .25 : 0; g.style.transform = on || b === 0 ? "none" : "translateX(-20px)"; }); }
-  };
-
   /* ------------------------------------------------------------ s10 · you read, the word list reads (activity) */
   const LAB = { "1": ["Positive", GREEN], "0": ["Mixed", GOLD], "-1": ["Negative", TERRA] };
   const mark = (rv) => rv.t.replace(/[A-Za-z']+/g, w => { const l = w.toLowerCase(); return rv.pos.includes(l) ? `<span class="wp">${w}</span>` : rv.neg.includes(l) ? `<span class="wn">${w}</span>` : w; });
@@ -394,9 +367,9 @@ ${A1.map(([n, h, s, ic], i) => { const y = 50 + i * 100; return `<g class="a o0 
     copy: [
       { k: "Your turn", m: "Six real reviews from the file.", s: "Read each one yourself.", l: "Six reviews" },
       { k: "Your turn", m: "Label each one: positive, mixed or negative.", s: "Use the buttons under the stage.", l: "Label all six" },
-      { k: "The word list reads", m: "It counts good words and bad words.", s: "Green = good word, red = bad word. It has never seen a hospital review.", l: "Word list labels" },
+      { k: "The word list reads", m: "It counts good words and bad words.", s: "Green and red show the dictionary matches.", l: "Word list labels" },
       { k: "Where it fails", m: "“complain” is bad, “improve” is good.", s: "So “Nothing to complain about” scores negative, and “This needs to improve” positive.", l: "Wrong for this setting" },
-      { k: "Report it", m: `Agreement with a careful reading: ${D.agree}% of all ${fmt(D.D)} reviews.`, s: "About seven in ten. That rate is what you report.", l: `agreement ${D.agree}%` }
+      { k: "Report it", m: `Agreement with the reference labels: ${D.agree}% of all ${fmt(D.D)} reviews.`, s: "Report how the reference labels were constructed.", l: `agreement ${D.agree}%` }
     ],
     svg: `
 <rect width="480" height="360" fill="${PAPER}"/>
@@ -408,7 +381,7 @@ ${D.read6.map((rv, i) => { const x = 10 + (i % 2) * 232, y = 8 + Math.floor(i / 
   <g class="you" style="opacity:0;transition:opacity .4s"><rect x="${x + 8}" y="${y + 84}" width="100" height="18" rx="9" fill="${SKY}"/>${t(x + 58, y + 97, "", 11, NAVY, "middle", 800, "yt")}</g>
   <g class="mach" style="opacity:0;transition:opacity .5s ${.3 + i * .25}s"><rect x="${x + 114}" y="${y + 84}" width="104" height="18" rx="9" fill="${LAB[rv.lex][1]}"/>${t(x + 166, y + 97, "word list: " + LAB[rv.lex][0], 10.5, "#fff", "middle", 800)}</g>
 </g>`; }).join("")}
-<g class="a o0 agree" style="transform:scale(1.6)"><rect x="110" y="128" width="260" height="104" rx="16" fill="${INK}" fill-opacity=".92"/>${t(240, 166, D.agree + "%", 36, GOLD, "middle", 800)}${t(240, 192, "agreement, word list vs a careful reading", 13, "#fff", "middle", 600)}${t(240, 214, `all ${fmt(D.D)} reviews`, 12, "#E7DDCB", "middle", 400)}</g>`,
+<g class="a o0 agree" style="transform:scale(1.6)"><rect x="110" y="128" width="260" height="104" rx="16" fill="${INK}" fill-opacity=".92"/>${t(240, 166, D.agree + "%", 36, GOLD, "middle", 800)}${t(240, 192, "word list vs template-derived reference labels", 13, "#fff", "middle", 600)}${t(240, 214, `all ${fmt(D.D)} reviews`, 12, "#E7DDCB", "middle", 400)}</g>`,
     mark(r, i, lab) { const g = r.querySelectorAll(".rc")[i]; if (!g) return; g.querySelector(".yt").textContent = "you: " + LAB[lab][0]; g.querySelector(".you").style.opacity = 1; },
     render(r, b) {
       H.q(r, ".rc").forEach((g, i) => { g.style.transitionDelay = b === 0 ? (i * .25) + "s" : "0s"; g.style.opacity = 1; g.style.transform = "none"; g.classList.toggle("lit", b >= 2); g.querySelector(".mach").style.opacity = b >= 2 ? 1 : 0;

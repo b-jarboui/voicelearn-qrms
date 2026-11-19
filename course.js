@@ -10,7 +10,7 @@ window.VL_COURSE = {
       meta: "Week 12 · 49 scenes · about 28 minutes · run k-means yourself, seven activities and a quiz",
       targets: ["How k-means works", "Standardise before distance", "The noise floor", "Elbow and silhouette", "Hierarchical and DBSCAN", "From clusters to segments"] },
     { n: 3, week: 13, title: "Turning written reviews into variables", href: "week13/chapter1/", minutes: 30, live: true,
-      meta: "Week 13 · 31 scenes · about 30 minutes · TF-IDF, transformers and attention, BERTopic, a leak hunt, six activities and a quiz",
+      meta: "Week 13 · 52 scenes · about 30 minutes · tokens, TF-IDF, sentiment, topics, embeddings, transformers, language-model coding, eighteen activities and a quiz",
       targets: ["Text as variables", "TF-IDF", "Topics and BERTopic", "Tokens and transformers", "Fit on train only", "Read the sentences"] },
     { n: 4, week: 14, title: "Neural network concepts for prediction", href: "week14/chapter1/", minutes: 31, live: true,
       meta: "Week 14 · 48 scenes · about 31 minutes · build a neuron by hand, bend a line with hinges, five seeds, four activities and a quiz",
