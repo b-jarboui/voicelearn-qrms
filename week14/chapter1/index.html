@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 14 · Neural network concepts for prediction</title>
+<title>Neural network concepts for prediction</title>
 <style>
 /* ---------- experience upgrades ---------- */
 #prog button.act{background:#EBCFC3}
@@ -46,7 +46,7 @@
 #caption .w{transition:color .25s,opacity .25s;opacity:.55}
 #caption .w.said{opacity:1;color:var(--ink)}
 #caption .w.now{color:var(--terra);opacity:1}
-#toast{position:absolute;left:14px;top:14px;z-index:3;pointer-events:none;display:flex;align-items:center;gap:10px;background:rgba(26,31,43,.92);color:#fff;border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;font-weight:700;opacity:0;max-width:calc(100% - 28px)}
+#toast{position:absolute;left:14px;top:auto;bottom:100%;z-index:3;pointer-events:none;display:flex;align-items:center;gap:10px;background:rgba(26,31,43,.92);color:#fff;border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;font-weight:700;opacity:0;max-width:calc(100% - 28px)}
 #toast b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1A1F2B;font-size:14px}
 #toast span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #toast.show{animation:toast 2.6s ease both}
@@ -67,6 +67,8 @@
 @keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 @media (max-width:760px){#turn{top:auto;bottom:44px}#toast{font-size:12.5px}}
 @media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#toast.show,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}#toast{display:none}}
+
+#turn{position:static;animation:none}#mode-note:empty,.copy .s:empty{display:none} .chmenu[hidden],.endcard a[hidden]{display:none!important}.stage .moving{transition:transform .7s ease}.stage .reveal{opacity:0;transition:opacity .45s}.stage .flow{stroke-dasharray:3 9;animation:signal-flow .9s linear infinite}@keyframes signal-flow{to{stroke-dashoffset:-12}}.stage text{font-variant-numeric:tabular-nums} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important}}
 </style>
 <style>
 :root{--navy:#1F4E79;--terra:#C0502A;--ink:#1A1F2B;--muted:#5A6373;--paper:#F4F0E8;--card:#FFFFFF;--line:#DDE3EA;--soft:#F4F6F8;--good:#2E7D4F;--hl:#FCEFE9;--gold:#E8B04B}
@@ -214,24 +216,25 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 </script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 14</span><h1>Chapter 4 · Neural network concepts for prediction</h1></header>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics</span><h1>Neural network concepts for prediction</h1></header>
 <nav class="chmenu" data-ch="4" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
     <div class="copy" id="copy" aria-live="polite"><p class="k" id="ck"></p><p class="m" id="cm"></p><p class="s" id="cs"></p></div>
-    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
+    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div class="stage" id="stage"></div><div class="status"><span id="turn" hidden>Your turn</span><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
   </section>
   <div id="ui"></div>
-  <div id="caption"></div>
+  <div id="caption"></div><p id="mode-note" role="status"></p>
 </main>
 <div id="controls">
   <button id="menu" aria-haspopup="dialog">☰ Scenes</button>
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time" style="min-width:150px">1 / 23</span>
+  <span class="t" id="time" style="min-width:150px">1 / 48</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
+  <button id="mode" aria-pressed="true" title="Switch between narration and timed reading">Voice on</button>
   <button id="cc" aria-pressed="true">Captions on</button>
   <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
   <button id="full" class="ico" aria-label="Full screen" title="Full screen">⛶</button>
@@ -241,43 +244,79 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>Neural network concepts for prediction</h2>
-  <p>Week 14 · Chapter 4 · about 15 minutes of animated, narrated scenes on neural networks, with four hands-on activities on the Al Waha episodes and an eight-question quiz. No code to run. Turn your sound on.</p>
+  <p>About 45 minutes of animated, narrated scenes on neural networks, with ten hands-on activities and a fourteen-question quiz. Take as long as you need for the exercises.</p>
+  <p>Use your device’s English voice or follow the timed captions. <label for="narration">Playback</label>
+  <select id="narration"><option value="voice">Narrated</option><option value="read">Read along</option></select></p>
+
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
-<audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261118a"></script>
-<script src="chapter.js?v=20261118a"></script>
-<script src="timings.js?v=20261118a"></script>
-<script src="scenes-a.js?v=20261118a"></script>
-<script src="scenes-b.js?v=20261118a"></script>
+
+<script src="data.js?v=20261119a"></script>
+<script src="chapter.js?v=20261119a"></script>
+<script src="timings.js?v=20261119a"></script>
+<script src="scenes-a.js?v=20261119a"></script>
+<script src="scenes-b.js?v=20261119a"></script>
+<script src="scenes-c.js?v=20261119a"></script>
+<script src="scenes-d.js?v=20261119a"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W14;
-const S = C.scenes, au = document.getElementById('au');
+const S = C.scenes;
 const $ = id => document.getElementById(id);
 let si = 0, step = -1, playing = false, part = 'a', waitingQuiz = false, aDone = false, pendingB = false, quizScore = null;
 const splitN = s => s.split || (s.quiz ? 1 : 0);
-const stage = $('stage');
+let stage = $('stage');
 const fmt = n => n.toLocaleString('en-US');
 
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"The neural network learned that waiting time matters most."','"The network is much better."','"Deep learning was applied."','"The model achieved an R² of 0.85."'];
-const SENTWHY = ['Nothing in the network’s weights shows that, so you cannot say it.','It is 0.95 points better, on an outcome whose standard deviation is 16. Say the number.','That label is vague. Say what you fitted: two hidden layers of 32 and 16 neurons.','Incomplete: say it was on 1,300 held-out rows, and give the spread across seeds.'];
+const SENTWHY = ['To rank inputs, report a specified importance analysis and its uncertainty.','It is 0.95 points better, on an outcome whose standard deviation is 16. Say the number.','That label is vague. Say what you fitted: two hidden layers of 32 and 16 neurons.','Incomplete: say it was on 1,300 held-out rows, and give the spread across seeds.'];
 const UI = {
   byhand: () => `<div class="card">
     <div class="row"><span class="lab">1. Choose an episode:</span><button class="chip ep" data-k="A">Episode A · 10 and 30</button><button class="chip ep" data-k="B">Episode B · 20 and 10</button></div>
     <div class="row" style="margin-top:10px"><span class="lab">2. Predict the output:</span>${['0','1','9','−1'].map(v=>`<button class="chip pv" data-v="${v}" disabled>${v}</button>`).join('')}</div>
-    <p class="verdict" id="bhv"></p>
+    <p class="verdict" aria-live="polite" id="bhv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  actlab: () => `<div class="card">
+    <div class="row"><span class="lab">1. Activation rule:</span>
+      <button class="chip ar sel" data-a="relu">ReLU (hinge)</button>
+      <button class="chip ar" data-a="tanh">Tanh (−1 to +1)</button>
+      <button class="chip ar" data-a="step">Hard step (0 or 1)</button>
+      <button class="chip ar" data-a="linear">None (linear)</button></div>
+    <div class="row" style="margin-top:10px"><span class="lab">2. Inspect raw total z:</span><b id="azv" style="font-size:18px;color:var(--navy)">−1.4</b></div>
+    <input id="az" type="range" min="-2.8" max="2.8" step="0.2" value="-1.4" style="width:100%;margin-top:6px" aria-label="Raw total z">
+    <p class="verdict" id="actv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   squares: () => `<div class="card">
     <div class="row"><span class="lab">Prediction for episode 4 (real score 85):</span><b id="p4v" style="font-size:20px;color:var(--terra)">79</b></div>
     <input id="p4" type="range" min="65" max="100" step="1" value="79" style="width:100%;margin-top:10px" aria-label="Prediction for episode 4">
     <p class="verdict" id="sqv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  lrlab: () => `<div class="card"><div class="row"><span class="lab">Learning rate on the practice bowl</span>
+    ${[['tiny','0.04'],['good','0.25'],['fast','0.75'],['huge','1.05']].map(([key,rate])=>`<button class="chip lrb ${key==='good'?'sel':''}" data-lr="${key}">${rate}</button>`).join('')}</div>
+    <label for="lrstep">Update <b id="lrn">0</b> of 6</label><input id="lrstep" type="range" min="0" max="6" value="0" step="1" style="width:100%">
+    <p id="lrv" class="verdict" aria-live="polite"></p><div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  leakspot: () => `<div class="card">
+    <div class="g2">${[
+      ['Workflow 1 · Scale all 5,200 rows before train_test_split','leak'],
+      ['Workflow 2 · Fit make_pipeline(Imputer, Scaler, MLP) on X_train only','clean'],
+      ['Workflow 3 · Try 15 layer sizes on (X_test, y_test) and keep the winner','leak'],
+      ['Workflow 4 · Include predictor apology_call_logged (48h after survey)','leak']
+    ].map(([t,ans],i)=>`<div class="card q lkq" data-i="${i}" data-ans="${ans}"><b>${t}</b><div class="opts"><button data-c="clean">Clean ✓</button><button data-c="leak">Data leakage ✗</button></div><div class="fb"></div></div>`).join('')}</div>
+    <p class="verdict" id="lkv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  reglab: () => `<div class="card"><p>Practice records use x = −1 and +1 in each group. Fitting scores are 60 and 80. Validation scores are 64 and 76.</p>
+    <div class="row"><span class="lab">Weight penalty (alpha)</span>${[0,0.5,2].map(a=>`<button class="chip rgb ${a===0?'sel':''}" data-a="${a}">${a}</button>`).join('')}</div>
+    <label for="rgp">Stopping pass <b id="rgpv">0</b></label><input id="rgp" type="range" min="0" max="12" value="0" step="1" style="width:100%">
+    <button class="chip go" id="rgunlock">Commit and score the final two visits</button>
+    <p id="rgv" class="verdict" aria-live="polite"></p><div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   seeds: () => `<div class="card">
     <div class="row"><button class="chip go" id="train">▶ Reveal run 1</button><span class="lab" id="sdn">0 of 5 runs</span></div>
     <p class="verdict" id="sdv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  permlab: () => `<div class="card"><div class="row"><span class="lab">Rotate one practice column</span>
+    ${['Occupancy','Wait','Prior visits','Original order'].map((v,i)=>`<button class="chip pmb" data-i="${i===3?-1:i}">${v}</button>`).join('')}</div>
+    <p id="pmv" class="verdict" aria-live="polite"></p><div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   fix: () => `<div class="card">
     <div class="row"><span class="lab">1. The error type:</span><b>InvalidParameterError</b></div>
     <div class="row" style="margin-top:10px"><span class="lab">2. Which line causes it?</span>${[18,20,21,22].map(n=>`<button class="chip fl" data-n="${n}">line ${n}</button>`).join('')}</div>
@@ -293,41 +332,58 @@ const UI = {
     <h3 id="qq"></h3><div id="qo" class="qopts"></div><div id="qwhy" class="why" aria-live="polite"></div>
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
   takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
-    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
+    <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes opened</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
     <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
 };
-const waitMsg = {byhand:'Your turn: work out both episodes, then press Continue.',squares:'Your turn: move the fourth prediction, then press Continue.',seeds:'Your turn: reveal the five runs, then press Continue.',fix:'Your turn: find the line and choose the fix, then press Continue.',quiz:'Answer the questions at your own pace.'};
-const splitMsg = {sentences:'Decide for each sentence. The narration continues when all four are answered.'};
-let myLabels = {};
+const waitMsg = {byhand:'Your turn: work out both episodes, then press Continue.',actlab:'Your turn: switch activation rules and drag z, then press Continue.',squares:'Your turn: move the fourth prediction, then press Continue.',lrlab:'Your turn: compare the four rates at the same update, then press Continue.',leakspot:'Your turn: audit all four hospital workflows, then press Continue.',reglab:'Your turn: choose alpha and stopping pass on the validation curve, then press Continue.',seeds:'Your turn: reveal the five runs, then press Continue.',permlab:'Your turn: compare the changes in practice RMSE, then press Continue.',fix:'Your turn: find the line and choose the fix, then press Continue.',quiz:'Answer the fourteen questions at your own pace.'};
+const splitMsg = {sentences:'Decide for each sentence. The explanations follow all four decisions.'};
+
 
 /* ---------- player ---------- */
 const prog = $('prog');
-const KEY='vl-qrms-w14', seen=new Set(), tried=new Set();
+const KEY='vl-qrms-w14-scene-v2', seen=new Set(), tried=new Set();
 const isAct=s=>!!(s.wait||s.split||s.quiz);
 S.forEach((s,i)=>{const b=document.createElement('button'); if(isAct(s)) b.classList.add('act');b.title=(i+1)+'. '+s.heading;b.setAttribute('aria-label','Scene '+(i+1)+': '+s.heading);b.innerHTML='<i></i>';b.onclick=()=>load(i,true);prog.appendChild(b)});
 function unitId(){const s=S[si];return splitN(s)?s.id+part:s.id}
 function load(i,auto){
+  stopPlayback();
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
   const s=S[si], sc=SC[s.id]||{copy:[],svg:'',render(){}};
   $('scene').classList.toggle('full',!!sc.full);
+  // A fresh root isolates delayed transitions and activity choices on replay.
+  const nextStage=stage.cloneNode(false);
+  for (const key of Object.keys(nextStage.dataset)) delete nextStage.dataset[key];
+  stage.replaceWith(nextStage); stage=nextStage;
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
   stage._fresh = true;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
-  seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
+  seen.add(si); if(!$('start')) try{ localStorage.setItem(KEY, s.id) }catch(e){}
+  setUnit();
   [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
   updTime(); drawList(); toast();
   const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
-  setUnit(); setStep(0);
   if(wire[s.kind]) wire[s.kind]();
+  setStep(0);
   if(auto) play(); else pause();
 }
-/* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
-let silent=false, clock=0, ticker=null;
-S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
-  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
-const nowT=()=>silent?clock:au.currentTime;
-function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
+// Timings estimate reading progress. A speaking voice controls its own beat ends.
+const synth=window.speechSynthesis;
+let voiceMode=true, clock=0, ticker=null, transition=null, generation=0, utterance=null;
+let localBeat=0, finished=false, unavailable=false;
+function stopPlayback(){
+  playing=false; generation++; clearInterval(ticker); clearTimeout(transition);
+  if(utterance&&synth){ utterance.onstart=null; utterance.onboundary=null; utterance.onend=null; utterance.onerror=null; synth.cancel(); }
+  utterance=null;
+}
+function left(){
+  let seconds=0;
+  S.slice(si).forEach((s,i)=>{
+    const ids=splitN(s)?[s.id+'a',s.id+'b']:[s.id];
+    ids.forEach(id=>{if(i||part!=='b'||id===unitId()) seconds+=T[id].dur;});
+  });
+  return Math.max(0,seconds-clock);
+}
 function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
 function drawList(){ const L=$('dlist'); if(!L) return;
   L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
@@ -341,14 +397,13 @@ function capWords(text){ const ws=text.split(' '); let n=0; capEnds=ws.map(w=>(n
 function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==capEnds.length) return; f=Math.max(0,Math.min(1,f));
   for(let i=0;i<el.length;i++){ const start=i?capEnds[i-1]:0; el[i].classList.toggle('said',capEnds[i]<=f); el[i].classList.toggle('now',start<=f&&f<capEnds[i]); } }
 function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
-function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.silent); clock=0; $('caption').classList.toggle('ra',silent);
-  if(t&&!silent){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
+function setUnit(){stopPlayback();clock=0;localBeat=0;finished=false;}
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
-  const sc=SC[S[si].id]; if(!sc||sc.full) return;
-  const go=()=>{ stage._pending=false; try{ sc.render(stage,step) }catch(e){ console.error(e) } };  // always draw the latest beat
-  if(stage._pending) return;
-  if(stage._fresh){ stage._fresh=false; stage._pending=true; requestAnimationFrame(()=>requestAnimationFrame(go)) } else go();
+  const sc=SC[S[si].id],root=stage;
+  if(!sc||sc.full) return;
+  const draw=()=>{if(root===stage) sc.render(root,step);};
+  if(root._fresh){root._fresh=false;requestAnimationFrame(()=>requestAnimationFrame(draw));}else draw();
 }
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
@@ -359,60 +414,114 @@ function setStep(k){
   $('status').textContent=c.l||''; $('beatbar').style.width=((k+1)/s.lines.length*100)+'%';
   renderScene(k);
   if(s.kind==='sentences'&&k>=1) showAnswers(k);
-  
-  if(s.kind==='takeaways'&&k>=5) $('endbox').style.display='block';
+  if(s.kind==='takeaways'&&k===s.lines.length-1) $('endbox').style.display='block';
   capWords(s.lines[k]||'');
 }
-function onTime(){
-  const t=T[unitId()]; if(!t) return; const c=t.cues, CT=nowT(); let k=0;
-  for(let j=0;j<c.length;j++) if(CT>=c[j]) k=j;
-  setStep(lineIndex(k));
-  karaoke((CT-c[k])/Math.max(.5,((k+1<c.length?c[k+1]:(t.dur||au.duration||c[k]+4))-c[k])-.35));
-  const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
-  prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
+function paintProgress(){
+  const t=T[unitId()], start=t.cues[localBeat], end=t.cues[localBeat+1]??t.dur;
+  karaoke((clock-start)/(end-start));
+  const s=S[si], offset=splitN(s)&&part==='b'?T[s.id+'a'].dur:0;
+  const total=splitN(s)?T[s.id+'a'].dur+T[s.id+'b'].dur:t.dur;
+  prog.children[si].firstChild.style.width=(Math.min(1,(clock+offset)/total)*100)+'%';
 }
-au.addEventListener('timeupdate',onTime);
-au.addEventListener('ended',onEnd);
 function onEnd(){
+  finished=true;
   const s=S[si];
-  if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
-    waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
-    $('caption').textContent=splitMsg[s.kind]||'';return}
-  if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 4. Well done. Use the chapter menu at the top to open another chapter, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+  if(splitN(s)&&part==='a'){
+    aDone=true;
+    if(pendingB){continueQuiz();return;}
+    waitingQuiz=true;pause();
+    $('caption').textContent=splitMsg[s.kind];
+    return;
+  }
+  if(s.wait){pause();$('caption').textContent=waitMsg[s.kind]||'Explore the activity, then press Continue.';return;}
+  if(si<S.length-1){transition=setTimeout(()=>{if(playing) load(si+1,true);},400);}
+  else {pause();$('caption').textContent='End of this chapter.';}
 }
-function play(){ if(waitingQuiz) return;
-  if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
-    ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
-  if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
-function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
-function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
-$('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
+function nextBeat(){
+  const t=T[unitId()];
+  clock=t.cues[localBeat+1]??t.dur;paintProgress();
+  clearInterval(ticker);clearTimeout(transition);
+  if(localBeat+1>=t.cues.length){onEnd();return;}
+  localBeat++;startBeat();
+}
+function readBeat(){
+  const t=T[unitId()], end=t.cues[localBeat+1]??t.dur;
+  let last=performance.now();
+  ticker=setInterval(()=>{
+    const now=performance.now();clock=Math.min(end,clock+(now-last)/1000*(+$('speed').value));
+    last=now;paintProgress();if(clock>=end) nextBeat();
+  },100);
+}
+function startBeat(){
+  const ticket=++generation,t=T[unitId()];
+  const k=lineIndex(localBeat),line=S[si].lines[k];
+  setStep(k);paintProgress();
+  if(!voiceMode||unavailable){readBeat();return;}
+  const u=new SpeechSynthesisUtterance(line);
+  utterance=u;u.lang='en-US';
+  const voices=synth.getVoices();
+  const english=voices.find(v=>v.localService&&/^en[-_]/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang));
+  if(english)u.voice=english;
+  u.rate=.81*(+$('speed').value);
+  const begin=t.cues[localBeat],end=t.cues[localBeat+1]??t.dur;
+  const fallback=()=>{
+    if(ticket!==generation||!playing)return;
+    stopPlayback();playing=true;unavailable=true;syncMode();
+    readBeat();
+  };
+  u.onstart=()=>{
+    if(ticket!==generation)return;
+    clearTimeout(transition);
+    transition=setTimeout(fallback,Math.max(16000,(end-begin)*3200/u.rate));
+  };
+  u.onboundary=e=>{
+    if(ticket!==generation||!playing)return;
+    clock=begin+(end-begin)*Math.min(1,e.charIndex/line.length);paintProgress();
+  };
+  u.onend=()=>{if(ticket!==generation||!playing)return;utterance=null;nextBeat();};
+  u.onerror=fallback;
+  transition=setTimeout(fallback,4500);
+  try{synth.speak(u);}catch(e){fallback();}
+}
+function play(){
+  if(waitingQuiz||playing)return;
+  if(finished){localBeat=0;clock=0;finished=false;step=-1;}
+  playing=true;updBtn();startBeat();
+}
+function pause(){stopPlayback();updBtn();}
+function updBtn(){$('play').textContent=playing?'❚❚ Pause':'▶ Play';}
+function syncMode(){
+  $('mode').textContent=voiceMode&&!unavailable?'Voice on':'Read along';
+  $('mode').setAttribute('aria-pressed',String(voiceMode&&!unavailable));
+  $('mode-note').textContent=voiceMode&&unavailable?'Voice unavailable on this device. Following timed captions.':'';
+  if(!voiceMode||unavailable){$('caption').classList.remove('off');$('cc').textContent='Captions on';$('cc').setAttribute('aria-pressed','true');}
+}
+function selectMode(wantVoice){
+  voiceMode=wantVoice;unavailable=!synth||typeof SpeechSynthesisUtterance!=='function';
+  syncMode();
+}
+$('mode').onclick=()=>{
+  const active=playing;pause();selectMode(!(voiceMode&&!unavailable));
+  if(active)play();
+};
+$('play').onclick=()=>playing?pause():play();
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
-$('speed').onchange=()=>au.playbackRate=+$('speed').value;
+$('speed').onchange=()=>{if(playing){pause();play();}};
 $('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
 $('replay').onclick=()=>load(si,true);
 $('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
-$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select,input')) tried.add(S[si].id) }); $('ui').addEventListener('input',()=>tried.add(S[si].id));
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button:not(#cont),select,input')) tried.add(S[si].id) },true); $('ui').addEventListener('input',()=>tried.add(S[si].id));
 setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
-$('go').onclick=()=>{ $('start').remove(); load(0,true) };
-(function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT','TEXTAREA'].includes(e.target.tagName)||($('start')&&e.code!=='Escape')||(e.code==='Space'&&e.target.closest('button,a'))) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
+$('go').onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(0,true) };
+(function(){ let k=0; try{ k=S.findIndex(s=>s.id===localStorage.getItem(KEY)) }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(k,true) } } })();
 
 /* ---------- interactions ---------- */
 function continueQuiz(){ if(part==='b') return; if(!aDone){pendingB=true;return} part='b'; waitingQuiz=false; const rv=$('reveal'); if(rv) rv.style.display='none'; setUnit(); play() }
 function showAnswers(k){
   $('ui').querySelectorAll('.q').forEach((q,i)=>{ if(k>=i+1){ const fb=q.querySelector('.fb'); if(!fb.dataset.ans){ fb.dataset.ans=1; fb.innerHTML=(fb.textContent?fb.textContent+' ':'')+'<span style="color:var(--ink);font-weight:400">'+SENTWHY[i]+'</span>'; q.querySelectorAll('button').forEach(b=>b.disabled=true) } } });
-}
-function showWordList(){
-  const box=$('ui'); if(!box.querySelector('.q')||box._shown) return; box._shown=1; let agree=0, n=0;
-  box.querySelectorAll('.q').forEach(q=>{ const i=+q.dataset.i, rv=D.read6[i], mine=myLabels[i], ml=LABS.find(l=>+l[0]===rv.lex)[1];
-    q.querySelectorAll('button').forEach(b=>b.disabled=true);
-    if(mine!==undefined){ n++; if(+mine===rv.lex) agree++ }
-    const fb=q.querySelector('.fb'); fb.className='fb '+(mine!==undefined&&+mine===rv.lex?'ok':'no');
-    fb.innerHTML=`Word list: ${ml}${mine!==undefined?(+mine===rv.lex?' · same as you':' · different from you'):''} <span style="color:var(--ink);font-weight:400">(good words: ${rv.pos.join(', ')||'none'} · bad words: ${rv.neg.join(', ')||'none'})</span>`; });
-  $('rv').innerHTML = n ? `You and the word list agreed on <b>${agree} of ${n}</b> reviews. Across all ${fmt(D.D)} reviews, the word list agrees with a careful reading of the ${D.nSent} sentences on <b>${D.agree}%</b> of reviews.` : '';
 }
 const QZ = C.quiz, CHIPSEL = (box,b)=>{box.querySelectorAll('.chip').forEach(x=>x.classList.toggle('sel',x===b))};
 const wire = {
@@ -425,18 +534,71 @@ const wire = {
         (done.size<2?` Now try episode ${ep==='A'?'B':'A'}.`:' <br>Episode A gives nothing and episode B gives 9. That on–off behaviour is the hinge that lets a network bend.'); });
     $('cont').onclick=()=>load(si+1,true);
   },
+  actlab(){
+    const ui=$('ui'); let rule='relu';
+    const upd=()=>{ if(!$('az')) return; const z=+$('az').value; $('azv').textContent=(z>0?'+':'')+z.toFixed(1);
+      const r=SC.s27.update(stage,rule,z);
+      $('actv').innerHTML=`<b>${rule.toUpperCase()}</b> at z = ${z.toFixed(1)}: output = <b>${r.out.toFixed(2)}</b>, local slope = <b>${r.slope===null?"undefined at zero":r.slope.toFixed(2)}</b>. Al Waha (32, 16) held-out RMSE: ReLU 6.128, tanh 6.138, logistic 6.108.`; };
+    ui.querySelectorAll('.ar').forEach(b=>b.onclick=()=>{ rule=b.dataset.a; ui.querySelectorAll('.ar').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
+    $('az').oninput=upd; $('cont').onclick=()=>load(si+1,true); upd();
+  },
   squares(){
     const upd=()=>{ if(!$('p4')) return; const p=+$('p4').value, r=SC.s11.update(stage,p); $('p4v').textContent=p;
       $('sqv').innerHTML=`Error for episode 4: <b>${r.err>0?'+':''}${r.err}</b>. RMSE <b>${r.rmse.toFixed(2)}</b> points, and episode 4 owns <b>${Math.round(r.share*100)}%</b> of the squared error.`+
         (Math.abs(r.err)>=10?' One bad prediction now dominates everything: that is what squaring does.':Math.abs(r.err)<=1?' With episode 4 almost right, RMSE drops to about 2: the other three errors are small.':''); };
-    $('p4').oninput=upd; $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
+    $('p4').oninput=upd; $('cont').onclick=()=>load(si+1,true); upd();
+  },
+  lrlab(){
+    let mode='good';
+    const update=()=>{const k=+$('lrstep').value,r=SC.s32.update(stage,mode,k);$('lrn').textContent=k;
+      $('lrv').textContent=k===0?'Start at weight −1 with loss 1. Advance the update slider.':
+        'After '+k+' updates the loss is '+r.loss.toFixed(4)+'. '+(r.loss>1?'The steps have crossed the minimum and increased the loss.':'Compare another rate at the same update.');};
+    $('ui').querySelectorAll('.lrb').forEach(btn=>btn.onclick=()=>{mode=btn.dataset.lr;CHIPSEL($('ui'),btn);update();});
+    $('lrstep').oninput=update;$('cont').onclick=()=>load(si+1,true);update();
+  },
+  leakspot(){
+    const ui=$('ui'); const WHY=[
+      'Leaked: StandardScaler learned the mean and SD of all 5,200 rows, including the 1,300 test visits (giving RMSE 6.117 vs 6.128 inside the pipeline).',
+      'Clean: make_pipeline fits the imputer, scaler, and network on X_train only, then applies them to X_test.',
+      'Leaked: picking the winner out of 15 architectures using y_test turns the test set into a tuning set.',
+      'Leaked: target leakage from the future—an apology call logged after the survey would be unavailable at prediction time.'
+    ];
+    ui.querySelectorAll('.lkq').forEach(q=>q.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      const i=+q.dataset.i, ok=b.dataset.c===q.dataset.ans;
+      q.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b));
+      const fb=q.querySelector('.fb'); fb.className='fb '+(ok?'ok':'no');
+      fb.textContent=(ok?'Right. ':'Not quite. ')+WHY[i]; q.dataset.done='1';
+      SC.s36.mark(stage,i);
+      if([...ui.querySelectorAll('.lkq')].every(x=>x.dataset.done)){
+        $('lkv').innerHTML='<b class="ok">All four audited.</b> Split first, put preprocessing inside a pipeline, never tune on the test set, and never use post-outcome predictors.';
+      }
+    }));
+    $('cont').onclick=()=>load(si+1,true);
+  },
+  reglab(){
+    let alpha=0,locked=false;const buttons=[...$('ui').querySelectorAll('.rgb')];
+    const update=()=>{const k=+$('rgp').value,r=SC.s40.update(stage,alpha,k,locked);$('rgpv').textContent=k;
+      $('rgv').textContent=locked?
+        'Choice locked at alpha '+alpha+', pass '+k+'. Final scores 63 and 77 give signed errors '+r.errors.map(x=>x.toFixed(2)).join(' and ')+'. Final RMSE is '+r.test.toFixed(2)+' points.':
+        'At pass '+k+' the validation RMSE is '+r.val.toFixed(2)+' points. Compare checkpoints, then commit to a penalty and a pass.';};
+    buttons.forEach(btn=>btn.onclick=()=>{if(locked)return;alpha=+btn.dataset.a;buttons.forEach(x=>x.classList.toggle('sel',x===btn));update();});
+    $('rgp').oninput=update;$('rgunlock').onclick=()=>{locked=true;[...buttons,$('rgp'),$('rgunlock')].forEach(el=>el.disabled=true);update();};
+    $('cont').onclick=()=>load(si+1,true);update();
   },
   seeds(){
     let n=0; const SD=window.W14.slide.seeds;
     $('train').onclick=()=>{ if(n>=5) return; n++; SC.s17.update(stage,n); $('sdn').textContent=n+' of 5 runs';
       $('train').textContent=n<5?'▶ Reveal run '+(n+1):'✓ Five runs shown'; if(n>=5) $('train').disabled=true;
-      $('sdv').innerHTML=`Run ${n} (seed ${n}): held-out RMSE <b>${SD[n-1].toFixed(2)}</b>.`+(n<5?'':` <br>Mean <b>${(SD.reduce((a,c)=>a+c,0)/5).toFixed(2)}</b>, spread <b>${(Math.max(...SD)-Math.min(...SD)).toFixed(2)}</b> points. The gain over the linear model (0.95) is about eight times the spread, so it is not a lucky seed. Seeds only change the starting values: a different split could still move the score. Report the mean and the spread, never 6.05 alone.`); };
+      $('sdv').innerHTML=`Run ${n}: held-out RMSE <b>${SD[n-1].toFixed(2)}</b>.`+(n<5?'':` <br>Mean <b>${(SD.reduce((a,c)=>a+c,0)/5).toFixed(2)}</b>, spread <b>${(Math.max(...SD)-Math.min(...SD)).toFixed(2)}</b> points. The gain over the linear model (0.95) is about eight times the spread, and all five runs beat the baseline on this split. Seeds affect the starting weights and the order of visits. A different split could move the score. Report the mean and the spread, never 6.05 alone.`); };
     $('cont').onclick=()=>load(si+1,true);
+  },
+  permlab(){
+    const pick=i=>{const r=SC.s44.shuffle(stage,i);$('pmv').textContent=i<0?
+      'Original practice RMSE is '+r.base.toFixed(2)+' points. Choose a column to rotate (on the Al Waha network, 10 shuffles change RMSE by +4.823 for occupancy, +2.234 for wait, and −0.006 for prior visits).':
+      r.field+' moved one row. The RMSE change is '+(r.after-r.base).toFixed(2)+' points.'+(i===2?' The practice rule uses only occupancy and wait.':' Compare the new predictions with the fixed surveys.');};
+    const buttons=[...$('ui').querySelectorAll('.pmb')];
+    buttons.forEach(btn=>btn.onclick=()=>{buttons.forEach(x=>x.classList.toggle('sel',x===btn));pick(+btn.dataset.i);});
+    $('cont').onclick=()=>load(si+1,true);pick(-1);
   },
   fix(){
     const ui=$('ui');
@@ -461,11 +623,11 @@ const wire = {
   quiz(){
     let qi=0, score=0; const marks=[];
     const dots=()=>QZ.map((_,j)=>`<i class="${j<marks.length?(marks[j]?'ok':'no'):j===qi?'cur':''}"></i>`).join('');
-    const show=()=>{ const q=QZ[qi]; $('qn').textContent=`Question ${qi+1} of ${QZ.length}`; $('qdots').innerHTML=dots();
+    const show=()=>{ const q=QZ[qi]; stage.querySelector('.quiz-index').textContent=(qi+1)+' / '+QZ.length; $('qn').textContent=`Question ${qi+1} of ${QZ.length}`; $('qdots').innerHTML=dots();
       $('qq').textContent=q.q; $('qwhy').innerHTML=''; $('qnext').hidden=true;
       $('qo').innerHTML=q.o.map((o,j)=>`<button data-j="${j}"><span>${'ABCD'[j]}</span>${o}</button>`).join('');
       $('qo').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok);
+        const ok=+b.dataset.j===q.a; if(ok){ score++; burst(16) } marks.push(ok);stage.querySelectorAll(".quiz-mark")[qi].setAttribute("fill",ok?"#2E7D4F":"#C0502A");
         $('qo').querySelectorAll('button').forEach(x=>{x.disabled=true; if(+x.dataset.j===q.a) x.classList.add('right')}); if(!ok) b.classList.add('wrong');
         $('qwhy').innerHTML=`<b class="${ok?'ok':'no'}">${ok?'Correct.':'Not quite.'}</b> ${q.why}`; $('qdots').innerHTML=dots();
         $('qnext').textContent= qi<QZ.length-1?'Next question ▶':'See my score ▶'; $('qnext').hidden=false; });
@@ -491,6 +653,12 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('4')<0){v.push('4');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261118a"></script>
+<script>
+// The course shell supplies the chapter picker on the hosted edition.
+if (location.protocol==='file:') document.querySelectorAll('.chmenu,.endcard a').forEach(el=>el.hidden=true);
+else if (!['localhost','127.0.0.1','[::1]'].includes(location.hostname)) {
+  const course=document.createElement('script');course.src='../../course.js';document.head.appendChild(course);
+}
+</script>
 </body>
 </html>

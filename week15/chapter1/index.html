@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 15 · Evidence synthesis and responsible reporting</title>
+<title>Evidence synthesis and responsible reporting</title>
 <style>
 /* ---------- experience upgrades ---------- */
 #prog button.act{background:#EBCFC3}
@@ -214,7 +214,7 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 </script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 15</span><h1>Chapter 5 · Evidence synthesis and responsible reporting</h1></header>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics</span><h1>Evidence synthesis and responsible reporting</h1></header>
 <nav class="chmenu" data-ch="5" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
@@ -230,7 +230,7 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time" style="min-width:150px">1 / 22</span>
+  <span class="t" id="time" style="min-width:150px">1 / 49</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
   <button id="cc" aria-pressed="true">Captions on</button>
   <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
@@ -241,15 +241,15 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>Evidence synthesis and responsible reporting</h2>
-  <p>Week 15 · Chapter 5 · about 14 minutes of animated, narrated scenes on putting results together and reporting them honestly, with five hands-on activities and an eight-question quiz. No code to run. Turn your sound on.</p>
+  <p>About 45 minutes of animated, narrated scenes on putting results together and reporting them honestly, with ten hands-on activities and a fourteen-question quiz. No code to run. Turn your sound on.</p>
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
 <audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261118a"></script>
-<script src="chapter.js?v=20261118a"></script>
-<script src="timings.js?v=20261118a"></script>
-<script src="scenes-a.js?v=20261118a"></script>
-<script src="scenes-b.js?v=20261118a"></script>
+<script src="data.js?v=20261119a"></script>
+<script src="chapter.js?v=20261119a"></script>
+<script src="timings.js?v=20261119a"></script>
+<script src="scenes-a.js?v=20261119a"></script>
+<script src="scenes-b.js?v=20261119a"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W15;
@@ -289,14 +289,42 @@ const UI = {
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   sentences: () => `<div class="g2">${SENT.map((s,i)=>`<div class="card q" data-q="n"><b>${i+1}.</b> ${s}<div class="opts"><button data-a="y">May write it</button><button data-a="n">May not write it</button></div><div class="fb"></div></div>`).join('')}</div>
     <div class="center"><button class="cta" id="reveal" style="display:none">Show the answers</button></div>`,
+  ciplay: () => `<div class="card">
+    <div class="row"><span class="lab">1. Sample size:</span>${[[80,'n = 80 (ward)'],[400,'n = 400 (month)'],[1300,'n = 1,300 (split)'],[5200,'n = 5,200 (full)']].map(([n,s])=>`<button class="chip cinb ${n===5200?'sel':''}" data-n="${n}">${s}</button>`).join('')}<b id="ciNv" style="margin-left:auto;color:var(--navy)">n = 5,200</b></div>
+    <input id="ciN" type="range" min="60" max="5200" step="20" value="5200" style="width:100%;margin-top:8px" aria-label="Sample size">
+    <div class="row" style="margin-top:10px"><span class="lab">2. Specification:</span>${[['unadj','Unadjusted (−3.03, waiting alone)'],['adj','Adjusted 6 predictors (−1.23)'],['col','Adjusted + high collinearity']].map(([m,s])=>`<button class="chip cimb ${m==='adj'?'sel':''}" data-m="${m}">${s}</button>`).join('')}</div>
+    <p class="verdict" id="civ"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  cvplay: () => `<div class="card">
+    <div class="row"><span class="lab">1. Comparison design:</span>${[['unpaired','Unpaired single splits (flawed)'],['paired','Paired single split (same rows)'],['cv','Paired 10-fold cross-validation']].map(([m,s])=>`<button class="chip cvmb ${m==='paired'?'sel':''}" data-m="${m}">${s}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px" id="cvRow"><span class="lab">2. Random split (#1 to #50):</span><b id="cvKv" style="color:var(--terra)">Split #1 of 50</b></div>
+    <input id="cvK" type="range" min="1" max="50" step="1" value="1" style="width:100%;margin-top:6px" aria-label="Random split index">
+    <p class="verdict" id="cvv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  forkplay: () => `<div class="card">
+    <div class="row"><span class="lab">1. Cleaning fork:</span>${[['std','Standard cleaning (occ >100%, wait <0 → NaN)'],['trim','Trim top 1% longest waits']].map(([v,s])=>`<button class="chip fk1b ${v==='std'?'sel':''}" data-v="${v}">${s}</button>`).join('')}</div>
+    <div class="row" style="margin-top:8px"><span class="lab">2. Model fork:</span>${[['unadj','Waiting alone (1 predictor)'],['adj','Adjusted (6 predictors)'],['quad','Adjusted + quadratic occupancy']].map(([v,s])=>`<button class="chip fk2b ${v==='adj'?'sel':''}" data-v="${v}">${s}</button>`).join('')}</div>
+    <div class="row" style="margin-top:8px"><span class="lab">3. Scope fork:</span>${[['full','Full sample (5,200 rows, pre-planned)'],['cherry','Cherry-pick best of 15 ward subgroups']].map(([v,s])=>`<button class="chip fk3b ${v==='full'?'sel':''}" data-v="${v}">${s}</button>`).join('')}</div>
+    <p class="verdict" id="fkv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  limitplay: () => `<div class="card">
+    <div class="row"><span class="lab">1. Al Waha claim:</span>${[[0,'Waiting slope (−1.23 / 10m)'],[1,'Linear occupancy slope'],[2,'Neural network (MAE 4.9)']].map(([i,s])=>`<button class="chip lmcb ${i===0?'sel':''}" data-i="${i}">${s}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><span class="lab">2. Draft wording:</span>${[['weak','Draft A: Vague throat-clearing / overclaim'],['strong','Draft B: Specific boundary + what would overturn it']].map(([m,s])=>`<button class="chip lmmb ${m==='strong'?'sel':''}" data-m="${m}">${s}</button>`).join('')}</div>
+    <p class="verdict" id="lmv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  vivaplay: () => `<div class="card">
+    <div class="row"><span class="lab">1. Examiner challenge:</span>${[[0,'Q1: Why not pick the network?'],[1,'Q2: Linearity failed above 80%!'],[2,'Q3: Unmeasured acuity & split luck?']].map(([i,s])=>`<button class="chip vvqb ${i===0?'sel':''}" data-i="${i}">${s}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><span class="lab">2. Your response:</span>${[[0,'Response A'],[1,'Response B'],[2,'Response C']].map(([j,s])=>`<button class="chip vvab ${j===1?'sel':''}" data-j="${j}">${s}</button>`).join('')}</div>
+    <p class="verdict" id="vvv"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   quiz: () => `<div class="card qz"><div class="qhead"><span id="qn"></span><span class="dotsq" id="qdots"></span></div>
     <h3 id="qq"></h3><div id="qo" class="qopts"></div><div id="qwhy" class="why" aria-live="polite"></div>
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
-  takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete · course complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
+  takeaways: () => `<div class="card endcard" id="endbox" style="display:none"><h3 style="margin:0 0 4px;color:var(--navy);font-size:22px">Chapter complete</h3><p id="final" style="font-size:16px;margin:0;color:var(--muted)"></p>
     <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
     <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
 };
-const waitMsg = {match:'Your turn: match the five results, then press Continue.',gap:'Your turn: move error 4, then press Continue.',fix:'Your turn: find the problem and choose the fix, then press Continue.',defend:'Your turn: choose the question and the model, then press Continue.',quiz:'Answer the questions at your own pace.'};
+const waitMsg = {match:'Your turn: match the five results, then press Continue.',ciplay:'Your turn: adjust sample size and specification to explore the 95% confidence interval, then press Continue.',gap:'Your turn: move error 4, then press Continue.',fix:'Your turn: find the problem and choose the fix, then press Continue.',cvplay:'Your turn: compare unpaired splits, paired splits, and cross-validation, then press Continue.',forkplay:'Your turn: explore the branching paths and false-alarm risk, then press Continue.',defend:'Your turn: choose the question and the model, then press Continue.',limitplay:'Your turn: compare weak and doctoral limitations across the three claims, then press Continue.',vivaplay:'Your turn: defend your chapter against all three viva challenges, then press Continue.',quiz:'Answer the fourteen questions at your own pace.'};
 const splitMsg = {sentences:'Decide for each sentence. The narration continues when all five are answered.'};
 let myLabels = {};
 
@@ -324,8 +352,9 @@ function load(i,auto){
 }
 /* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
 let silent=false, clock=0, ticker=null;
+delete T.s21; delete T.s22;
 S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
-  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
+  parts.forEach(([u,ls])=>{ if(T[u]&&T[u].cues&&T[u].cues.length===ls.length) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
 const nowT=()=>silent?clock:au.currentTime;
 function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
 function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
@@ -379,7 +408,7 @@ function onEnd(){
     waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
     $('caption').textContent=splitMsg[s.kind]||'';return}
   if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 5, and of the course. Well done. Use the chapter menu at the top to open another chapter, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of the chapter. Well done. Use the chapter menu at the top to open another chapter, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
 }
 function play(){ if(waitingQuiz) return;
   if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
@@ -441,7 +470,7 @@ const wire = {
   defend(){
     const ui=$('ui'); let q=null;
     const TXT={
-      e:['<b class="no">Too thin.</b> One predictor answers Week 8\'s question only: waiting alone carries whatever comes with it.','<b class="ok">A strong choice.</b> 1) Your question is explanatory, and it gives six readable, adjusted associations you can check against theory. 2) Its assumptions can be stated and checked, including the one it fails: it cannot show the occupancy bend, which you report as a limitation. 3) Each coefficient can be explained and defended in a viva.','<b class="no">Hard to defend.</b> It scores best, but your question is explanatory, and its weights cannot tell you what each input does. Use it as a benchmark, not as the answer.'],
+      e:['<b class="no">Too thin.</b> One predictor answers the simple unadjusted question only: waiting alone carries whatever comes with it.','<b class="ok">A strong choice.</b> 1) Your question is explanatory, and it gives six readable, adjusted associations you can check against theory. 2) Its assumptions can be stated and checked, including the one it fails: it cannot show the occupancy bend, which you report as a limitation. 3) Each coefficient can be explained and defended in a viva.','<b class="no">Hard to defend.</b> It scores best, but your question is explanatory, and its weights cannot tell you what each input does. Use it as a benchmark, not as the answer.'],
       p:['<b class="no">Too weak.</b> For prediction, the one-predictor model is about twice as far off as the others.','<b class="ok">Defensible.</b> Nearly as accurate as the network and fully explainable. If the extra 0.7 points do not change a decision, the simpler model wins.','<b class="ok">Defensible, with conditions.</b> 1) Your question is predictive: the decision uses the forecast, not an explanation. 2) It was compared with the regression on the same held-out rows, and the gain held across repeated splits and seeds. 3) You report what the extra accuracy costs, and you never claim its weights explain why.']};
     ui.querySelectorAll('.rq').forEach(b=>b.onclick=()=>{ q=b.dataset.q; ui.querySelectorAll('.rq').forEach(x=>x.classList.toggle('sel',x===b)); ui.querySelectorAll('.dm').forEach(x=>{x.disabled=false;x.classList.remove('sel')}); $('dv').innerHTML='Now choose the model you would defend.'; SC.s16.pick(stage,q,-1,{text:'Now choose the model you would defend.'}) });
     ui.querySelectorAll('.dm').forEach(b=>b.onclick=()=>{ if(!q) return; const m=+b.dataset.m; ui.querySelectorAll('.dm').forEach(x=>x.classList.toggle('sel',x===b)); const txt=TXT[q][m]; $('dv').innerHTML=txt; SC.s16.pick(stage,q,m,{text:txt,ok:txt.indexOf('class="ok"')>=0}) });
@@ -456,6 +485,88 @@ const wire = {
       if([...ui.querySelectorAll('.q')].every(x=>x.dataset.done)) continueQuiz();
     }));
     $('reveal').onclick=continueQuiz;
+  },
+  ciplay(){
+    const ui=$('ui'); let n=5200, mode='adj';
+    const upd=()=>{
+      if(!$('ciN')) return;
+      $('ciNv').textContent='n = '+fmt(n);
+      const r=SC.s29.update(stage,n,mode);
+      ui.querySelectorAll('.cinb').forEach(b=>b.classList.toggle('sel',+b.dataset.n===n));
+      ui.querySelectorAll('.cimb').forEach(b=>b.classList.toggle('sel',b.dataset.m===mode));
+      $('civ').innerHTML = r.hi>=0
+        ? `<b class="no">Wide interval crossing zero (${r.lo.toFixed(2)} to +${r.hi.toFixed(2)}).</b> With n = ${fmt(n)}${mode==='col'?' and collinear predictors':''}, the 95% CI is ${r.width.toFixed(2)} points wide. Crossing zero does <b>not</b> prove waiting time has zero effect; the sample is too noisy to separate signal from noise.`
+        : `<b class="ok">95% CI: ${r.lo.toFixed(2)} to ${r.hi.toFixed(2)} (width ${r.width.toFixed(2)} points).</b> Entirely below zero.${mode==='unadj'?' Note that the unadjusted −3.03 slope carries unadjusted hospital congestion.':mode==='col'?' Notice how predictor collinearity widens the confidence interval even at this sample size.':' Holding the other 5 predictors constant on the full sample gives a tight, well-bounded interval.'}`;
+    };
+    $('ciN').oninput=()=>{ n=+$('ciN').value; upd() };
+    ui.querySelectorAll('.cinb').forEach(b=>b.onclick=()=>{ n=+b.dataset.n; $('ciN').value=n; upd() });
+    ui.querySelectorAll('.cimb').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; upd() });
+    $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
+  },
+  cvplay(){
+    const ui=$('ui'); let mode='paired', k=1;
+    const upd=()=>{
+      if(!$('cvK')) return;
+      $('cvKv').textContent=mode==='cv'?'All 10 folds combined':`Split #${k} of 50`;
+      $('cvK').disabled=(mode==='cv');
+      const r=SC.s32.update(stage,mode,k);
+      ui.querySelectorAll('.cvmb').forEach(b=>b.classList.toggle('sel',b.dataset.m===mode));
+      $('cvv').innerHTML = mode==='unpaired'
+        ? `<b class="no">Unfair comparison (apparent gain: ${r.gain.toFixed(2)} RMSE pts).</b> Scoring the two models on different random splits mixes model ability with split luck (range 0.46 pts). Drag the slider to see the apparent gain jump around!`
+        : (mode==='paired'
+          ? `<b class="ok">Paired comparison on Split #${k} (gain: ${r.gain.toFixed(2)} RMSE pts).</b> Because both models are scored on the exact same 1,300 held-out rows, a hard or easy split shifts both models together.`
+          : `<b class="ok">Paired 10-fold cross-validation (mean gain: ${r.gain.toFixed(2)} RMSE pts).</b> Every one of the 5,200 Al Waha episodes serves in the test fold once, and both models are compared on identical folds.`);
+    };
+    $('cvK').oninput=()=>{ k=+$('cvK').value; upd() };
+    ui.querySelectorAll('.cvmb').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; upd() });
+    $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
+  },
+  forkplay(){
+    const ui=$('ui'); let clean='std', spec='adj', scope='full';
+    const upd=()=>{
+      const r=SC.s36.update(stage,clean,spec,scope);
+      ui.querySelectorAll('.fk1b').forEach(b=>b.classList.toggle('sel',b.dataset.v===clean));
+      ui.querySelectorAll('.fk2b').forEach(b=>b.classList.toggle('sel',b.dataset.v===spec));
+      ui.querySelectorAll('.fk3b').forEach(b=>b.classList.toggle('sel',b.dataset.v===scope));
+      $('fkv').innerHTML = r.isCherry
+        ? `<b class="no">Cherry-picked branch (slope ${r.slope.toFixed(2)}, false-alarm risk 54%).</b> Hunting across 15 ward subgroups and reporting only the most extreme ward inflates the 5% false-positive rate to 54%. Disclose all 15 tests and adjust α or label it exploratory.`
+        : (r.isPrimary
+          ? `<b class="ok">Pre-registered primary path (slope ${r.slope.toFixed(2)} pts / 10 min, α = 5%).</b> Standard cleaning, six adjusted predictors, and the full 5,200-episode sample. Face-value confidence intervals and p-values hold.`
+          : `<b class="ok">Defensible sensitivity check (slope ${r.slope.toFixed(2)} pts / 10 min).</b> Report this specification alongside the primary model in your sensitivity table to show whether the conclusion is robust.`);
+    };
+    ui.querySelectorAll('.fk1b').forEach(b=>b.onclick=()=>{ clean=b.dataset.v; upd() });
+    ui.querySelectorAll('.fk2b').forEach(b=>b.onclick=()=>{ spec=b.dataset.v; upd() });
+    ui.querySelectorAll('.fk3b').forEach(b=>b.onclick=()=>{ scope=b.dataset.v; upd() });
+    $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
+  },
+  limitplay(){
+    const ui=$('ui'); let idx=0, mode='strong';
+    const upd=()=>{
+      const r=SC.s47.update(stage,idx,mode);
+      ui.querySelectorAll('.lmcb').forEach(b=>b.classList.toggle('sel',+b.dataset.i===idx));
+      ui.querySelectorAll('.lmmb').forEach(b=>b.classList.toggle('sel',b.dataset.m===mode));
+      $('lmv').innerHTML = r.ok
+        ? `<b class="ok">Doctoral standard.</b> ${r.item.whyStrong}`
+        : `<b class="no">Rejected by examiners.</b> ${r.item.whyWeak}`;
+    };
+    ui.querySelectorAll('.lmcb').forEach(b=>b.onclick=()=>{ idx=+b.dataset.i; upd() });
+    ui.querySelectorAll('.lmmb').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; upd() });
+    $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
+  },
+  vivaplay(){
+    const ui=$('ui'); let qIdx=0, optIdx=1;
+    const LBL=[['A: Attack the network','B: Explanatory fit + benchmark','C: Abandon regression'],['A: Claim R² excuses it','B: Disclose >80% cliff & triangulate','C: Delete the banded plot'],['A: Fixed split + bounded association','B: Claim causal proof','C: “Further research needed”']];
+    const upd=()=>{
+      const r=SC.s49.update(stage,qIdx,optIdx);
+      ui.querySelectorAll('.vvqb').forEach(b=>b.classList.toggle('sel',+b.dataset.i===qIdx));
+      ui.querySelectorAll('.vvab').forEach((b,j)=>{ b.textContent=LBL[qIdx][j]; b.classList.toggle('sel',j===optIdx); });
+      $('vvv').innerHTML = r.ok
+        ? `<b class="ok">Examiner satisfied.</b> ${r.why}`
+        : `<b class="no">Examiner presses harder.</b> ${r.why}`;
+    };
+    ui.querySelectorAll('.vvqb').forEach(b=>b.onclick=()=>{ qIdx=+b.dataset.i; optIdx=(qIdx===2?0:1); upd() });
+    ui.querySelectorAll('.vvab').forEach(b=>b.onclick=()=>{ optIdx=+b.dataset.j; upd() });
+    $('cont').onclick=()=>load(si+1,true); setTimeout(upd,120);
   },
   quiz(){
     let qi=0, score=0; const marks=[];
@@ -477,7 +588,7 @@ const wire = {
     show();
   },
   takeaways(){
-    const acts=S.filter(x=>isAct(x)&&x.kind!=='quiz'); $('final').textContent='Well done. Here is what you did in this chapter, the last of the course.';
+    const acts=S.filter(x=>isAct(x)&&x.kind!=='quiz'); $('final').textContent='Well done. Here is what you did in this chapter.';
     $('eS').textContent=seen.size+' / '+S.length; $('eA').textContent=acts.filter(x=>tried.has(x.id)).length+' / '+acts.length; $('eQ').textContent=quizScore===null?'not taken':quizScore+' / '+QZ.length;
     $('again').onclick=()=>{ quizScore=null; seen.clear(); tried.clear(); load(0,true) };
   }
@@ -490,6 +601,6 @@ window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visua
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('5')<0){v.push('5');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261118a"></script>
+<script src="../../course.js?v=20261119a"></script>
 </body>
 </html>
