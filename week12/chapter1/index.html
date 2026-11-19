@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 12 · Finding groups nobody labelled</title>
+<title>Finding groups nobody labelled</title>
 <style>
 :root{--navy:#1F4E79;--terra:#C0502A;--ink:#1A1F2B;--muted:#5A6373;--paper:#F4F0E8;--card:#FFFFFF;--line:#DDE3EA;--soft:#F4F6F8;--good:#2E7D4F;--hl:#FCEFE9;--gold:#E8B04B}
 @media (prefers-color-scheme:dark){:root{--navy:#8DB8E3;--terra:#F08A62;--ink:#ECEFF4;--muted:#A9B2C0;--paper:#12161D;--card:#1B212B;--line:#2E3746;--soft:#202835;--good:#6CCB92;--hl:#3A2A24}}
@@ -168,7 +168,7 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 .endcard{max-width:640px;margin:0 auto;text-align:center}
 .endcard .g4{grid-template-columns:repeat(3,minmax(0,1fr))}
 :fullscreen body,:fullscreen{background:var(--paper)}
-@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}#caption.ra::before{content:"Read-along · narration coming soon";display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);margin-bottom:2px}
+@media (max-width:760px){.keys{display:none}#start .cta.ghost{margin:10px 0 0}}
 /* ---------- motion polish ---------- */
 .stagewrap{position:relative}
 .stage{position:relative}
@@ -179,14 +179,8 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 #caption .w{transition:color .25s,opacity .25s;opacity:.55}
 #caption .w.said{opacity:1;color:var(--ink)}
 #caption .w.now{color:var(--terra);opacity:1}
-#toast{position:absolute;left:14px;top:14px;z-index:3;pointer-events:none;display:flex;align-items:center;gap:10px;background:rgba(26,31,43,.92);color:#fff;border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;font-weight:700;opacity:0;max-width:calc(100% - 28px)}
-#toast b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1A1F2B;font-size:14px}
-#toast span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#toast.show{animation:toast 2.6s ease both}
-@keyframes toast{0%{opacity:0;transform:translateY(-10px)}12%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-6px)}}
-#turn{position:absolute;right:14px;top:14px;z-index:3;pointer-events:none;background:var(--terra);color:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;letter-spacing:.08em;box-shadow:0 0 0 0 rgba(192,80,42,.5);animation:turn 1.8s ease-out infinite}
+#turn{display:inline-block;margin-bottom:6px;background:var(--terra);color:white;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;letter-spacing:.08em}
 #turn[hidden]{display:none}
-@keyframes turn{70%{box-shadow:0 0 0 12px rgba(192,80,42,0)}100%{box-shadow:0 0 0 0 rgba(192,80,42,0)}}
 #controls button{transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
 #controls button:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(20,30,50,.12)}
 #controls button:active{transform:translateY(1px);box-shadow:none}
@@ -198,8 +192,12 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 @keyframes pop{40%{transform:scale(1.03)}}
 .qopts button.wrong{animation:nope .4s ease}
 @keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-@media (max-width:760px){#turn{top:auto;bottom:44px}#toast{font-size:12.5px}}
-@media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#toast.show,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}#toast{display:none}}
+@media (prefers-reduced-motion:reduce){.stage::after,.copy .m .w,#turn,.card{animation:none!important}.copy .m .w{opacity:1;transform:none}}
+#reasonK{display:block;width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px;margin-top:4px}
+#mode-note{margin:.4rem 0;color:var(--muted)}#mode-note:empty{display:none}
+#narration{font:inherit;padding:.35rem;border-radius:.4rem}
+.stagewrap{min-width:0}
+@media(prefers-reduced-motion:reduce){.stage *{transition-delay:0s!important}}
 </style>
 <script>
 /* Anonymous usage statistics (Microsoft Clarity, cookies off, strict masking). Skipped for QA (?qa=1) and local development. */
@@ -212,24 +210,25 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 </script>
 </head>
 <body>
-<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics · Week 12</span><h1>Chapter 2 · Finding groups nobody labelled</h1></header>
+<header><span class="crs">PHQM830 Quantitative Research Methods and Statistics</span><h1>Finding groups nobody labelled</h1></header>
 <nav class="chmenu" data-ch="2" aria-label="Course chapters"><a class="home" href="../../">⌂ Course home</a></nav>
 <div id="prog" aria-label="Scenes"></div>
 <main>
   <section class="scene" id="scene">
     <div class="copy" id="copy" aria-live="polite"><p class="k" id="ck"></p><p class="m" id="cm"></p><p class="s" id="cs"></p></div>
-    <div class="stagewrap"><div id="toast" aria-hidden="true"><b id="toastN"></b><span id="toastT"></span></div><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
+    <div class="stagewrap"><div id="turn" hidden>YOUR TURN</div><div class="stage" id="stage"></div><div class="status"><span id="status"></span><span class="bb"><i id="beatbar"></i></span></div></div>
   </section>
   <div id="ui"></div>
-  <div id="caption"></div>
+  <div id="caption"></div><p id="mode-note" role="status"></p>
 </main>
 <div id="controls">
   <button id="menu" aria-haspopup="dialog">☰ Scenes</button>
   <button id="prev" aria-label="Previous scene">⏮ Back</button>
   <button id="play" class="main">▶ Play</button>
   <button id="next" aria-label="Next scene">Next ⏭</button>
-  <span class="t" id="time" style="min-width:150px">1 / 26</span>
+  <span class="t" id="time" style="min-width:150px">1 / 49</span>
   <select id="speed" aria-label="Speed"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select>
+  <button id="mode" aria-pressed="true">Voice on</button>
   <button id="cc" aria-pressed="true">Captions on</button>
   <button id="replay" class="ico" aria-label="Replay this scene" title="Replay this scene">↺</button>
   <button id="full" class="ico" aria-label="Full screen" title="Full screen">⛶</button>
@@ -239,58 +238,82 @@ header .nav a{margin-left:0;color:var(--navy);font-size:13px}
 <aside id="drawer" role="dialog" aria-label="Scenes" aria-hidden="true"><header><h2>Scenes</h2><button id="dclose" aria-label="Close">×</button></header><div class="sum" id="dsum"></div><ol id="dlist"></ol></aside>
 <div id="start"><div class="card">
   <h2>Finding groups nobody labelled</h2>
-  <p>Week 12 · Chapter 1 · about 23 minutes of animated, narrated scenes on clustering, with seven hands-on activities using real episodes from the Al Waha hospital file and an eight-question quiz. Turn your sound on.</p>
+  <p>Explore how Al Waha visits group by ward conditions. Allow about 43 minutes for the narration, plus time for eleven activities and a fourteen-question quiz.</p>
+  <p><label for="narration">Playback</label> <select id="narration"><option value="voice">Narrated</option><option value="read">Read along</option></select></p>
   <button class="cta" id="go">▶ Start the chapter</button><button class="cta ghost" id="resumeGo" hidden></button>
 </div></div>
-<audio id="au" preload="auto"></audio>
-<script src="data.js?v=20261117d"></script>
-<script src="chapter.js?v=20261117d"></script>
-<script src="timings.js?v=20261117d"></script>
-<script src="scenes-a.js?v=20261117d"></script>
-<script src="data2.js?v=20261117d"></script>
-<script src="scenes-b.js?v=20261117d"></script>
-<script src="scenes-c.js?v=20261117d"></script>
+
+<script src="data.js?v=20261119a"></script>
+<script src="chapter.js?v=20261119a"></script>
+<script src="timings.js?v=20261119a"></script>
+<script src="scenes-a.js?v=20261119a"></script>
+<script src="data2.js?v=20261119a"></script>
+<script src="scenes-b.js?v=20261119a"></script>
+<script src="scenes-c.js?v=20261119a"></script>
+<script src="scenes-d.js?v=20261119a"></script>
+<script src="scenes-e.js?v=20261119a"></script>
 <script>
 (function(){
 const C = window.CHAPTER, T = window.TIMINGS || {}, SC = window.SC, D = window.W12DATA;
-const S = C.scenes, au = document.getElementById('au');
+const S = C.scenes;
 const $ = id => document.getElementById(id);
 let si = 0, step = -1, playing = false, part = 'a', waitingQuiz = false, aDone = false, pendingB = false, quizScore = null;
 const splitN = s => s.split || (s.quiz ? 1 : 0);
-const stage = $('stage');
+let stage = $('stage');
 const fmt = n => n.toLocaleString('en-US');
 
 /* ---------- interaction panels under the stage ---------- */
 const SENT = ['"The data naturally falls into four clusters."','"Cluster 2 is the high-performing group."','"The clusters are statistically significant."','"This segmentation explains satisfaction."'];
-const SENTWHY = ['You chose four: k is chosen, not discovered.','Performance was not a clustering variable, so this imports a conclusion.','There is no test here, and no p value exists.','Nothing was explained. Clustering produces a description.'];
+const SENTWHY = ['You chose four: k is chosen, not discovered.','Performance was not a clustering variable, so this imports a conclusion.','The clustering fit alone supplies no significance test.','Nothing was explained. Clustering produces a description.'];
 const NAMES = ["Stretched wards","Quiet wards","Highly trained teams","High-performing wards"], NAMEKEY = [1,2,0];   // profiles are sorted by occupancy: A quiet, B highly trained, C stretched
 const UI = {
-  spot: () => `<div class="picks"><button class="pick" data-p="a">Picture A has real groups</button><button class="pick" data-p="b">Picture B has real groups</button></div><div class="pfb" id="pfb"></div>`,
+  spot: () => `<div class="picks"><button class="pick" data-p="a">A keeps the original rows</button><button class="pick" data-p="b">B keeps the original rows</button></div><div class="pfb" id="pfb"></div>`,
   playground: () => `<div class="card">
     <div class="row"><span class="lab">Number of groups, k:</span>${[2,3,4,5,6].map(k=>`<button class="chip kk${k===3?' sel':''}" data-k="${k}">${k}</button>`).join('')}</div>
     <div class="row" style="margin-top:10px"><button class="chip go" id="pstep">① Assign to nearest</button><button class="chip" id="prun">Run to the end ⏩</button><button class="chip" id="pnew">↻ New random start</button></div>
-    <div class="g4"><div class="stat"><b id="pr">0</b><span>rounds</span></div><div class="stat"><b id="pk">3</b><span>groups</span></div><div class="stat"><b id="pi">–</b><span>total spread (smaller = tighter)</span></div><div class="stat good"><b id="ps">–</b><span>status</span></div></div>
-    <p class="verdict" id="pv"></p>
+    <div class="g4"><div class="stat"><b id="pr">0</b><span>rounds</span></div><div class="stat"><b id="pk">3</b><span>groups</span></div><div class="stat"><b id="pi">–</b><span>map inertia (squared units)</span></div><div class="stat good"><b id="ps">–</b><span>status</span></div></div>
+    <p aria-live="polite" class="verdict" id="pv"></p>
     <p class="note">Python's KMeans does the same thing. Its argument <b>n_init=10</b> runs ten random starts and keeps the one with the smallest total spread.</p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   units: () => `<div class="card">
     <div class="row"><span class="lab">Episode A</span><select class="chip" id="ea">${D.episodes.map((e,i)=>`<option value="${i}"${i===2?' selected':''}>${e[0]}</option>`).join('')}</select>
       <span class="lab">Episode B</span><select class="chip" id="eb">${D.episodes.map((e,i)=>`<option value="${i}"${i===5?' selected':''}>${e[0]}</option>`).join('')}</select></div>
     <div class="row" style="margin-top:10px"><span class="lab">Units:</span><button class="chip sel" data-z="0">Raw units</button><button class="chip" data-z="1">Standardised (z-scores)</button></div>
-    <p class="verdict" id="uv"></p>
+    <p aria-live="polite" class="verdict" id="uv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   choosek: () => `<div class="card"><div class="row" style="justify-content:center"><span class="lab">I would report</span>${C.gaps.map((g,i)=>`<button class="chip" data-i="${i}">k = ${g[0]}</button>`).join('')}</div>
-    <p class="verdict" id="kv"></p><div class="center"><button class="cta" id="cont" hidden>Continue ▶</button></div></div>`,
+    <p aria-live="polite" class="verdict" id="kv"></p><label for="reasonK">My reason for the director</label><textarea id="reasonK" rows="2" placeholder="Which score and operating distinction support your choice?"></textarea><div class="center"><button class="cta" id="cont" hidden>Continue ▶</button></div></div>`,
   sentences: () => `<div class="g2">${SENT.map((s,i)=>`<div class="card q" data-q="n"><b>${i+1}.</b> ${s}<div class="opts"><button data-a="y">May write it</button><button data-a="n">May not write it</button></div><div class="fb"></div></div>`).join('')}</div>
-    <div class="center"><button class="cta" id="reveal" style="display:none">Show the answers</button></div>`,
+    <div class="center"><button class="cta" id="reveal" hidden>Show the answers</button></div>`,
   skip: () => `<div class="card">
     <div class="row"><span class="lab">Number of groups:</span><button class="chip sel" data-k="2">k = 2</button><button class="chip" data-k="4">k = 4</button></div>
-    <p class="verdict" id="skv"></p>
+    <p aria-live="polite" class="verdict" id="skv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
   nameit: () => `<div class="card">
     ${['A','B','C'].map((p,i)=>`<div class="row" style="margin-top:${i?8:0}px"><span class="lab" style="min-width:74px">Profile ${p}</span><select class="chip nmsel" data-i="${i}"><option value="">Choose a name…</option>${NAMES.map((n,j)=>`<option value="${j}">${n}</option>`).join('')}</select><span class="fb" id="nfb${i}" style="font-weight:700"></span></div>`).join('')}
-    <p class="verdict" id="nmv"></p>
+    <p aria-live="polite" class="verdict" id="nmv"></p>
     <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  kexplorer: () => `<div class="card">
+    <div class="row"><span class="lab">Number of groups, k:</span>${[2,3,4,5,6].map(k=>`<button class="chip kex${k===2?' sel':''}" data-k="${k}">k = ${k}</button>`).join('')}</div>
+    <div class="g4"><div class="stat"><b id="kexK">2</b><span>groups (k)</span></div><div class="stat"><b id="kexIn">7,594</b><span>inertia (spread)</span></div><div class="stat good"><b id="kexSil">0.504</b><span>real silhouette</span></div><div class="stat good"><b id="kexGap">+0.314</b><span>gap over noise</span></div></div>
+    <p aria-live="polite" class="verdict" id="kexV"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  dendrocut: () => `<div class="card">
+    <div class="row"><span class="lab">Cut height on dendrogram:</span>${[['h = 5.0 (k = 2)',0],['h = 2.8 (k = 3)',1],['h = 2.1 (k = 4)',2],['h = 1.7 (k = 5)',3]].map(([lbl,i])=>`<button class="chip dcut${i===0?' sel':''}" data-i="${i}">${lbl}</button>`).join('')}</div>
+    <div class="g4"><div class="stat"><b id="dcH">5.0</b><span>cut height</span></div><div class="stat good"><b id="dcK">2</b><span>groups formed</span></div><div class="stat"><b id="dcJump">3.39</b><span>gap between merge heights</span></div><div class="stat good"><b id="dcNest">Nested ✓</b><span>hierarchy</span></div></div>
+    <p aria-live="polite" class="verdict" id="dcV"></p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  dbscanexp: () => `<div class="card"><div class="row"><span class="lab">Radius on the practice map</span>
+    ${SC.s41.radii.map((rad,i)=>`<button class="chip dbeps${i===1?' sel':''}" data-i="${i}">${rad.toFixed(3)}</button>`).join('')}</div>
+    <p class="verdict" aria-live="polite" id="dbV"></p>
+    <p class="note">Four-variable hospital fit after standardising, minimum count 10. At ε = 0.60 there were 11 groups. At ε = 0.70 there was 1 group and 23 noise episodes.</p>
+    <div class="center"><button class="cta" id="cont">Continue ▶</button></div></div>`,
+  thesisaudit: () => `<div class="g2">
+    <div class="card q taq" data-i="0" data-ans="b"><b>1. Clustering variables</b><br>Which columns should be passed into <code>StandardScaler</code> and <code>KMeans</code>?<div class="opts"><button data-c="a">All eight columns, including the four patient measures</button><button data-c="b">Only the 4 ward operating inputs; hold outcomes out</button></div><div class="fb"></div></div>
+    <div class="card q taq" data-i="1" data-ans="b"><b>2. Evidence for k = 2</b><br>How should the choice of k = 2 be justified in the thesis table?<div class="opts"><button data-c="a">Report that k = 2 achieved a silhouette of 0.504</button><button data-c="b">Compare each candidate with its shuffle and report the +0.314 advantage at k = 2</button></div><div class="fb"></div></div>
+    <div class="card q taq" data-i="2" data-ans="b"><b>3. Profile table &amp; p-values</b><br>How should the cluster centres on the 4 operating inputs be presented?<div class="opts"><button data-c="a">Run ANOVA F-tests on occupancy &amp; staffing and claim p &lt; 0.001</button><button data-c="b">Report the centre values, group sizes and within-group spread</button></div><div class="fb"></div></div>
+    <div class="card q taq" data-i="3" data-ans="a"><b>4. Scope of claims</b><br>Which conclusion sentence belongs in the Discussion chapter?<div class="opts"><button data-c="a">The stretched ward regime is associated with higher complaint and readmission rates</button><button data-c="c">Being assigned to Cluster 1 causes patient complaints to increase by 25 points</button></div><div class="fb"></div></div>
+  </div><p aria-live="polite" class="verdict" id="tav"></p><div class="center"><button class="cta" id="cont" disabled>Continue ▶</button></div>`,
   quiz: () => `<div class="card qz"><div class="qhead"><span id="qn"></span><span class="dotsq" id="qdots"></span></div>
     <h3 id="qq"></h3><div id="qo" class="qopts"></div><div id="qwhy" class="why" aria-live="polite"></div>
     <div class="center"><button class="cta" id="qnext" hidden>Next question ▶</button></div></div>`,
@@ -298,7 +321,7 @@ const UI = {
     <div class="g4"><div class="stat good"><b id="eS">0</b><span>scenes watched</span></div><div class="stat"><b id="eA">0</b><span>activities tried</span></div><div class="stat"><b id="eQ">–</b><span>quiz score</span></div></div>
     <div class="center"><button class="cta" id="again">↻ Replay the chapter</button> <a class="chip" href="../../" style="text-decoration:none;display:inline-flex;align-items:center;margin-left:8px">⌂ Course home</a></div></div>`
 };
-const waitMsg = {playground:'Your turn: run k-means with the buttons, then press Continue.',units:'Your turn: pick two episodes and switch the units, then press Continue.',choosek:'Your turn: choose the k you would report.',skip:'Your turn: compare k = 2 and k = 4, then press Continue.',nameit:'Your turn: name the three profiles, then press Continue.',quiz:'Answer the questions at your own pace.'};
+const waitMsg = {playground:'Your turn: run k-means with the buttons, then press Continue.',units:'Your turn: pick two episodes and switch the units, then press Continue.',choosek:'Your turn: choose the k you would report.',kexplorer:'Your turn: compare k = 2 to 6 across the map, the elbow, and the gap, then press Continue.',dendrocut:'Your turn: cut the Al Waha dendrogram at different heights, then press Continue.',dbscanexp:'Your turn: compare radius settings on the two-dimensional map, then press Continue.',skip:'Your turn: compare k = 2 and k = 4, then press Continue.',nameit:'Your turn: name the three profiles, then press Continue.',thesisaudit:'Your turn: audit all four thesis decisions, then press Continue.',quiz:'Answer the questions at your own pace.'};
 const splitMsg = {spot:'Your turn: choose picture A or picture B. The narration continues after your choice.',sentences:'Decide for each sentence. The narration continues when all four are answered.'};
 
 /* ---------- player ---------- */
@@ -311,20 +334,40 @@ function load(i,auto){
   si=Math.max(0,Math.min(S.length-1,i)); part='a'; step=-1; waitingQuiz=false; aDone=false; pendingB=false;
   const s=S[si], sc=SC[s.id]||{copy:[],svg:'',render(){}};
   $('scene').classList.toggle('full',!!sc.full);
+  // A fresh root isolates delayed transitions and activity choices on replay.
+  const nextStage=stage.cloneNode(false);
+  for (const key of Object.keys(nextStage.dataset)) delete nextStage.dataset[key];
+  stage.replaceWith(nextStage); stage=nextStage;
   stage.innerHTML = sc.full ? '' : `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.heading.replace(/"/g,'')}">${sc.svg}</svg>`;
-  stage._fresh = true;
   $('ui').innerHTML = UI[s.kind] ? UI[s.kind]() : '';
-  seen.add(si); try{ localStorage.setItem(KEY, String(si)) }catch(e){}
+  seen.add(si); if(!$('start')) try{ localStorage.setItem(KEY, s.id) }catch(e){}
+  setUnit();
   [...prog.children].forEach((b,k)=>{ b.classList.toggle('cur',k===si); b.classList.toggle('seen',seen.has(k)) });
-  updTime(); drawList(); toast();
+  updTime(); drawList(); $('turn').hidden=!isAct(s);
   const sv=stage.querySelector('svg'); if(sv){ sv.classList.remove('enter'); void sv.getBoundingClientRect(); sv.classList.add('enter') }
   [...prog.children].forEach((b,k)=>{b.firstChild.style.width=k<si?'100%':'0'});
-  setUnit(); setStep(0);
+  setStep(0);
   if(wire[s.kind]) wire[s.kind]();
   if(auto) play(); else pause();
 }
-function left(){ let t=0; S.forEach((x,k)=>{ if(k<si) return; (splitN(x)?[x.id+'a',x.id+'b']:[x.id]).forEach(u=>{ if(T[u]) t+=T[u].dur }) }); return t - (nowT()||0) }
-function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min left' }
+// Timings estimate reading progress. A speaking voice controls its own beat ends.
+const synth=window.speechSynthesis;
+let voiceMode=true, clock=0, ticker=null, transition=null, generation=0, utterance=null;
+let localBeat=0, finished=false, unavailable=false;
+function stopPlayback(){
+  playing=false; generation++; clearInterval(ticker); clearTimeout(transition);
+  if(utterance&&synth){ utterance.onend=null; utterance.onerror=null; synth.cancel(); }
+  utterance=null;
+}
+function left(){
+  let seconds=0;
+  S.slice(si).forEach((s,i)=>{
+    const ids=splitN(s)?[s.id+'a',s.id+'b']:[s.id];
+    ids.forEach(id=>{if(i||part!=='b'||id===unitId()) seconds+=T[id].dur;});
+  });
+  return Math.max(0,(seconds-clock) / Number($('speed').value));
+}
+function updTime(){ const m=Math.max(0,Math.round(left()/60)); $('time').textContent=(si+1)+' / '+S.length+' · ~'+m+' min of narration left' }
 function drawList(){ const L=$('dlist'); if(!L) return;
   L.innerHTML=S.map((x,k)=>`<li><button data-k="${k}" class="${k===si?'cur':''} ${seen.has(k)?'seen':''}"><span class="n">${seen.has(k)&&k!==si?'✓':k+1}</span><span>${x.heading}</span>${isAct(x)?'<span class="tg">'+(x.kind==='quiz'?'QUIZ':'YOUR TURN')+'</span>':''}</button></li>`).join('');
   L.querySelectorAll('button').forEach(b=>b.onclick=()=>{ openMenu(false); load(+b.dataset.k,true) });
@@ -336,20 +379,12 @@ function capWords(text){ const ws=text.split(' '); let n=0; capEnds=ws.map(w=>(n
   $('caption').innerHTML=ws.map(w=>`<span class="w">${esc(w)}</span>`).join(' '); }
 function karaoke(f){ const el=$('caption').children; if(!el.length||el.length!==capEnds.length) return; f=Math.max(0,Math.min(1,f));
   for(let i=0;i<el.length;i++){ const start=i?capEnds[i-1]:0; el[i].classList.toggle('said',capEnds[i]<=f); el[i].classList.toggle('now',start<=f&&f<capEnds[i]); } }
-function toast(){ const t=$('toast'); $('toastN').textContent=si+1; $('toastT').textContent=S[si].heading; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); $('turn').hidden=!isAct(S[si]); }
-/* read-along mode: a scene whose narration is not recorded yet runs on a silent clock, with captions and animation */
-let silent=false, clock=0, ticker=null;
-S.forEach(x=>{ const n=splitN(x), parts=n?[[x.id+'a',x.lines.slice(0,n)],[x.id+'b',x.lines.slice(n)]]:[[x.id,x.lines]];
-  parts.forEach(([u,ls])=>{ if(T[u]) return; let t=0; const cues=ls.map(l=>{ const c=t; t+=Math.max(3.2,l.length/14); return +c.toFixed(2) }); T[u]={file:null,dur:+(t+.6).toFixed(2),cues,silent:true} }) });
-const nowT=()=>silent?clock:au.currentTime;
-function setUnit(){const t=T[unitId()]; clearInterval(ticker); silent=!!(t&&t.silent); clock=0; $('caption').classList.toggle('ra',silent);
-  if(t&&!silent){au.src=t.file; au.playbackRate=+$('speed').value} else au.removeAttribute('src')}
+function setUnit(){stopPlayback();clock=0;localBeat=0;finished=false;}
 function lineIndex(k){return part==='b'?k+splitN(S[si]):k}
 function renderScene(k){
-  const sc=SC[S[si].id]; if(!sc||sc.full) return;
-  const go=()=>{ stage._pending=false; try{ sc.render(stage,step) }catch(e){ console.error(e) } };  // always draw the latest beat
-  if(stage._pending) return;
-  if(stage._fresh){ stage._fresh=false; stage._pending=true; requestAnimationFrame(()=>requestAnimationFrame(go)) } else go();
+  const sc=SC[S[si].id],root=stage;
+  if(!sc||sc.full) return;
+  sc.render(root,k);
 }
 function setStep(k){
   if(k===step) return; step=k; const s=S[si], sc=SC[s.id]||{copy:[]};
@@ -363,42 +398,106 @@ function setStep(k){
   if(s.kind==='takeaways'&&k>=5) $('endbox').style.display='block';
   capWords(s.lines[k]||'');
 }
-function onTime(){
-  const t=T[unitId()]; if(!t) return; const c=t.cues, CT=nowT(); let k=0;
-  for(let j=0;j<c.length;j++) if(CT>=c[j]) k=j;
-  setStep(lineIndex(k));
-  karaoke((CT-c[k])/Math.max(.5,((k+1<c.length?c[k+1]:(t.dur||au.duration||c[k]+4))-c[k])-.35));
-  const frac=Math.min(1,CT/(t.dur||au.duration||1)); const s=S[si];
-  prog.children[si].firstChild.style.width=(splitN(s)?(part==='a'?frac*0.4:0.4+frac*0.6):frac)*100+'%';
+function paintProgress(){
+  const t=T[unitId()], start=t.cues[localBeat], end=t.cues[localBeat+1]??t.dur;
+  karaoke((clock-start)/(end-start));
+  const s=S[si], offset=splitN(s)&&part==='b'?T[s.id+'a'].dur:0;
+  const total=splitN(s)?T[s.id+'a'].dur+T[s.id+'b'].dur:t.dur;
+  prog.children[si].firstChild.style.width=(Math.min(1,(clock+offset)/total)*100)+'%';
 }
-au.addEventListener('timeupdate',onTime);
-au.addEventListener('ended',onEnd);
 function onEnd(){
+  finished=true;
   const s=S[si];
-  if(splitN(s)&&part==='a'){ aDone=true; if(pendingB){continueQuiz();return}
-    waitingQuiz=true;pause(); const rv=$('reveal'); if(rv) rv.style.display='inline-block';
-    $('caption').textContent=splitMsg[s.kind]||'';return}
-  if(s.wait){ pause(); setStep(s.lines.length-1); $('caption').textContent=waitMsg[s.kind]||''; return }
-  if(si<S.length-1){ setTimeout(()=>{ if(playing) load(si+1,true) },1100) } else { pause(); $('caption').textContent='End of Chapter 2. Well done. Use the chapter menu at the top to continue, or go back to the course home.'; prog.children[si].firstChild.style.width='100%' }
+  if(splitN(s)&&part==='a'){
+    aDone=true;
+    if(pendingB){continueQuiz();return;}
+    waitingQuiz=true;pause();
+    $('caption').textContent=splitMsg[s.kind];
+    return;
+  }
+  if(s.wait){pause();$('caption').textContent=waitMsg[s.kind]||'Explore the activity, then press Continue.';return;}
+  if(si<S.length-1){transition=setTimeout(()=>{if(playing) load(si+1,true);},400);}
+  else {pause();$('caption').textContent='End of this chapter.';}
 }
-function play(){ if(waitingQuiz) return;
-  if(silent){ const t=T[unitId()]; if(!t) return; if(clock>=t.dur) clock=0; playing=true; updBtn(); clearInterval(ticker);
-    ticker=setInterval(()=>{ clock+=.2*(+$('speed').value||1); onTime(); if(clock>=t.dur){ clearInterval(ticker); onEnd() } },200); return }
-  if(!au.src){return} playing=true; au.play().catch(()=>{playing=false;updBtn()}); updBtn() }
-function pause(){ playing=false; clearInterval(ticker); au.pause(); updBtn() }
-function updBtn(){ $('play').textContent=playing?'❚❚ Pause':'▶ Play' }
-$('play').onclick=()=>{ if(waitingQuiz) return; if(au.ended&&si===S.length-1){load(si,true);return} playing?pause():play() };
+function nextBeat(){
+  const t=T[unitId()];
+  clock=t.cues[localBeat+1]??t.dur;paintProgress();
+  clearInterval(ticker);clearTimeout(transition);
+  if(localBeat+1>=t.cues.length){onEnd();return;}
+  localBeat++;startBeat();
+}
+function readBeat(){
+  const t=T[unitId()], end=t.cues[localBeat+1]??t.dur;
+  let last=performance.now();
+  ticker=setInterval(()=>{
+    const now=performance.now();clock=Math.min(end,clock+(now-last)/1000*(+$('speed').value));
+    last=now;paintProgress();if(clock>=end) nextBeat();
+  },100);
+}
+function startBeat(){
+  const ticket=++generation,t=T[unitId()];
+  const k=lineIndex(localBeat),line=S[si].lines[k];
+  setStep(k);paintProgress();
+  if(!voiceMode||unavailable){readBeat();return;}
+  const u=new SpeechSynthesisUtterance(line);
+  utterance=u;u.lang='en-US';
+  const voices=synth.getVoices();
+  const english=voices.find(v=>v.localService&&/^en[-_]/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang));
+  if(english)u.voice=english;
+  u.rate=.81*(+$('speed').value);
+  const begin=t.cues[localBeat],end=t.cues[localBeat+1]??t.dur;
+  const fallback=()=>{
+    if(ticket!==generation||!playing)return;
+    stopPlayback();playing=true;unavailable=true;syncMode();
+    readBeat();
+  };
+  u.onstart=()=>{
+    if(ticket!==generation)return;
+    clearTimeout(transition);
+    transition=setTimeout(fallback,Math.max(16000,(end-begin)*3200/u.rate));
+  };
+  u.onboundary=e=>{
+    if(ticket!==generation||!playing)return;
+    clock=begin+(end-begin)*Math.min(1,e.charIndex/line.length);paintProgress();
+  };
+  u.onend=()=>{if(ticket!==generation||!playing)return;utterance=null;nextBeat();};
+  u.onerror=fallback;
+  transition=setTimeout(fallback,4500);
+  try{synth.speak(u);}catch(e){fallback();}
+}
+function play(){
+  if(waitingQuiz||playing)return;
+  if(finished){if(!S[si].wait && si<S.length-1){load(si+1,true);return;}localBeat=0;clock=0;finished=false;step=-1;}
+  playing=true;updBtn();startBeat();
+}
+function pause(){stopPlayback();updBtn();}
+function updBtn(){$('play').textContent=playing?'❚❚ Pause':'▶ Play';}
+function syncMode(){
+  $('mode').textContent=voiceMode&&!unavailable?'Voice on':'Read along';
+  $('mode').setAttribute('aria-pressed',String(voiceMode&&!unavailable));
+  $('mode-note').textContent=voiceMode&&unavailable?'Voice unavailable on this device. Following timed captions.':'';
+  if(!voiceMode||unavailable){$('caption').classList.remove('off');$('cc').textContent='Captions on';$('cc').setAttribute('aria-pressed','true');}
+}
+function selectMode(wantVoice){
+  voiceMode=wantVoice;unavailable=!synth||typeof SpeechSynthesisUtterance!=='function';
+  syncMode();
+}
+$('mode').onclick=()=>{
+  const active=playing;pause();selectMode(!(voiceMode&&!unavailable));
+  if(active)play();
+};
+$('play').onclick=()=>playing?pause():play();
 $('prev').onclick=()=>load(si-1,true); $('next').onclick=()=>load(si+1,true);
-$('speed').onchange=()=>au.playbackRate=+$('speed').value;
+$('speed').onchange=()=>{if(playing){pause();play();}};
 $('menu').onclick=()=>openMenu(true); $('dclose').onclick=()=>openMenu(false); $('shade').onclick=()=>openMenu(false);
 $('replay').onclick=()=>load(si,true);
 $('full').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}) };
-$('ui').addEventListener('click',e=>{ if(e.target.closest('button,select')) tried.add(S[si].id) }); $('ui').addEventListener('change',()=>tried.add(S[si].id));
+$('ui').addEventListener('click',e=>{ if(e.target.closest('button:not(#cont),select,input')) tried.add(S[si].id) },true); $('ui').addEventListener('input',()=>tried.add(S[si].id));
 setInterval(()=>{ if(playing) updTime() },5000);
 $('cc').onclick=()=>{const on=$('caption').classList.toggle('off');$('cc').textContent=on?'Captions off':'Captions on';$('cc').setAttribute('aria-pressed',String(!on))};
-document.addEventListener('keydown',e=>{ if(['SELECT','INPUT'].includes(e.target.tagName)) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
-$('go').onclick=()=>{ $('start').remove(); load(0,true) };
-(function(){ let k=0; try{ k=parseInt(localStorage.getItem(KEY),10)||0 }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ $('start').remove(); load(k,true) } } })();
+document.addEventListener('keydown',e=>{ if(['SELECT','INPUT','TEXTAREA'].includes(e.target.tagName)||($('start')&&e.code!=='Escape')||(e.code==='Space'&&e.target.closest('button,a'))) return; if(e.code==='Space'){e.preventDefault();$('play').click()} if(e.code==='ArrowRight')$('next').click(); if(e.code==='ArrowLeft')$('prev').click(); if(e.code==='KeyM') openMenu(!$('drawer').classList.contains('open')); if(e.code==='KeyR') $('replay').click(); if(e.code==='Escape') openMenu(false) });
+$('go').onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(0,true) };
+(function(){ let k=0; try{ const saved=localStorage.getItem(KEY); k=saved && /^\d+$/.test(saved)?Number(saved):S.findIndex(s=>s.id===saved) }catch(e){} const b=$('resumeGo'); if(k>0&&k<S.length){ b.hidden=false; b.textContent='Continue from scene '+(k+1); b.onclick=()=>{ selectMode($('narration').value==='voice'); $('start').remove(); load(k,true) } } })();
 
 /* ---------- interactions ---------- */
 function continueQuiz(){ if(part==='b') return; if(!aDone){pendingB=true;return} part='b'; waitingQuiz=false; const rv=$('reveal'); if(rv) rv.style.display='none'; setUnit(); play() }
@@ -419,40 +518,51 @@ const wire = {
   playground(){
     const ui=$('ui'); let k=3;
     const upd=()=>{ const s=stage._k5; if(!s) return;
-      $('pr').textContent=s.rounds; $('pk').textContent=s.k; const sp=SC.s05.spread(stage); $('pi').textContent=sp===null?'–':(sp*100).toFixed(1);
+      $('pr').textContent=s.rounds; $('pk').textContent=s.k; const sp=SC.s05.spread(stage); $('pi').textContent=sp===null?'–':sp.toFixed(2);
       $('ps').textContent=s.stable?'stable ✓':s.lab?'moving':'start'; $('ps').parentNode.className='stat '+(s.stable?'good':'');
       $('pstep').textContent=s.stable?'Done ✓':s.phase==='assign'?'① Assign to nearest':'② Move centres to the middle'; $('pstep').disabled=s.stable; $('prun').disabled=s.stable;
-      $('pv').innerHTML = s.stable ? `Stable after ${s.rounds} rounds, with a total spread of <b>${(sp*100).toFixed(1)}</b>. Press <b>New random start</b> and compare: a different start can end in different groups, which is why <b>n_init</b> matters.` : '';
+      $('pv').innerHTML = s.stable ? `Stable after ${s.rounds} rounds, with a total spread of <b>${sp.toFixed(2)}</b>. Press <b>New random start</b> and compare: a different start can end in different groups, which is why <b>n_init</b> matters.` : '';
     };
     ui.querySelectorAll('.kk').forEach(b=>b.onclick=()=>{ k=+b.dataset.k; ui.querySelectorAll('.kk').forEach(x=>x.classList.toggle('sel',x===b)); SC.s05.reset(stage,k,true); upd() });
     $('pstep').onclick=()=>{ SC.s05.step(stage); upd() };
-    $('prun').onclick=()=>{ $('prun').disabled=true; const go=()=>{ if(!stage._k5||stage._k5.stable||!$('prun')){upd();return} SC.s05.step(stage); upd(); setTimeout(go,450) }; go() };
-    $('pnew').onclick=()=>{ SC.s05.reset(stage,k,true); upd() };
+    let timer;
+    $('prun').onclick=()=>{
+      clearTimeout(timer);
+      const run=stage._k5, button=$('prun');
+      const advance=()=>{
+        if(!button.isConnected || run!==stage._k5 || run.stable) return;
+        SC.s05.step(stage); upd();
+        button.disabled=true;
+        if(!run.stable) timer=setTimeout(advance,450);
+      };
+      advance();
+    };
+    $('pnew').onclick=()=>{clearTimeout(timer);SC.s05.reset(stage,k,true);upd();};
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(upd,250);
+    upd();
   },
   units(){
     const ui=$('ui'); let z=false;
-    const upd=()=>{ const a=+$('ea').value, b=+$('eb').value; if(a===b){ $('uv').textContent='Pick two different episodes.'; return }
+    const upd=()=>{ const a=+$('ea').value, b=+$('eb').value; if(a===b){SC.s08.update(stage,a,b,z); $('uv').textContent='The same visit has zero distance from itself in either set of units.';return}
       SC.s08.update(stage,a,b,z);
       const A=D.episodes[a], B=D.episodes[b], keys=['staff_ratio','training_hours','occupancy_pct','handoffs'], names=['staff ratio','training hours','occupancy','handoffs'];
       const sq=keys.map((k,j)=>{const g=A[j+1]-B[j+1]; const s=z?g/D.sd[k]:g; return s*s}), tot=sq.reduce((x,y)=>x+y,0)||1, top=sq.indexOf(Math.max(...sq));
       $('uv').innerHTML = z ? `In standardised units, every variable is measured in standard deviations, so each one can count. Here <b>${names[top]}</b> supplies the most (${Math.round(100*sq[top]/tot)}%) because these two episodes really differ most on it.`
-        : `In raw units, <b>${names[top]}</b> supplies ${Math.round(100*sq[top]/tot)}% of the distance, and staff ratio only ${(100*sq[0]/tot).toFixed(1)}%, because it is measured in small numbers. Now press <b>Standardised</b>.`;
+        : `In raw units, <b>${names[top]}</b> supplies ${Math.round(100*sq[top]/tot)}% of the squared distance, and staff ratio ${(100*sq[0]/tot).toFixed(1)}%, because it is measured in small numbers. Now press <b>Standardised</b>.`;
     };
     $('ea').onchange=upd; $('eb').onchange=upd;
     ui.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ z=b.dataset.z==='1'; ui.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('sel',x===b)); upd() });
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(upd,80);
+    upd();
   },
   choosek(){
     const ui=$('ui'), msg=[
-      '<b class="ok">The strongest choice.</b> k = 2 has the biggest gap over the noise floor (+0.314). Two groups is where this file has the most structure, and two groups are easy for a director to recognise.',
-      '<b class="ok">Defensible.</b> k = 3 still sits well above noise (+0.229). Choose it only if the third group means something to the hospital, and say that k = 2 is stronger.',
-      '<b class="no">Weaker.</b> At k = 4 the gap is +0.149: real, but half of what k = 2 shows. Four groups is a choice you would have to defend with meaning, not with the score.',
-      '<b class="no">Hard to defend.</b> At k = 5 the gap is +0.107. The extra groups mostly split real groups into pieces.',
-      '<b class="no">Barely above noise.</b> At k = 6 the real score is 0.254 against 0.184 for shuffled data. More groups give more detail, not more evidence.'];
-    ui.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; CHIPSEL(ui,b); SC.s12.pick(stage,i); $('kv').innerHTML=msg[i]+' Whatever you choose, report the comparison with the shuffled data.'; $('cont').hidden=false });
+      'The largest observed advantage over shuffling is +0.314 at two groups. Which operating contrast would the director recognise?',
+      'The advantage is +0.229 at three groups. Explain which distinction the third profile would add.',
+      'The advantage is +0.149 at four groups. Which of the finer distinctions would change how a manager works?',
+      'The advantage is +0.107 at five groups. Identify a use for the additional detail before retaining it.',
+      'At six groups the observed advantage is +0.069. Compare this with the larger advantage at two groups.'];
+    ui.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; CHIPSEL(ui,b); SC.s12.pick(stage,i); $('kv').textContent=msg[i]; $('cont').hidden=false });
     $('cont').onclick=()=>load(si+1,true);
   },
   sentences(){
@@ -469,11 +579,11 @@ const wire = {
     const ui=$('ui'), X=window.W12X;
     const upd=k=>{ SC.s24.update(stage,k);
       $('skv').innerHTML = k===2
-        ? `<b class="ok">Almost the same groups</b> (agreement ${X.ari2.toFixed(2)}). Here you were lucky: occupancy and training hours, the two big-unit columns, happen to carry the same two-group structure as the other variables. Nothing in the output tells you whether you were lucky. Now try <b>k = 4</b>.`
+        ? `<b class="ok">Almost the same groups</b> (agreement ${X.ari2.toFixed(2)}). The two partitions agree closely on this file despite the change in units. Compare the same two runs at <b>k = 4</b>.`
         : `<b class="no">Now the groups differ</b> (agreement ${X.ari4.toFixed(2)}), and the sizes change. Without standardising, the centres sit closer together on staff ratio (${X.sep_raw4[0].toFixed(2)} against ${X.sep_std4[0].toFixed(2)} SDs) and on handoffs (${X.sep_raw4[3].toFixed(2)} against ${X.sep_std4[3].toFixed(2)}): the small-unit variables lost influence. And there is still no error message.`; };
     ui.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{ CHIPSEL(ui,b); upd(+b.dataset.k) });
     $('cont').onclick=()=>load(si+1,true);
-    setTimeout(()=>{ if($('skv')) upd(2) },150);
+    upd(2);
   },
   nameit(){
     const ui=$('ui'), why=['Lowest occupancy (68%) and the fewest handoffs: a quiet profile.','Highest staff ratio (1.70) and the most training (31 h).','Thin staffing, little training, wards almost 90% full, most handoffs.'];
@@ -482,6 +592,90 @@ const wire = {
         fb.className='fb '+(good?'ok':'no'); fb.textContent = good ? '✓ '+why[i] : (+v===3 ? '✗ Performance was not a clustering variable: you would be importing a conclusion.' : '✗ Read the numbers again: which values are ▲ and ▼?'); });
       $('nmv').innerHTML = n===3 ? (ok===3 ? '<b class="ok">All three defended.</b> Every name traces back to numbers in its profile. “High-performing wards” was the trap: nothing here measures performance.' : `<b class="no">${ok} of 3 so far.</b> A name must be read from the centre, not from the story you would like to tell.`) : ''; };
     ui.querySelectorAll('.nmsel').forEach(s=>s.onchange=check);
+    $('cont').onclick=()=>load(si+1,true);
+  },
+  kexplorer(){
+    const ui=$('ui'), X=window.W12X;
+    const notes={
+      2:'Two groups have the largest silhouette advantage over the shuffle in the course table.',
+      3:'Look for the division introduced by the third centre on the practice map.',
+      4:'The full-file inertia and silhouette both fall as you move from three groups to four.',
+      5:'Five groups give finer profiles. Which new distinction would the director use?',
+      6:'The silhouette advantage over the shuffle is smallest among the choices shown.'
+    };
+    const upd=k=>{
+      SC.s36.pick(stage,k);
+      const inRow=X.inertia.find(x=>x[0]===k), gRow=C.gaps.find(x=>x[0]===k);
+      $('kexK').textContent=k;
+      if(inRow) $('kexIn').textContent=fmt(inRow[1]);
+      if(gRow){ $('kexSil').textContent=gRow[1].toFixed(3); $('kexGap').textContent='+'+gRow[3].toFixed(3); }
+      $('kexGap').parentNode.className='stat '+(k<=3?'good':'bad');
+      $('kexV').innerHTML=notes[k]||'';
+    };
+    ui.querySelectorAll('.kex').forEach(b=>b.onclick=()=>{ CHIPSEL(ui,b); upd(+b.dataset.k) });
+    $('cont').onclick=()=>load(si+1,true);
+    upd(2);
+  },
+  dendrocut(){
+    const ui=$('ui');
+    const info=[
+      {h:'5.0',k:2,jmp:'3.39',msg:'<b class="ok">Cut at height 5.0 (k = 2):</b> The cut lies between successive merge heights of 3.43 and 6.82. Five visits remain on each branch.'},
+      {h:'2.8',k:3,jmp:'1.20',msg:'<b class="ok">Cut at height 2.8 (k = 3):</b> Group 2 stays completely intact, while episode AW101757 branches off from Group 1. In a hierarchy, new groups nest inside existing ones.'},
+      {h:'2.1',k:4,jmp:'0.26',msg:'<b class="no">Cut at height 2.1 (k = 4):</b> Crosses short vertical stems where branches merged at nearly the same distance (2.23 vs 1.97). Small changes in height now change k.'},
+      {h:'1.7',k:5,jmp:'0.46',msg:'<b class="no">Cut at height 1.7 (k = 5):</b> Five small sub-branches. Useful if you want fine-grained sub-types nested inside the two main regimes.'}
+    ];
+    const upd=i=>{
+      SC.s39.cut(stage,i);
+      const x=info[i]||info[0];
+      $('dcH').textContent=x.h; $('dcK').textContent=x.k; $('dcJump').textContent=x.jmp;
+      $('dcK').parentNode.className='stat '+(i<=1?'good':'bad');
+      $('dcV').innerHTML=x.msg;
+    };
+    ui.querySelectorAll('.dcut').forEach(b=>b.onclick=()=>{ CHIPSEL(ui,b); upd(+b.dataset.i) });
+    $('cont').onclick=()=>load(si+1,true);
+    upd(0);
+  },
+  dbscanexp(){
+    const ui=$('ui');
+    const update=i=>{
+      const result=SC.s41.setEps(stage,i);
+      $('dbV').textContent=`In this map fit, ${D.pts.length-result.noise} visits belong to a group and ${result.noise} have the noise label. Change the radius to compare the same visits.`;
+    };
+    ui.querySelectorAll('.dbeps').forEach(button=>button.onclick=()=>{
+      CHIPSEL(ui,button);update(Number(button.dataset.i));
+    });
+    $('cont').onclick=()=>load(si+1,true);
+    update(1);
+  },
+  thesisaudit(){
+    const ui=$('ui');
+    const explain=[
+      {ok:'✓ Only the 4 operating inputs in X; outcomes held out',bad:'✗ Putting satisfaction in X creates circular groups'},
+      {ok:'✓ Compare all candidates with their shuffled scores',bad:'✗ A single score leaves out the shuffle comparison'},
+      {ok:'✓ Report centres, sizes and within-group spread',bad:'✗ ANOVA p-values on clustering variables are double-dipping'},
+      {ok:'✓ Observational association framed as a description',bad:'✗ Clustering is an unsupervised description, never causal proof'}
+    ];
+    let doneCount=0, okCount=0;
+    const state=[null,null,null,null];
+    ui.querySelectorAll('.taq').forEach(q=>{
+      const i=+q.dataset.i, ans=q.dataset.ans;
+      q.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+        q.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+        const ok=b.dataset.c===ans, fb=q.querySelector('.fb');
+        fb.className='fb '+(ok?'ok':'no');
+        fb.textContent=ok?explain[i].ok:explain[i].bad;
+        state[i]=ok;
+        SC.s49.mark(stage,i,ok,ok?explain[i].ok.slice(2):explain[i].bad.slice(2));
+        doneCount=state.filter(x=>x!==null).length;
+        okCount=state.filter(x=>x===true).length;
+        $('cont').disabled=doneCount<4;
+        if(doneCount===4){
+          $('tav').innerHTML=okCount===4
+            ? '<b class="ok">All four approved by the examiner.</b> Your methodology excludes outcomes from X, compares separation with the shuffled noise floor, avoids circular p-values, and makes strictly descriptive claims.'
+            : `<b class="no">${okCount} of 4 approved.</b> Review the feedback or revise a choice before continuing.`;
+        }
+      });
+    });
     $('cont').onclick=()=>load(si+1,true);
   },
   quiz(){
@@ -511,12 +705,13 @@ const wire = {
 };
 function burst(n){ const box=document.createElement('div'); box.className='burst'; for(let i=0;i<(n||40);i++){const p=document.createElement('i'); p.style.setProperty('--x',(Math.random()*2-1)*220+'px'); p.style.setProperty('--y',(-Math.random()*260-60)+'px'); p.style.background=['#1F4E79','#C0502A','#E8B04B','#2E7D4F'][i%4]; p.style.animationDelay=(Math.random()*.2)+'s'; box.appendChild(p)} document.body.appendChild(box); setTimeout(()=>box.remove(),2200) }
 
+selectMode(true);
 load(0,false);
 window.__vl={load:(i)=>{load(i,false)},step:(k)=>setStep(k)};  // used for visual checks
 })();
 </script>
 <script>try{var k='vl-qrms-seen',v=(localStorage.getItem(k)||'').split(',').filter(Boolean);if(v.indexOf('2')<0){v.push('2');localStorage.setItem(k,v.join(','))}}catch(e){}</script>
 <script>(function(){try{var miss=(window.CHAPTER&&window.CHAPTER.scenes||[]).some(function(s){return !(window.SC&&window.SC[s.id])});var k='vl-heal-'+location.pathname;if(miss&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?fresh='+Date.now())}}catch(e){}})();</script>
-<script src="../../course.js?v=20261117d"></script>
+<script>if(location.protocol !== "file:" && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){const nav=document.createElement("script");nav.src="../../course.js";document.body.appendChild(nav)}</script>
 </body>
 </html>

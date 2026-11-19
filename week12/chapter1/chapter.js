@@ -1,194 +1,365 @@
-// PHQM830 Week 12 · Chapter 2 of the course: "Finding groups nobody labelled" (25 scenes)
-// One scene = one audio file. One sentence = one animation step.
+// PHQM830 Week 12 · Chapter 2 of the course: "Finding groups nobody labelled" (49 scenes)
+// One scene = one audio file (or read-along unit). One sentence = one animation step.
 window.CHAPTER = {
   course: "PHQM830 Quantitative Research Methods and Statistics",
   week: "Week 12",
   title: "Finding groups nobody labelled",
-  subtitle: "Chapter 1 of clustering and segmentation analysis",
+  subtitle: "Clustering and segmentation analysis",
   scenes: [
-    { id: "s01", kind: "title", heading: "Welcome to Week 12", lines: [
-      "Welcome to Week 12. This week, we look for groups in our data that nobody has labelled.",
-      "And we will learn the harder half of the job: how to prove that those groups are real."
+    { id: "s01", kind: "title", heading: "What can a ward manager learn from unlabelled visits?", lines: [
+      "Imagine a manager at Al Waha opening a file of hospital visits and asking which ones took place under similar working conditions.",
+      "Each dot is one episode of care, and the manager wants to know how much confidence to place in any groups we draw."
     ]},
-    { id: "s02", kind: "recap", heading: "Until now, there was always an answer key", lines: [
-      "In every week so far, our data came with an answer key. For each hospital episode, we knew the outcome: the satisfaction score, or whether the patient complained.",
-      "So we could always check our work. We compared the prediction with the real answer, and we counted the errors.",
-      "This week, the answer key is gone. There is no outcome, and nothing will tell us whether our answer is right.",
-      "This is called unsupervised learning. That single missing piece changes how the method must be judged, and it is the whole lesson of this week."
+    { id: "s02", kind: "recap", heading: "Where did the answer key go?", lines: [
+      "Last week a visit came with an answer we could look up afterwards, such as whether the patient made a complaint.",
+      "We could put a prediction beside that recorded answer and count how often the two disagreed on fresh visits.",
+      "Now cover the outcome column and try sorting the same visits by the conditions on the ward.",
+      "Learning from the measurements alone is called unsupervised learning, and it changes what counts as evidence for a grouping."
     ]},
-    { id: "s19", kind: "why", heading: "Why look for groups at all?", lines: [
-      "Why look for groups at all? Because nobody can manage four thousand seven hundred episodes one at a time.",
-      "If the episodes fall into a few types, each type can get its own policy: its own staffing, its own training, its own targets.",
-      "This week's reading is the classic example. Miller and Roth studied manufacturers, and found three types: caretakers, marketeers, and innovators.",
-      "Each name was read from the numbers. That is segmentation done well, and it is what you will learn to do, and to check."
+    { id: "s27", kind: "supunsup", heading: "Follow one row through two analyses", lines: [
+      "Suppose the manager asks for tomorrow’s satisfaction score and then asks for a list of similar visits.",
+      "For the first question, each earlier visit supplies both operating measurements and the satisfaction score we want to predict.",
+      "The vertical stroke measures the gap between a prediction and an observed score on a visit kept aside for testing.",
+      "For the second question the analyst closes the satisfaction column before looking for a pattern.",
+      "The colours now come from similarities among the operating measurements, so there is no recorded correct colour to compare them with."
     ]},
-    { id: "s03", kind: "spot", heading: "Your turn: which picture has real groups?", split: 2, lines: [
-      "Let us start with a test of your eyes. Here are two clouds of hospital episodes, each squeezed onto a flat map.",
-      "One of them has real groups in it. Which one? Choose picture A or picture B.",
-      "Now watch what happens when we ask the computer to find four groups in each picture.",
-      "It finds four tidy groups in both, and they look equally convincing. But picture A is pure noise: we shuffled it, so it has no structure at all.",
-      "Remember this. A clustering method always returns clusters, even from random noise. Finding clusters is not evidence that clusters exist."
+    { id: "s19", kind: "why", heading: "What would a useful group tell the manager?", lines: [
+      "A manager can read a single episode closely, but the operating file contains four thousand seven hundred and forty complete rows.",
+      "A recurring combination of crowding and thin staffing could give the team a starting point for a ward review.",
+      "In the course reading, Miller and Roth used manufacturers’ priorities to describe caretakers, marketeers and innovators.",
+      "The hospital needs the same discipline because a useful name should tell a colleague what to look for in the underlying records."
     ]},
-    { id: "s04", kind: "kmeans", heading: "How k-means works, without the algebra", lines: [
-      "The method we use is called k-means. Here is the whole algorithm, in four moves.",
-      "First, choose k, the number of groups. Then drop k points at random, and call them centres.",
-      "Second, give every episode to its nearest centre. Each episode now wears the colour of its centre.",
-      "Third, move each centre to the middle of the episodes it was given.",
-      "Then repeat: assign again, and move again, until nothing changes. That is the whole algorithm.",
-      "Notice the word nearest. Everything rests on how we measure distance, and that is where most clustering goes wrong."
+    { id: "s28", kind: "vars", heading: "Which columns may give a visit its colour?", lines: [
+      "Two visits can look alike in how the ward ran even when the patients later report quite different experiences.",
+      "For Al Waha we describe working conditions with staff ratio, training hours, bed occupancy and the number of handoffs.",
+      "Keep satisfaction, complaints, readmissions and waiting time in a separate part of the table for comparison later.",
+      "If a complaint helped choose an episode’s colour, finding more complaints in that colour would partly repeat our own sorting rule.",
+      "Once each episode has an operating label, we can bring those other columns back and ask how patient experiences vary."
     ]},
-    { id: "s20", kind: "inertia", heading: "What k-means is really trying to do", lines: [
-      "What is k-means actually trying to do? It tries to make every group as tight as possible.",
-      "Draw a line from each episode to its centre. Square the lengths, and add them all up. That total is called the inertia.",
-      "Every assign step, and every move step, makes the inertia smaller, never bigger. So the algorithm must stop.",
-      "But where it stops depends on where it started. With four groups, twenty different starts on our file ended in clearly different groupings.",
-      "That is why we run ten starts, and keep the tightest result. In Python, that is n init equals ten."
+    { id: "s03", kind: "spot", heading: "Which picture preserves the original visits?", split: 2, lines: [
+      "Here are two maps made from hospital measurements, with one dot for each visit shown and no colours to guide your eye.",
+      "Choose the picture you think retains the original combinations of staff, training, occupancy and handoffs.",
+      "Watch what happens when the computer is asked to divide each of these pictures into four groups.",
+      "Picture A has its columns shuffled independently, yet it still comes back with four coloured regions just as picture B does.",
+      "If a method can draw a convincing boundary after shuffling, the colours alone give the manager very little evidence."
     ]},
-    { id: "s05", kind: "playground", heading: "Try it: run k-means yourself", wait: true, lines: [
-      "Now run it yourself, on two hundred and forty real episodes.",
-      "Choose the number of groups, then press Assign and Move, one step at a time, until the centres stop moving.",
-      "Try a new random start as well, and see whether you always end up with the same groups. Then press Continue."
+    { id: "s04", kind: "kmeans", heading: "Follow a centre through one round", lines: [
+      "Imagine giving each visit the colour of the nearest meeting point, then moving the meeting points to suit their visitors.",
+      "On this flat practice map we choose the number of meeting points, called k, and mark their starting positions with crosses.",
+      "Each dot takes the colour of its nearest cross, so a stretch of empty space can separate two colours.",
+      "Each cross now slides to the average position of the dots that have just taken its colour.",
+      "Repeating those two moves until the assignments settle gives this procedure its name, k-means.",
+      "Trace one dot back to its cross and consider how its colour might change if the units changed what counted as near."
     ]},
-    { id: "s06", kind: "distance", heading: "Distance between two episodes, worked by hand", lines: [
-      "So how far apart are two episodes? Take episode A, with occupancy at sixty percent and a staff ratio of one point two, and episode B, with occupancy at eighty percent and a staff ratio of zero point nine.",
-      "The gap in occupancy is twenty points. Squared, that is four hundred.",
-      "The gap in staff ratio is zero point three. Squared, that is only zero point zero nine.",
-      "Add them, take the square root, and the distance is twenty.",
-      "Occupancy supplied four hundred of the four hundred point zero nine. Staffing contributed almost nothing, not because it does not matter, but because it is measured in smaller numbers."
+    { id: "s29", kind: "voronoi", heading: "Who changes sides when a centre moves?", lines: [
+      "Follow the two crosses on this flat practice map of Al Waha visits while the dots themselves stay in place.",
+      "This flat projection keeps about eighty-four percent of the variance across the four standardised measurements, with about sixty-nine percent along the first axis and fifteen percent along the second.",
+      "Halfway between the crosses, draw the line whose points are all exactly as far from one cross as from the other.",
+      "On either side of that line the nearer cross wins, so you can predict a dot’s colour before it appears.",
+      "When the crosses move to the means of their coloured dots, the line swings and a few visits can change sides."
     ]},
-    { id: "s07", kind: "scale", heading: "Standardise first: the z-score from Week 4", lines: [
-      "The cure is the z-score you learned in Week 4. For every column, subtract the mean and divide by the standard deviation.",
-      "In the real file, occupancy has a standard deviation of about ten point four, and training hours about nine point seven. The staff ratio has only zero point three four.",
-      "Without standardising, occupancy and training hours supply ninety-nine percent of every distance. Staff ratio supplies one tenth of one percent.",
-      "After standardising, every column has a standard deviation of one, and each of the four variables supplies about a quarter of the distance.",
-      "In Python, this is one line: StandardScaler, fit transform. Skip it, and your segments are just bands of one variable wearing a disguise."
+    { id: "s20", kind: "inertia", heading: "What does a shorter line buy us?", lines: [
+      "Suppose the manager wants one representative position for each colour and asks how closely the visits gather around it.",
+      "Draw a line from every visit to its own centre and add their squared lengths to get a measure called inertia.",
+      "Assigning a dot to its nearest centre or moving a centre to its mean can only lower that total or leave it unchanged.",
+      "With four groups on the hospital file, different starts settled at different totals even though each run followed the same rule.",
+      "Ten starts give the computer ten chances to find a tighter fit, and it keeps the one with the lowest inertia."
     ]},
-    { id: "s08", kind: "units", heading: "Try it: who decides the distance?", wait: true, lines: [
-      "Now see it for yourself.",
-      "Pick two real episodes, and switch between raw units and standardised units. Watch how much of the distance each variable supplies. Then press Continue."
+    { id: "s30", kind: "kmpp", heading: "Why spread the starting centres out?", lines: [
+      "Both maps begin with the same visits and room for four centres, so watch where the first crosses land.",
+      "On the left, three crosses begin in one cloud while a single cross has to represent the visits on the other side.",
+      "The left crosses can settle into a locally tight arrangement even when a different allocation of crosses would shorten the total squared distance.",
+      "The starting rule called k-means plus plus favours a new centre where squared distance to the nearest existing centre is large.",
+      "In the hospital analysis the four-group totals ranged from about forty-seven hundred to about sixty-one hundred, which makes repeated starts worth reporting."
     ]},
-    { id: "s09", kind: "noise", heading: "The noise floor: the check that almost nobody runs", lines: [
-      "Since k-means finds groups even in noise, how do we know our groups are real? We build a noise floor.",
-      "Take the data, and shuffle each column on its own, like spinning the reels of a slot machine.",
-      "Every column keeps exactly the same values, so its average and its spread do not change. But the links between the columns are destroyed. Any real group is gone.",
-      "Run exactly the same clustering on the shuffled data. Whatever score it gets is what no structure looks like.",
-      "The gap between the real score and the shuffled score is your evidence. It takes four lines of code, and almost nobody runs it."
+    { id: "s05", kind: "playground", heading: "Move the centres yourself", wait: true, lines: [
+      "Pick a number of centres on this practice map of two hundred and forty visits and predict which cross will attract the most dots.",
+      "Press Assign to colour the dots, then press Move and see which cross travels furthest towards its members.",
+      "Keep the number of groups fixed and try another start so that any change in the final spread has a clear explanation."
     ]},
-    { id: "s10", kind: "silhouette", heading: "The silhouette score: how well separated are the groups?", lines: [
-      "The score we compare is called the silhouette. It asks a simple question about every single episode.",
-      "How close is this episode to the members of its own group? Call that distance a.",
-      "And how close is it to the members of the nearest other group? Call that distance b.",
-      "If b is much bigger than a, the episode sits comfortably in its group, and its silhouette is close to one. Near zero, it sits on a border. The silhouette score is the average over all episodes."
+    { id: "s06", kind: "distance", heading: "How far apart are two visits?", lines: [
+      "In this worked example one ward is sixty percent full with a staff ratio of one point two and the other is eighty percent full with a ratio of zero point nine.",
+      "Twenty percentage points separate their occupancy readings, so the square drawn on that gap has an area of four hundred.",
+      "The staff ratios differ by three tenths, giving a squared gap of just nine hundredths on the same numerical scale.",
+      "Adding the two areas and taking the square root gives a straight-line distance that rounds to twenty.",
+      "The large square tells us which measurement drove this calculation, even though the manager never said occupancy mattered more than staffing."
     ]},
-    { id: "s11", kind: "gap", heading: "What the Al Waha file actually says", lines: [
-      "Here is what our hospital file says, for two to six groups.",
-      "With two groups, the real data scores a silhouette of zero point five zero. The shuffled data scores only zero point one nine.",
-      "As k grows, the real score falls, while the shuffled score stays near zero point one eight. The gap shrinks, from plus zero point three one at k equals two, to plus zero point zero seven at k equals six.",
-      "So there is real structure in this file, and it is strongest with two groups. We only know this because we ran the comparison."
+    { id: "s31", kind: "dist4d", heading: "Trace the distance between two actual records", lines: [
+      "A visit in the Al Waha file has four operating measurements, so there are four gaps to account for when we compare a pair.",
+      "In the two records shown, occupancy goes from just under eighty-four percent in the first to about sixty-five percent in the second.",
+      "For each row of the table, take the difference between the visits and square it before adding the rows together.",
+      "Occupancy contributes about three hundred and forty-two to the squared total of about four hundred and forty, and training hours supply most of the rest.",
+      "Together those two measurements supply about ninety-eight percent of this pair’s squared distance, leaving very little influence for staffing or handoffs."
     ]},
-    { id: "s12", kind: "choosek", heading: "Your turn: choose k and defend it", wait: true, lines: [
-      "Now you choose. Look at the gaps, and pick the number of groups you would report to the hospital director.",
-      "Remember: k is chosen, not discovered. Then press Continue."
+    { id: "s32", kind: "metrics", heading: "Which journey counts as short?", lines: [
+      "Imagine travelling between two marks on a ward map along the straight line that joins them, the distance called Euclidean.",
+      "A large difference in a single measurement has a strong influence because its contribution to squared distance grows with the square of the gap.",
+      "Travelling along one axis and then the other adds the absolute gaps, giving what is called Manhattan distance.",
+      "Choosing an actual visit as each group’s medoid under Manhattan distance gives about zero point nine seven agreement with the two-group Euclidean k-means fit.",
+      "Two profiles pointing in the same direction can have quite different lengths, which makes the angle between them useful when proportions matter."
     ]},
-    { id: "s21", kind: "elbow", heading: "The elbow plot", lines: [
-      "There is one more tool for choosing k: the elbow plot. For each k, we plot the inertia.",
-      "With one group, the inertia of our file is about nineteen thousand. With two groups, it drops to seven and a half thousand: a fall of sixty percent.",
-      "After that, each extra group buys very little. The curve bends like an elbow, at k equals two.",
-      "More groups always lower the inertia, so the lowest value proves nothing. Look for the bend, and check it against the silhouette and the noise floor."
+    { id: "s07", kind: "scale", heading: "Give each column a common unit", lines: [
+      "A staffing change is easier to judge if we know how big it is compared with the usual variation in staffing.",
+      "At Al Waha the typical spread, measured by the standard deviation, is about ten and a half occupancy points and only a third of a staff-ratio unit.",
+      "Across the pairs summarised here, training and occupancy together supply about ninety-nine percent of the squared distance in raw units.",
+      "Subtracting each column’s mean and dividing by its standard deviation gives a z-score, with each column now supplying roughly a quarter on average.",
+      "The highlighted Python operation applies that change of ruler to every operating column before the algorithm measures its first distance."
     ]},
-    { id: "s13", kind: "shapes", heading: "The assumptions, and what to do when one fails", lines: [
-      "k-means makes three assumptions. Check each one before you trust the groups.",
-      "First, the variables are on comparable scales. You check the standard deviations, and you standardise every time.",
-      "Second, k must be chosen. Use the elbow plot, the silhouette, the noise floor, and whether the groups mean anything to the organisation.",
-      "Third, the groups are roughly round and of similar size. Long, thin, or curved groups get cut in half. When you see that, use hierarchical clustering, or DBSCAN, instead."
+    { id: "s33", kind: "rescale", heading: "Watch the same visits change shape", lines: [
+      "Keep your eye on the same eight visits as we plot two of their recorded operating measurements.",
+      "Occupancy measures position across the page and staff ratio measures position up the page, with equal raw units drawn the same length.",
+      "Moving from one visit to another covers much more ground horizontally because the numerical occupancy gaps dwarf the staffing gaps.",
+      "Watch each dot move as we subtract the hospital mean on each axis and express the difference in that column’s standard deviations.",
+      "Now an upward step of one unit means staffing is one standard deviation higher, so the manager can see differences hidden in the narrow band."
     ]},
-    { id: "s22", kind: "methods", heading: "Beyond k-means: hierarchical clustering and DBSCAN", lines: [
-      "k-means is not the only way to cluster. Here are two other methods worth knowing.",
-      "Hierarchical clustering starts with every episode alone. Then it joins the two closest, again and again, until one tree is left. You cut the tree where you want your groups.",
-      "On our file, the tree cut into two groups agrees with k-means on almost every episode. Two different methods, one answer: that is reassuring.",
-      "DBSCAN works differently. It follows dense crowds of points, whatever their shape, and it marks lonely points as noise.",
-      "But it needs its own settings. On our file, one setting gave eleven groups, and a slightly larger one gave a single group. No method removes your judgement."
+    { id: "s08", kind: "units", heading: "Which measurement separates your pair?", wait: true, lines: [
+      "Choose two visits from the menus and predict which measurement supplies the largest share of their squared distance in raw units.",
+      "Switch to standard deviations and read the bars again to see how much of your first answer came from the rulers you used."
     ]},
-    { id: "s23", kind: "script", heading: "The Python script, line by line", lines: [
-      "Now the Python. The whole analysis is twenty eight short lines, and four of them do the real work.",
-      "Standard scaler puts every column on the same scale. This is the z-score from Week 4.",
-      "The next highlighted line builds the noise floor. It shuffles each column on its own.",
-      "Then a loop runs k-means twice for each k: once on the real data, and once on the shuffled data.",
-      "Finally, silhouette score measures both, and the script prints the gap. Type it yourself. Do not copy and paste it."
+    { id: "s09", kind: "noise", heading: "Build a comparison by shuffling", lines: [
+      "Imagine making a second ward file that preserves every recorded value but gives the values different partners across columns.",
+      "Keep the four columns separate as you shuffle, so a staffing value can now share a row with a different occupancy reading.",
+      "The occupancy column still has the same mean and spread because every occupancy reading is still there exactly once.",
+      "Run the same grouping procedure with the same number of centres on this rearranged table to build a comparison called a noise floor.",
+      "A larger score on the original file suggests the way measurements occur together contributes to the separation beyond this shuffle baseline."
     ]},
-    { id: "s24", kind: "skip", heading: "Try it: skip the standardising line", wait: true, lines: [
-      "Now break it on purpose. Switch the standardising line off, and compare the groups with the correct version.",
-      "Try two groups, then four. Notice that there is no error message either way. Then press Continue."
+    { id: "s10", kind: "silhouette", heading: "Does this visit fit its group?", lines: [
+      "Imagine asking the visit marked in gold which group of other visits it most resembles on the operating measurements.",
+      "Trace the blue lines to every other member of its group and take their average length, which we call a.",
+      "Take the average distance to each other group separately and call the smallest of those averages b.",
+      "Subtract a from b and divide by the larger distance to get the silhouette, which approaches one for a well-separated visit and zero near a tie."
     ]},
-    { id: "s14", kind: "naming", heading: "Naming is not describing", lines: [
-      "Once the groups are real, you must name them. Read each centre in the original units, and say what is high and what is low.",
-      "The first group, about two thousand one hundred episodes, has a staff ratio near one, about ten hours of training, wards almost ninety percent full, and five handoffs.",
-      "The second group, about two thousand six hundred episodes, has a staff ratio near one point five, twenty-six hours of training, wards about seventy-three percent full, and fewer than three handoffs.",
-      "So a defensible pair of names is stretched wards and well-resourced wards. Every word traces back to a number in the profile.",
-      "Then apply the final test. Would a hospital manager recognise these groups? If not, you have a statistical artefact, not a segment."
+    { id: "s34", kind: "silplot", heading: "What can a mean silhouette hide?", lines: [
+      "Imagine giving each visit a horizontal bar as long as its silhouette score, with a mark at zero to show a tie.",
+      "Arranging the bars from longest to shortest within a group makes a blade whose thickness counts visits and whose width shows their separation.",
+      "In the two-group hospital analysis the average is about one half, marked by the dashed line beside the illustrative bars.",
+      "When Al Waha visits are divided four ways the average falls to about one third, so the mean marker shifts towards zero.",
+      "Bars extending left of zero mark twenty visits, or zero point four percent at four groups, that sit closer on average to another group than to their own."
     ]},
-    { id: "s25", kind: "nameit", heading: "Try it: name the clusters yourself", wait: true, lines: [
-      "Your turn to name. Here are the three centres you get with k equals three, in original units.",
-      "Match each profile with the name that its numbers support. Then press Continue."
+    { id: "s11", kind: "gap", heading: "Read each original score beside its shuffle", lines: [
+      "Each pair of dots compares the original hospital table with its shuffled counterpart at the same requested number of groups.",
+      "With two groups the mean silhouette is about one half in the original visits and about nineteen hundredths after shuffling.",
+      "As you move from two groups to six, follow the two lines as the advantage over the shuffle falls from about thirty-one hundredths to about seven hundredths.",
+      "Of the five choices examined here, two groups give the clearest separation relative to this particular comparison file."
     ]},
-    { id: "s26", kind: "segments", heading: "From clusters to segments", lines: [
-      "A cluster becomes a segment only when it is useful. So test it on things you did not cluster on.",
-      "Take our two groups. In the stretched wards, satisfaction averages sixty. In the well-resourced wards, it averages eighty four.",
-      "Complaints: twenty eight percent, against three percent. Readmissions: thirty three percent, against twelve.",
-      "We did not use any of these to build the groups, so this is a real check. But it is still a description. It does not prove that staffing causes complaints.",
-      "A useful segment passes four tests. It is big enough to matter, stable when you run it again, recognisable to a manager, and it calls for a different action."
+    { id: "s12", kind: "choosek", heading: "Which grouping would you report?", wait: true, lines: [
+      "Choose how many groups you would take to the director if you had to defend both the separation and the usefulness of the extra detail.",
+      "Use the difference between the paired bars to explain what the hospital gains or gives up by choosing your number of groups."
     ]},
-    { id: "s15", kind: "sentences", heading: "Four sentences you may not write", split: 1, lines: [
-      "Here are four sentences that often appear in reports about clusters. Decide for each one: may you write it, or not?",
-      "The data naturally falls into four clusters. No. You chose four.",
-      "Cluster two is the high-performing group. No. Performance was not one of the clustering variables, so you are importing a conclusion.",
-      "The clusters are statistically significant. No. There is no test here, and no p value exists to support that phrase.",
-      "This segmentation explains satisfaction. No. Nothing was explained. A description was produced. In fact, all four sentences are off limits."
+    { id: "s21", kind: "elbow", heading: "How much does one more centre buy?", lines: [
+      "Start with every visit assigned to a single centre and read the total squared distance at the left of the plot.",
+      "Adding a second centre cuts the total from nearly nineteen thousand to about seventy-six hundred in the file of four thousand seven hundred and twenty-nine distinct complete episodes.",
+      "Trace the smaller gains from each additional centre and you can see why people call this bend in the curve an elbow.",
+      "Since another centre can improve compactness simply by splitting an existing group, read the elbow alongside the comparison with shuffled visits."
     ]},
-    { id: "s16", kind: "helper", heading: "You decide; ChatGPT assists", lines: [
-      "As in every week, you decide, and ChatGPT assists.",
-      "A good helper question is this one: explain what n init equals ten does, and why leaving it at one can give a different answer each time.",
-      "A bad one is this: what should I call these clusters? Naming is interpretation, and interpretation is your work. A model that names your segments has written your findings."
+    { id: "s35", kind: "gapstat", heading: "How much tighter than a reference file?", lines: [
+      "To see how we might judge the hospital inertia, start with eight example positions that we can compare with random sets of eight.",
+      "For the formal gap statistic, generate many reference tables without groups under a stated model, such as uniform points across the observed ranges.",
+      "At each group count, the blue line shows the logged inertia for our example and the orange line shows its average across forty reference tables.",
+      "Subtracting the blue height from the orange height gives the gap, and starting from one group we stop once a gap reaches the next gap minus its uncertainty allowance.",
+      "On the standardised Al Waha episodes at two groups, the Tibshirani gap is about one point four four with a standard error of zero point zero zero seven."
     ]},
-    { id: "s17", kind: "quiz", heading: "Chapter quiz: eight questions", wait: true, lines: [
-      "Let us finish with eight quick questions. Take your time, and read the explanation after each answer."
+    { id: "s36", kind: "kexplorer", heading: "What changes when you add one group?", wait: true, lines: [
+      "The practice map shows a fit on the displayed dots, while the charts show the hospital results at the same group count.",
+      "Pick three and look for the extra division on the map before reading how much squared spread the extra centre saves.",
+      "Move on to six and decide whether the finer labels are worth keeping when the silhouette advantage over shuffling has grown smaller."
     ]},
-    { id: "s18", kind: "takeaways", heading: "Four ideas to keep", lines: [
-      "Well done. Here are the four ideas to keep from this chapter.",
-      "First, clustering has no answer key, and it always returns clusters, even from noise.",
-      "Second, distance decides everything, so standardise every variable before you cluster.",
-      "Third, compare your silhouette with the same clustering on shuffled data. The gap is the evidence.",
-      "Fourth, name each group from its centre in original units, and never claim more than a description.",
-      "In your self-paced session, you will compute a distance by hand, cluster on different variables, run the shuffled comparison, and defend every name you give."
+    { id: "s13", kind: "shapes", heading: "When does a straight boundary get in the way?", lines: [
+      "Before interpreting coloured visits, check the ruler used for distance, the number of centres and the shape the algorithm can represent.",
+      "The standard deviations tell us how far apart the operating columns typically spread before we put them on a common scale.",
+      "If several group counts seem plausible, the manager needs to know which alternatives were compared and why we prefer one.",
+      "On the curved example, nearest-centre colouring cuts across each arc, suggesting we need a method that can follow a bend."
+    ]},
+    { id: "s22", kind: "methods", heading: "Two ways to group visits without moving centres", lines: [
+      "The manager might want to know which small groups sit inside larger ones or which visits have very few neighbours.",
+      "Joining the closest branches one pair at a time gives a tree whose branches can be cut at different heights.",
+      "Cutting the hospital tree into two groups gives strong agreement with the two-centre solution under a measure that compares which visits stay together.",
+      "A method called DBSCAN follows connected dense neighbourhoods and can leave a visit outside every group.",
+      "In the hospital analysis with a minimum count of ten, increasing the radius from six tenths to seven tenths changed eleven groups into one."
+    ]},
+    { id: "s37", kind: "dendrostep", heading: "Read a tree from the leaves upwards", lines: [
+      "Take just ten Al Waha visits so that we can follow every join that goes into building their tree.",
+      "At the bottom each visit has its own leaf, and you can trace its path upward to find the first visit it joins.",
+      "The two leaves marked by the first bridge meet at a height of zero point seven two, the lowest join on this tree.",
+      "Another pair meets at nine tenths, and subsequent bridges combine pairs and larger branches at progressively greater heights.",
+      "The jump from about three and a half to nearly seven leaves a wide interval where a horizontal cut separates the same two branches of this sample."
+    ]},
+    { id: "s38", kind: "linkage", heading: "Which pair should two branches join through?", lines: [
+      "Once several visits share a branch, there is more than one possible distance between that branch and its neighbour.",
+      "The rule for comparing branches is called linkage, and changing it can change which hospital visits meet next.",
+      "Single linkage uses the nearest pair across branches, so chaining gives zero agreement with two-group k-means on a twenty-five-hundred-episode subsample.",
+      "On the same subsample, complete linkage uses the furthest pair and reaches about zero point nine eight agreement with k-means, while average linkage reaches about zero point nine six.",
+      "Ward’s rule joins the pair that adds the least squared spread within groups, giving close agreement with the two-centre hospital fit."
+    ]},
+    { id: "s39", kind: "dendrocut", heading: "Where would you cut the tree?", wait: true, lines: [
+      "These ten visits keep the same tree while you choose how much of its branching detail the manager will see.",
+      "Count how many branches cross the dashed line and check your answer against the number of colours under the tree.",
+      "Drop from five to two point eight and follow the visit that separates while the visits in the other main branch stay together."
+    ]},
+    { id: "s40", kind: "dbscanmech", heading: "Grow one group by visiting its neighbours", lines: [
+      "Imagine standing on one visit and asking how many other visits you can reach in a single short step.",
+      "The circle sets the reach of the step, called epsilon, and our practice rule requires five visits including the one in the middle.",
+      "Count the dots inside the highlighted circle to see why the middle visit qualifies as a core point that can extend the search.",
+      "A core visit within reach can extend the group again, while a visit with too few neighbours can join at the border without extending it.",
+      "A visit outside the reach of every core receives the noise label minus one, which happens to twenty-three Al Waha episodes at radius zero point seven and a minimum count of ten."
+    ]},
+    { id: "s41", kind: "dbscanexp", heading: "How far should a neighbourhood reach?", wait: true, lines: [
+      "On this flat practice map, keep the minimum crowd at ten visits and predict what widening the radius will do to the grey dots.",
+      "Change the radius and watch which visits acquire a colour as their neighbourhoods become dense enough to join a group.",
+      "The separate hospital summary uses four operating measurements, where changing the radius from six tenths to seven tenths joined eleven groups into one."
+    ]},
+    { id: "s42", kind: "gmm", heading: "How much support does a visit give each group?", lines: [
+      "A nearest-centre rule gives a visit one colour even when moving it a little way across the map would change that colour.",
+      "Imagine an Al Waha visit whose staffing and occupancy are plausible under either of the two operating profiles shown here.",
+      "A Gaussian mixture represents the visits as overlapping bell-shaped distributions whose contours can stretch and tilt in different directions.",
+      "As our example visit reaches the overlap both components share its membership, whereas in the two-component Al Waha fit visit A W one zero one zero nine nine has probabilities of one and zero and only zero point three percent of visits fall below zero point eight.",
+      "For a hospital analysis we can compare candidate fits with the Bayesian information criterion, which rewards fit while charging for extra parameters."
+    ]},
+    { id: "s43", kind: "methodgrid", heading: "Which output does the ward team need?", lines: [
+      "Suppose the hospital team asks how to choose among four ways of grouping exactly the same operating records.",
+      "If the team needs a typical operating profile for each compact group, k-means gives a centre the manager can read column by column.",
+      "If it wants to see which small groups join into larger ones, a Ward tree keeps the history of those joins.",
+      "If it wants to follow connected crowds and inspect visits left outside them, DBSCAN makes the reach of a neighbourhood explicit.",
+      "If profiles overlap and an individual visit could plausibly fit either, a Gaussian mixture gives a membership probability for each component."
+    ]},
+    { id: "s23", kind: "script", heading: "Follow the two files through Python", lines: [
+      "Read this excerpt as two paths through the same analysis, one for the original visits and one for the shuffled comparison.",
+      "The first highlighted line learns the mean and spread of each operating column and uses them to put the visits on a common scale.",
+      "The next lines rearrange each column independently while keeping all its values, creating the table for the comparison run.",
+      "For every candidate group count the loop fits both tables using the same settings and keeps the labels from each fit.",
+      "The last lines score each set of labels on its own table and print the difference so that a reader can check the comparison."
+    ]},
+    { id: "s24", kind: "skip", heading: "What changes if the scaling line is skipped?", wait: true, lines: [
+      "The two panels use the same distinct complete visits, but one run uses common units and the other leaves the original measurements untouched.",
+      "Try two groups and then four to see when the choice of ruler makes the larger difference to which visits end up together."
+    ]},
+    { id: "s44", kind: "stability", heading: "Would the same visits stay together?", lines: [
+      "Before giving the groups names, ask whether pairs of visits would stay together if a reasonable part of the analysis changed.",
+      "The adjusted Rand index compares pairs across fits, giving one for identical groupings and an expected value of zero for chance agreement.",
+      "Across twenty starts the lowest recorded agreement rounds to one for two groups but falls to about zero point five six for four groups.",
+      "For the two-group fit, the half-sample check also reports agreement of one to two decimal places when comparing visits shared with the full fit.",
+      "Using Ward’s tree in place of k-means gives about zero point nine seven agreement, evidence that this particular change leaves most pairings intact."
+    ]},
+    { id: "s45", kind: "varsens", heading: "What if the same idea enters twice?", lines: [
+      "The meaning of similar depends on what we put in the table even after every operating column has been standardised.",
+      "With four scaled columns, each contributes one squared gap to the distance calculation for a pair of hospital visits.",
+      "Add two exact copies of occupancy and the very same occupancy gap now enters that pair’s total three times.",
+      "Fit the two-group model four more times, leaving out one operating column each time while keeping the visits and remaining settings fixed.",
+      "Agreement with the four-column fit stays around zero point nine eight when dropping staffing or handoffs, zero point nine three without occupancy, and zero point eight six without training hours."
+    ]},
+    { id: "s46", kind: "snakeplot", heading: "Read the centre in two sets of units", lines: [
+      "After checking the fit, imagine laying out one row per group so that a manager can see what an average visit in each group looks like.",
+      "A standardised profile shows what stands out across measurements, while the original units tell the ward team how large the differences are.",
+      "Zero on this plot marks the hospital average for each measurement, so the side of the line tells us whether a group lies above or below average.",
+      "Follow the stretched group from below-average staffing and training to occupancy almost nine tenths of a standard deviation above the mean.",
+      "Back in hospital units that occupancy averages nearly ninety percent with a standard deviation of about six point seven points, compared with five point eight in the well-resourced group."
+    ]},
+    { id: "s14", kind: "naming", heading: "What name could the numbers support?", lines: [
+      "Cover the names for a moment and read the operating measurements just as a ward manager would see them.",
+      "In one group the average visit has about ten hours of training, close to ninety percent occupancy and roughly five handoffs.",
+      "In the other group training averages about twenty-six hours, occupancy is nearer seventy-three percent and handoffs average fewer than three.",
+      "Stretched and well-resourced are possible names for these operating profiles because the differences in workload and resources appear together in the rows.",
+      "Ask a ward manager which measurements make each name recognisable and where the name might mislead someone about an individual visit."
+    ]},
+    { id: "s25", kind: "nameit", heading: "Give three profiles defensible names", wait: true, lines: [
+      "At three groups the hospital table has a separate row for each centre, with all four measurements back in familiar units.",
+      "Choose a name for each profile and point to the measurement that distinguishes it most clearly from the other two."
+    ]},
+    { id: "s26", kind: "segments", heading: "Does a profile matter outside the input table?", lines: [
+      "Now bring back the patient measures that were kept out of the fit and match them to the two operating groups by visit.",
+      "Average satisfaction is about sixty in the stretched profile and eighty-four in the well-resourced profile among the distinct complete visits.",
+      "Complaints occur in about twenty-nine percent versus three percent of visits, and readmissions are also more frequent in the stretched profile.",
+      "Those comparisons describe experiences recorded alongside each profile, while the effect of changing staffing would require a different study.",
+      "A segment is useful to the team if it is large enough to matter, holds up on repeated fits, is recognisable and suggests a distinct action."
+    ]},
+    { id: "s47", kind: "pvaltrap", heading: "Why an input cannot validate its own split", lines: [
+      "Suppose a draft first groups Al Waha visits using occupancy and then offers an ordinary test of the occupancy difference as evidence for those groups.",
+      "Occupancy helped decide who went into each group, so treating those labels as fixed independently of occupancy breaks the logic of the test.",
+      "For a fixed file, pulling visits closer to their own centres leaves more of the total squared variation between the groups by construction.",
+      "Even on the shuffled Al Waha noise table, testing occupancy across the two fitted groups gives an F statistic of sixteen point eight and a p-value of about four in one hundred thousand.",
+      "Waiting time was kept outside the fit and averages seventy-eight and forty-eight minutes in the two profiles, a descriptive comparison worth investigating."
+    ]},
+    { id: "s15", kind: "sentences", heading: "Which claims can the thesis defend?", split: 1, lines: [
+      "For each sentence in the draft, decide whether the measurements and choices made in this analysis give the author enough evidence to write it.",
+      "Changing the requested number of centres changes the partition, so the author needs to own the decision to report four.",
+      "Calling a group high-performing would require a defensible measure of performance beyond the staffing and workload measurements used here.",
+      "A clustering routine returns labels, and a claim about statistical significance would require a specified and appropriate inferential procedure.",
+      "A difference in satisfaction across groups describes an association among these visits and leaves open what produced that difference."
+    ]},
+    { id: "s48", kind: "thesis", heading: "What would another researcher need to repeat?", lines: [
+      "Imagine giving another doctoral researcher just your methods and results pages and asking them to reproduce the Al Waha analysis.",
+      "Report the four inputs, the scaling and how four thousand seven hundred and forty complete episodes became four thousand seven hundred and twenty-nine after removing duplicates.",
+      "Specify the distance, joining or assignment rule, initialisation, number of starts, random seed and software version for the model you actually fitted.",
+      "Give the range of group counts examined and place each observed separation score beside the score obtained using the same procedure on shuffled data.",
+      "Let the stability checks, original-unit profiles and patient comparisons support a description whose scope stays with the visits you actually studied."
+    ]},
+    { id: "s49", kind: "thesisaudit", heading: "Audit a draft before it goes to the examiner", wait: true, lines: [
+      "This draft makes four decisions that a reader might challenge, beginning with which hospital columns were allowed to influence the group labels.",
+      "Select the wording you could defend and use the feedback to locate the measurement or comparison that supports your decision.",
+      "Read the four decisions together and revise any claim that goes further than the grouping and the recorded outcomes allow."
+    ]},
+    { id: "s16", kind: "helper", heading: "What can the research helper explain?", lines: [
+      "The researcher chooses the question and interprets the ward profiles, while a helper can explain an unfamiliar line of code.",
+      "Asking what ten starts do gives you an explanation you can check by comparing the final spreads from repeated fits.",
+      "Choosing a name for the stretched profile requires a judgement you can defend from the centre and from what the ward team recognises."
+    ]},
+    { id: "s17", kind: "quiz", heading: "Check your reasoning", wait: true, lines: [
+      "Work through fourteen decisions about the hospital analysis and use the explanation after each answer to check the reasoning behind your choice."
+    ]},
+    { id: "s18", kind: "takeaways", heading: "Prepare your own ward analysis", lines: [
+      "Imagine opening a fresh ward file with the same request to describe the conditions under which visits took place.",
+      "Without a recorded group label, the columns you choose give the analysis its working definition of similar visits.",
+      "Work through one pair in raw units and again in standard deviations so you can explain which measurements drive the distance.",
+      "Keep the settings fixed while you shuffle the columns independently and report the two scores side by side.",
+      "Read each centre in original units and write a name you could defend if a manager asked which numbers support it.",
+      "In the self-paced session change the operating inputs and see whether the evidence still supports the same description of the visits."
     ]}
   ],
   // Real figures, Al Waha episodes file, clustering on staff_ratio, training_hours, occupancy_pct, handoffs (standardised).
   // Silhouette table as on the Week 12 slides: [k, real, shuffled, gap]
   gaps: [[2, 0.504, 0.190, 0.314], [3, 0.404, 0.175, 0.229], [4, 0.331, 0.182, 0.149], [5, 0.290, 0.183, 0.107], [6, 0.254, 0.184, 0.069]],
   quiz: [
-    { q: "You run k-means with k = 4 on a file and get four tidy clusters. What does that prove?",
-      o: ["That the file has four natural groups", "Nothing yet: k-means returns clusters even from random noise", "That the clusters are statistically significant", "That four is the best number of groups"], a: 1,
-      why: "k-means always returns the number of clusters you ask for, even on shuffled data with no structure. Evidence comes from comparing with a noise floor." },
-    { q: "Episode A: occupancy 60%, staff ratio 1.2. Episode B: occupancy 80%, staff ratio 0.9. Without standardising, which variable decides the distance?",
-      o: ["Staff ratio, because it matters more for care", "Both equally", "Occupancy, because it is measured in bigger numbers", "Neither: distance ignores units"], a: 2,
-      why: "Occupancy supplies 400 of the 400.09 squared distance. Staff ratio supplies 0.09, only because it is measured in smaller numbers. Standardise first." },
-    { q: "How do you build the noise floor for a clustering?",
-      o: ["Delete half of the rows", "Shuffle each column on its own, then run the same clustering", "Add random numbers to every value", "Run k-means with k = 1"], a: 1,
-      why: "Shuffling each column keeps every distribution but destroys the links between columns. The same clustering on that data shows what 'no structure' scores." },
-    { q: "Real silhouette 0.504 at k = 2, shuffled 0.190. Real 0.254 at k = 6, shuffled 0.184. What should you report?",
-      o: ["k = 6, because more groups give more detail", "k = 2, where the gap over the noise floor is largest (+0.314)", "No structure, because 0.504 is below 0.6", "Either: the silhouette cannot help"], a: 1,
-      why: "The gap is the evidence. It is largest at k = 2, so that is where the structure is strongest. At k = 6 the real score is barely above noise." },
-    { q: "Which sentence may you write about your clusters?",
-      o: ["\"The data naturally falls into two clusters.\"", "\"Cluster 2 is the high-performing group.\"", "\"Group 1 has higher occupancy and fewer training hours than group 2.\"", "\"The clusters are statistically significant.\""], a: 2,
-      why: "It describes the centres in original units, which is exactly what clustering gives you. The other sentences claim discovery, performance or significance that clustering cannot support." },
-    { q: "The inertia is 18,916 with k = 1, 7,594 with k = 2, and 3,364 with k = 8. What does the elbow plot tell you?",
-      o: ["Choose k = 8, because its inertia is the lowest", "The bend is at k = 2; after that, extra groups buy little", "Inertia cannot help to choose k", "Choose k = 1, the simplest model"], a: 1,
-      why: "More groups always lower the inertia, so the minimum proves nothing. The big fall (60%) is from 1 to 2 groups; after the bend, the gains are small." },
-    { q: "With k = 4, twenty single random starts gave clearly different groupings. What do you do?",
-      o: ["Report the first result", "Use n_init=10: run several starts and keep the tightest result", "Give up on clustering", "Pick the grouping you like best"], a: 1,
-      why: "k-means stops at a nearby solution that depends on the start. n_init=10 runs ten starts and keeps the one with the smallest inertia. Unstable results are also a warning about that k." },
-    { q: "You forget StandardScaler. What does Python do?",
-      o: ["It raises an error", "It prints a warning about units", "Nothing: it returns tidy clusters with no error", "It standardises for you"], a: 2,
-      why: "There is no error and no warning. The clusters look fine, but they are driven by the variables with the biggest units. Only you can catch it." }
+    { q: "Four requested groups produce four tidy colours on both the original and the shuffled map. What can you conclude?",
+      o: ["Four natural group labels have been recovered.","Both files can be partitioned at this k.","Both files have the same silhouette.","Each centre represents a ward policy."], a: 1,
+      why: "A colour is an assignment. Compare separation and stability before interpreting the partition." },
+    { q: "An occupancy gap is 20 percentage points and a staffing gap is 0.3. Which quantity is the staffing contribution to raw squared distance?",
+      o: ["0.09","0.3","20.3","400.09"], a: 0,
+      why: "Squaring the staffing gap gives 0.09. Occupancy contributes 400 to the same total." },
+    { q: "Which shuffle makes a useful baseline for the association among the four operating columns?",
+      o: ["Reorder whole visits together.","Shuffle the fitted group labels only.","Sort each column from low to high.","Permute each column independently and repeat the fit."], a: 3,
+      why: "Independent permutations preserve each column’s values while breaking the original pairings across columns. Moving whole rows would preserve the operating profiles." },
+    { q: "Which comparison gives the strongest descriptive support for two groups among the candidates shown?",
+      o: ["The two-group inertia is larger than the six-group inertia.","The two-group shuffle has a positive silhouette.","The real-minus-shuffled silhouette is 0.314 at two and 0.069 at six.","The two-group fit returns a centre for every group."], a: 2,
+      why: "The two-group fit gains more separation over its own shuffle baseline. The choice also needs an operational interpretation." },
+    { q: "Which sentence could a manager verify directly from the centre table?",
+      o: ["The more crowded profile also averages fewer training hours.","Moving a visit into the other group would shorten its wait.","The table proves there are two kinds of ward.","The higher-staffed profile delivers better care."], a: 0,
+      why: "Both occupancy and training hours appear in the centre table. Claims about causes or quality require additional evidence." },
+    { q: "Inertia falls from 18,916 at one group to 7,594 at two and 5,898 at three. What makes two a plausible elbow?",
+      o: ["It has the minimum inertia.","The first reduction is much larger than the second.","The change equals the shuffle gap.","Every additional group must increase inertia."], a: 1,
+      why: "The first extra centre removes 11,322 units of squared spread. The next removes 1,696. The elbow describes diminishing gains." },
+    { q: "Four-group fits settle at different inertia values from different starts. Which result should a ten-start run keep?",
+      o: ["The fit with the largest group.","The fit that finishes first.","The fit with the greatest distance between two centres.","The fit with the lowest final inertia."], a: 3,
+      why: "Repeated starts explore different local solutions. K-means compares them using its within-group squared-distance objective." },
+    { q: "A colleague omits scaling and the code still runs. Which comparison best checks the consequence?",
+      o: ["Compare the numerical colour labels directly.","Count how often the script raises a warning.","Refit on the same visits and compare pair membership across the two fits.","Compare the raw inertia with the standardised inertia in absolute units."], a: 2,
+      why: "The adjusted Rand index compares the partitions even when label numbers differ. Inertias in different measurement systems have different units." },
+    { q: "The director wants operating profiles and a later comparison of complaints. Where does complaint status belong?",
+      o: ["Beside the final labels after the fit.","Inside the distance calculation with a smaller weight.","In the fit only for visits with a complaint.","In the initial centre-selection rule."], a: 0,
+      why: "Keeping complaints outside all fitting decisions allows a later descriptive comparison of a variable that did not help create the labels." },
+    { q: "Two branches contain several visits each. Which merge does Ward linkage prefer?",
+      o: ["The smallest distance between any two visits.","The smallest increase in within-group squared spread.","The shortest average waiting time.","The largest increase in the mean silhouette."], a: 1,
+      why: "Ward evaluates the increase in within-group sum of squares caused by a candidate merge. Single linkage would look at the closest pair instead." },
+    { q: "With a minimum count of five, a visit has only three visits including itself inside its circle. It is within reach of a core visit. How is it treated?",
+      o: ["It extends the search as a core.","It must be deleted from the data.","It starts a new group of three.","It joins the existing group as a border visit."], a: 3,
+      why: "A reachable non-core visit can join a group. Expansion continues through core visits." },
+    { q: "A visit falls where two fitted Gaussian components overlap. Which output describes its ambiguity?",
+      o: ["The smaller of the two group sizes.","The adjusted Rand index between the centres.","Its membership probabilities under the fitted mixture.","The raw count of neighbours inside a fixed radius."], a: 2,
+      why: "Each component’s weighted density at the visit contributes to its membership probability. The probabilities across components sum to one." },
+    { q: "The minimum adjusted Rand agreement over repeated starts is 1.00 at two groups and 0.56 at four. Which conclusion fits those checks?",
+      o: ["Two groups will be identical in every future hospital.","The tested two-group fits were more consistent across starts.","Four groups have the lower silhouette in every dataset.","The two-group fit requires no sensitivity checks."], a: 1,
+      why: "The comparison concerns the starts and visits examined. Resampling and changing the method probe different sources of variation." },
+    { q: "A thesis uses occupancy to fit its groups, then quotes an ordinary test of occupancy across those groups as validation. What is the main problem?",
+      o: ["The labels were chosen partly using the measurement being tested.","The test should always use ranks instead.","The occupancy values need one extra decimal place.","The test needs at least four groups."], a: 0,
+      why: "The usual reference distribution ignores the data-dependent choice of groups. Describe occupancy in the profiles and examine held-out variables separately." }
   ]
 };

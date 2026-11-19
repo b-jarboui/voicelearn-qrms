@@ -1,4 +1,4 @@
-/* Week 12 · Chapter 1 animated scenes, part B (s10–s18). Uses window.SCH helpers from scenes-a.js. */
+/* Week 12 · Chapter 2 animated scenes, part B (s10–s18). Uses window.SCH helpers from scenes-a.js. */
 (function () {
   "use strict";
   const SC = window.SC, H = window.SCH, D = window.W12DATA;
@@ -8,16 +8,16 @@
   /* ------------------------------------------------------------ s10 · the silhouette score */
   const G1 = [[96, 150], [120, 128], [138, 170], [110, 196], [150, 140], [84, 178], [128, 214], [160, 196], [104, 112], [146, 106]];
   const G2 = [[322, 132], [350, 160], [372, 124], [338, 198], [384, 182], [300, 170], [360, 98], [396, 148], [330, 228], [370, 214]];
-  const P10 = [176, 160], B10 = [222, 176];
+  const P10 = [176, 160], B10 = [236, 165];
   const md = (p, set) => set.reduce((s, q) => s + Math.hypot(p[0] - q[0], p[1] - q[1]), 0) / set.length / 50;
   const A10 = md(P10, G1), Bv10 = md(P10, G2), S10 = (Bv10 - A10) / Math.max(A10, Bv10);
   const Sb = (md(B10, G2) - md(B10, G1)) / Math.max(md(B10, G1), md(B10, G2));
   SC.s10 = {
     copy: [
-      { k: "The silhouette", m: "One question about every single episode.", s: "Does it sit comfortably in its own group?", l: "One episode, one question" },
-      { k: "Distance a", m: "How close is it to the members of its own group?", s: `a = average distance to its own group = ${A10.toFixed(1)}`, l: `a = ${A10.toFixed(1)}` },
-      { k: "Distance b", m: "How close is it to the nearest other group?", s: `b = average distance to the nearest other group = ${Bv10.toFixed(1)}`, l: `b = ${Bv10.toFixed(1)}` },
-      { k: "The score", m: "b much bigger than a: close to 1. Near 0: on a border.", s: "silhouette = (b − a) ÷ the larger of the two. The score is the average over all episodes.", l: `this episode: ${S10.toFixed(2)}` }
+      { k: "Does this visit fit its group?", m: "Start with one visit", s: "Focus on the visit with the gold ring", l: "Start with one visit" },
+      { k: "Does this visit fit its group?", m: "Measure within its colour", s: "a excludes the visit itself", l: "Measure within its colour" },
+      { k: "Does this visit fit its group?", m: "Measure across colours", s: "b = smallest other-group average", l: "Measure across colours" },
+      { k: "Does this visit fit its group?", m: "Read the silhouette", s: "s = (b − a) / max(a, b)", l: "Read the silhouette" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -34,10 +34,10 @@ ${t(124, 80, "own group", 13, NAVY, "middle", 700)}${t(348, 80, "nearest other g
 <g class="a o0 fm">
   ${t(240, 276, `(b − a) ÷ max(a, b) = (${Bv10.toFixed(1)} − ${A10.toFixed(1)}) ÷ ${Bv10.toFixed(1)} = ${S10.toFixed(2)}`, 15, INK, "middle", 700)}
   <rect x="60" y="304" width="360" height="14" rx="7" fill="#E7DDCB"/>
-  ${[0, .5, 1].map(v => t(60 + v * 360, 340, v ? v.toFixed(1) : "0", 12, MUTED, "middle", 600)).join("")}
+  ${[-1, 0, 1].map(v => t(60 + (v+1) * 180, 340, v ? v.toFixed(1) : "0", 12, MUTED, "middle", 600)).join("")}
   <g class="mk1 a" style="transform:translateX(0)"><path d="M60 304 l-7 -10 h14 z" fill="${NAVY}"/></g>
   <g class="mk2 a o0" style="transform:translateX(0)"><path d="M60 322 l-7 10 h14 z" fill="${INK}"/>${t(60, 354, "border episode", 11, INK, "middle", 700)}</g>
-  ${t(60 + S10 * 360, 289, "this episode", 11.5, NAVY, "middle", 700, "a o0 mk1t")}
+  ${t(60 + (S10+1) * 180, 289, "this episode", 11.5, NAVY, "middle", 700, "a o0 mk1t")}
 </g>`,
     render(r, b) {
       H.draw(r, ".la .dr", b >= 1); H.q(r, ".la .dr").forEach((e, i) => { e.style.transitionDelay = (i * .08) + "s"; });
@@ -45,8 +45,8 @@ ${t(124, 80, "own group", 13, NAVY, "middle", 700)}${t(348, 80, "nearest other g
       H.draw(r, ".lb .dr", b >= 2); H.q(r, ".lb .dr").forEach((e, i) => { e.style.transitionDelay = (i * .08) + "s"; });
       H.show(r, ".lb", b >= 2); H.show(r, ".bv", b >= 2);
       H.show(r, ".fm", b >= 3); H.show(r, ".bp", b >= 3); H.delay(r, ".bp", b >= 3 ? 2.2 : 0);
-      H.tf(r, ".mk1", b >= 3 ? `translateX(${S10 * 360}px)` : "none"); H.delay(r, ".mk1", .6); H.show(r, ".mk1t", b >= 3); H.delay(r, ".mk1t", 1.4);
-      H.show(r, ".mk2", b >= 3); H.tf(r, ".mk2", b >= 3 ? `translateX(${Math.max(0, Sb) * 360}px)` : "none"); H.delay(r, ".mk2", b >= 3 ? 2.6 : 0);
+      H.tf(r, ".mk1", b >= 3 ? `translateX(${(S10+1) * 180}px)` : "none"); H.delay(r, ".mk1", .6); H.show(r, ".mk1t", b >= 3); H.delay(r, ".mk1t", 1.4);
+      H.show(r, ".mk2", b >= 3); H.tf(r, ".mk2", b >= 3 ? `translateX(${(Sb+1) * 180}px)` : "none"); H.delay(r, ".mk2", b >= 3 ? 2.6 : 0);
     }
   };
 
@@ -71,7 +71,7 @@ ${GAPS.map(([k, re, sh, gp], i) => `<g class="grp grp${i}" data-k="${k}">
 </g>`).join("")}
 <g class="leg">${t(118, 40, "■", 14, NAVY, "start")}${t(134, 40, "real data", 12.5, INK, "start", 700)}${t(214, 40, "■", 14, GREY, "start")}${t(230, 40, "shuffled data", 12.5, INK, "start", 700)}</g>
 ${t(30, GY0 + 40, "gap", 13, TERRA, "start", 800, "a o0 gpl")}
-<g class="a o0 crown ${cls || ""}"><path d="M${gx(0) + 12} 64 l6 -14 l8 10 l8 -10 l6 14 z" fill="${GOLD}" stroke="${INK}" stroke-width="1.5"/>${t(gx(0) + 76, 66, "strongest structure", 13, INK, "start", 800)}</g>`;
+<g class="a o0 crown ${cls || ""}"><path d="M${gx(0) + 12} 64 l6 -14 l8 10 l8 -10 l6 14 z" fill="${GOLD}" stroke="${INK}" stroke-width="1.5"/>${t(gx(0) + 76, 66, "largest observed advantage", 13, INK, "start", 800)}</g>`;
   function gapRender(r, upto, gaps, floor, crown) {
     H.q(r, ".grp").forEach((g, i) => {
       const on = i <= upto;
@@ -83,21 +83,33 @@ ${t(30, GY0 + 40, "gap", 13, TERRA, "start", 800, "a o0 gpl")}
   }
   SC.s11 = {
     copy: [
-      { k: "The Al Waha file", m: "Real data against shuffled data, for two to six groups.", s: "Staff ratio, training hours, occupancy and handoffs, standardised.", l: "k = 2 to 6" },
-      { k: "k = 2", m: "Real data: 0.50. Shuffled data: 0.19.", s: "The real groups are far better separated than noise.", l: "0.504 vs 0.190" },
-      { k: "As k grows", m: "The real score falls; the noise floor stays near 0.18.", s: "The gap shrinks from +0.31 at k = 2 to +0.07 at k = 6.", l: "The gap shrinks" },
-      { k: "The verdict", m: "Real structure, strongest with two groups.", s: "We only know this because we ran the comparison.", l: "k = 2: strongest" }
+      { k: "Read each original score beside its shuffle", m: "Read a pair of dots", s: "Silhouette comparison", l: "Read a pair of dots" },
+      { k: "Read each original score beside its shuffle", m: "Start with two", s: "0.504 − 0.190 = 0.314", l: "Start with two" },
+      { k: "Read each original score beside its shuffle", m: "Track the difference", s: "At k = 6 the difference is 0.069", l: "Track the difference" },
+      { k: "Read each original score beside its shuffle", m: "State the evidence", s: "Largest observed advantage among k = 2 to 6", l: "State the evidence" }
     ],
-    svg: gapSvg(),
-    render(r, b) {
-      gapRender(r, b === 0 ? -1 : b === 1 ? 0 : 4, b >= 1, b >= 2, b >= 3);
-      H.q(r, ".hlk").forEach((e, i) => { e.style.transition = "fill-opacity .6s"; e.style.fillOpacity = b >= 3 && i === 0 ? .22 : 0; });
+    svg: `<rect width="480" height="360" fill="#F6F1E7"/>
+      <rect x="14" y="14" width="452" height="332" rx="12" fill="white" stroke="#CDBFA6"/>
+      ${t(38,44,"Mean silhouette",16,INK,"start")}
+      ${t(432,44,"Original",13,NAVY,"end")}${t(432,64,"Shuffled",13,TERRA,"end")}
+      ${[0,.1,.2,.3,.4,.5].map(v=>`<path d="M68 ${276-v*350} H430" stroke="#E7E3D9"/>${t(55,280-v*350,v.toFixed(1),12,MUTED,"end")}`).join("")}
+      ${GAPS.map(([k],i)=>t(89+i*80,298,"k = "+k,13,INK)).join("")}
+      ${[1,2].map((column,j)=>`<path class="dr line11" pathLength="1" d="${GAPS.map((g,i)=>(i?"L":"M")+(89+i*80)+" "+(276-g[column]*350)).join(" ")}" fill="none" stroke="${j?TERRA:NAVY}" stroke-width="3"/>`).join("")}
+      <path class="a interval11" d="M89 ${276-.504*350} V${276-.190*350}" stroke="${GOLD}" stroke-width="6"/>
+      ${GAPS.map((g,i)=>`<g class="a group11">${[1,2].map((col,j)=>`<circle cx="${89+i*80}" cy="${276-g[col]*350}" r="5" fill="${j?TERRA:NAVY}" stroke="white" stroke-width="1.5"/>
+        ${t(89+i*80,276-g[col]*350+(j?20:-10),g[col].toFixed(3),12,j?TERRA:NAVY)}`).join("")}</g>`).join("")}
+      ${t(240,328,"",14,INK,"middle",700,"detail11")}`,
+    render(r,b){
+      H.draw(r,".line11",b>=2);
+      H.q(r,".group11").forEach((g,i)=>{g.style.opacity=i===0||b>=2?"1":"0";g.style.transitionDelay=(b===2?i*.12:0)+"s"});
+      H.show(r,".interval11",b===1||b===3);
+      r.querySelector(".detail11").textContent=["Two scores at each group count","0.504 − 0.190 = 0.314","At six groups the advantage falls to 0.069","Largest observed difference · two groups"][b];
     }
   };
   SC.s12 = {
     copy: [
-      { k: "Your turn", m: "Which k would you report to the hospital director?", s: "Tap a k under the stage.", l: "Choose k" },
-      { k: "Remember", m: "k is chosen, not discovered.", s: "Use the gap, and whether the groups mean something.", l: "Choose, then defend" }
+      { k: "Which grouping would you report?", m: "Make a recommendation", s: "Compare both bars at your chosen k", l: "Make a recommendation" },
+      { k: "Which grouping would you report?", m: "Give a reason", s: "Give the director a numerical and practical reason", l: "Give a reason" }
     ],
     svg: gapSvg(),
     pick(r, i) { H.q(r, ".hlk").forEach((e, j) => { e.style.transition = "fill-opacity .5s"; e.style.fillOpacity = j === i ? .28 : 0; }); },
@@ -114,10 +126,10 @@ ${t(30, GY0 + 40, "gap", 13, TERRA, "start", 800, "a o0 gpl")}
   const mx = p => PX13[2] + 14 + (p[0] + 1.1) / 3.2 * (PW - 28), my = p => 200 - (p[1] + .7) / 1.9 * 110;
   SC.s13 = {
     copy: [
-      { k: "Assumptions", m: "k-means makes three assumptions.", s: "Check each one before you trust the groups.", l: "Three checks" },
-      { k: "1 · Scale", m: "The variables are on comparable scales.", s: "Check the standard deviations. Standardise every time.", l: "Comparable scales" },
-      { k: "2 · Choosing k", m: "k must be chosen, not discovered.", s: "Elbow, silhouette, noise floor, and meaning to the organisation.", l: "Justify k" },
-      { k: "3 · Shape", m: "Groups roughly round and of similar size.", s: "Long, thin or curved groups get cut in half: use hierarchical clustering or DBSCAN.", l: "Round groups only" }
+      { k: "When does a straight boundary get in the way?", m: "Three decisions", s: "Scale · choice of k · geometry", l: "Three decisions" },
+      { k: "When does a straight boundary get in the way?", m: "Inspect the ruler", s: "Measure spread before fitting", l: "Inspect the ruler" },
+      { k: "When does a straight boundary get in the way?", m: "Inspect the choice", s: "Explain the choice of k", l: "Inspect the choice" },
+      { k: "When does a straight boundary get in the way?", m: "Inspect the shape", s: "Curved clusters can cross a straight boundary", l: "Inspect the shape" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -136,8 +148,8 @@ ${["Scale", "Choosing k", "Shape"].map((n, i) => `<g class="pn pn${i}"><rect x="
 <g class="moons">${MOON.map((p, i) => `<circle class="mn" data-g="${p[2]}" data-x="${mx(p) < PX13[2] + PW / 2 ? 0 : 1}" cx="${mx(p).toFixed(1)}" cy="${my(p).toFixed(1)}" r="3.4" style="fill:${GREY};transition:fill .6s"/>`).join("")}</g>
 <path class="dr cut" pathLength="1" d="M${PX13[2] + PW / 2} 96 V236" stroke="${TERRA}" stroke-width="2.5" stroke-dasharray="1"/>
 <g class="a o0 bad">${t(PX13[2] + 70, 258, "k-means: cut in half ✗", 12.5, TERRA, "middle", 800)}</g>
-<g class="a o0 good">${t(PX13[2] + 70, 276, "DBSCAN: two moons ✓", 12.5, GREEN, "middle", 800)}</g>
-<g class="a o0 alt"><rect x="60" y="304" width="360" height="40" rx="10" fill="${INK}"/>${t(240, 330, "Not round? hierarchical clustering or DBSCAN", 15, "#fff", "middle", 800)}</g>`,
+<g class="a o0 good">${t(PX13[2] + 70, 276, "Follow the two arcs", 12.5, GREEN, "middle", 800)}</g>
+<g class="a o0 alt"><rect x="60" y="304" width="360" height="40" rx="10" fill="${INK}"/>${t(240, 330, "Compare a method that can follow the curve.", 15, "#fff", "middle", 800)}</g>`,
     render(r, b) {
       const alive = H.alive(r); clearTimeout(r._t13);
       H.q(r, ".pn").forEach((g, i) => { g.querySelector("rect").style.stroke = b === i + 1 ? NAVY : ""; g.querySelector("rect").style.strokeWidth = b === i + 1 ? "3.5" : ""; });
@@ -146,7 +158,7 @@ ${["Scale", "Choosing k", "Shape"].map((n, i) => `<g class="pn pn${i}"><rect x="
       H.draw(r, ".cut", b >= 3); H.show(r, ".bad", b >= 3); H.delay(r, ".bad", b >= 3 ? .6 : 0);
       H.q(r, ".mn").forEach(e => { e.style.fill = b >= 3 ? CL[+e.dataset.x ? 1 : 0] : GREY; });
       H.show(r, ".good", false); H.show(r, ".alt", false);
-      if (b >= 3) r._t13 = setTimeout(() => { if (!alive()) return; H.q(r, ".mn").forEach(e => { e.style.fill = +e.dataset.g ? GREEN : GOLD; }); H.draw(r, ".cut", false); H.show(r, ".good", true); H.show(r, ".alt", true); }, 3200);
+      if (b >= 3) r._t13 = setTimeout(() => { if (!alive()) return; H.q(r, ".mn").forEach(e => { e.style.fill = +e.dataset.g ? GREEN : GOLD; }); H.draw(r, ".cut", false); H.show(r,".bad",false); H.show(r, ".good", true); H.show(r, ".alt", true); }, 3200);
     }
   };
 
@@ -165,11 +177,11 @@ ${["Scale", "Choosing k", "Shape"].map((n, i) => `<g class="pn pn${i}"><rect x="
 </g>`;
   SC.s14 = {
     copy: [
-      { k: "Naming", m: "Read each centre in original units.", s: "Say what is high and what is low, compared with the other group.", l: "Two centres" },
-      { k: "Group 1", m: "Thin staffing, little training, full wards, many handoffs.", s: "About 2,100 episodes.", l: "Group 1 profile" },
-      { k: "Group 2", m: "More staff, more training, emptier wards, fewer handoffs.", s: "About 2,600 episodes.", l: "Group 2 profile" },
-      { k: "The names", m: "Stretched wards, and well-resourced wards.", s: "Every word traces back to a number in the profile.", l: "Names from numbers" },
-      { k: "The final test", m: "Would a hospital manager recognise these groups?", s: "If not, you have a statistical artefact, not a segment.", l: "Recognisable?" }
+      { k: "What name could the numbers support?", m: "Read the profile first", s: "Read the measurements before naming", l: "Read the profile first" },
+      { k: "What name could the numbers support?", m: "Read the first row", s: "Mean occupancy · 89.48%", l: "Read the first row" },
+      { k: "What name could the numbers support?", m: "Read the second row", s: "Mean occupancy · 72.68%", l: "Read the second row" },
+      { k: "What name could the numbers support?", m: "Name the pattern", s: "Names describe operating conditions", l: "Name the pattern" },
+      { k: "What name could the numbers support?", m: "Ask a colleague", s: "Check that staff recognise the pattern", l: "Ask a colleague" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -178,7 +190,7 @@ ${[["Stretched wards", 125, TERRA], ["Well-resourced wards", 355, GREEN]].map(([
 <g class="a o0 qn">${t(125, 34, "Group 1 = ?", 16, MUTED, "middle", 800)}${t(355, 34, "Group 2 = ?", 16, MUTED, "middle", 800)}</g>
 <g class="a o0 mgr">${person(78, 340, NAVY, 1.15)}
   <path d="M112 270 H440 Q452 270 452 282 V316 Q452 328 440 328 H128 L112 342 L116 328 Q104 328 104 316 V282 Q104 270 112 270Z" fill="#fff" stroke="${NAVY}" stroke-width="2.5"/>
-  ${t(278, 297, "“Yes, I know those wards.”", 16, NAVY, "middle", 800)}${t(278, 318, "recognised = a segment, not an artefact", 12.5, GREEN, "middle", 700)}</g>`,
+  ${t(278, 297, "“Which visits fit this description?”", 16, NAVY, "middle", 800)}${t(278, 318, "Ask the ward team to check the name.", 12.5, GREEN, "middle", 700)}</g>`,
     render(r, b) {
       H.show(r, ".ar0", b >= 1); H.show(r, ".ar1", b >= 2);
       H.q(r, ".cdr").forEach((e, i) => { e.style.stroke = (b === 1 && i === 0) || (b === 2 && i === 1) ? NAVY : ""; e.style.strokeWidth = (b === 1 && i === 0) || (b === 2 && i === 1) ? "3.5" : ""; });
@@ -189,14 +201,14 @@ ${[["Stretched wards", 125, TERRA], ["Well-resourced wards", 355, GREEN]].map(([
   };
 
   /* ------------------------------------------------------------ s15 · four sentences you may not write */
-  const SENT = [["“The data naturally falls into four clusters.”", "You chose four."], ["“Cluster 2 is the high-performing group.”", "Performance was not a clustering variable."], ["“The clusters are statistically significant.”", "There is no test, and no p value."], ["“This segmentation explains satisfaction.”", "Nothing was explained: a description was produced."]];
+  const SENT = [["“The data naturally falls into four clusters.”", "You chose four."], ["“Cluster 2 is the high-performing group.”", "Performance was not a clustering variable."], ["“The clusters are statistically significant.”", "The fit alone supplies no test of significance."], ["“This segmentation explains satisfaction.”", "The comparison describes an association."]];
   SC.s15 = {
     copy: [
-      { k: "Your turn", m: "May you write each sentence, or not?", s: "Decide under the stage.", l: "Four sentences" },
-      { k: "Sentence 1", m: "“Naturally falls into four”? No: you chose four.", s: "k is chosen, not discovered.", l: "1 · not allowed" },
-      { k: "Sentence 2", m: "“High-performing”? No: you are importing a conclusion.", s: "Performance was not among the clustering variables.", l: "2 · not allowed" },
-      { k: "Sentence 3", m: "“Statistically significant”? No: there is no test here.", s: "No p value exists to support that phrase.", l: "3 · not allowed" },
-      { k: "Sentence 4", m: "“Explains satisfaction”? No: a description was produced.", s: "All four sentences are off limits.", l: "4 · not allowed" }
+      { k: "Which claims can the thesis defend?", m: "Read as an examiner", s: "Judge each draft sentence below", l: "Read as an examiner" },
+      { k: "Which claims can the thesis defend?", m: "Who chose four?", s: "k is an analyst choice", l: "Who chose four?" },
+      { k: "Which claims can the thesis defend?", m: "What did we measure?", s: "Name the measurements used in the fit", l: "What did we measure?" },
+      { k: "Which claims can the thesis defend?", m: "Which test was run?", s: "Labels alone carry no significance test", l: "Which test was run?" },
+      { k: "Which claims can the thesis defend?", m: "What does the comparison show?", s: "Describe the recorded association", l: "What does the comparison show?" }
     ],
     svg: `
 <rect width="480" height="360" fill="#EFE8DA"/>
@@ -218,9 +230,9 @@ ${SENT.map(([s, why], i) => `<g class="sn">${t(50, 92 + i * 70, s, 15, INK, "sta
   /* ------------------------------------------------------------ s16 · you decide; ChatGPT assists */
   SC.s16 = {
     copy: [
-      { k: "Every week", m: "You decide. ChatGPT assists.", s: "Interpretation stays on your side.", l: "You decide" },
-      { k: "A good helper question", m: "Explain what n_init=10 does.", s: "And why leaving it at 1 can give a different answer each time.", l: "Explains an argument ✓" },
-      { k: "A bad helper question", m: "“What should I call these clusters?”", s: "A model that names your segments has written your findings.", l: "Names your findings ✗" }
+      { k: "What can the research helper explain?", m: "Assign responsibility", s: "The researcher owns the analytical choices", l: "Assign responsibility" },
+      { k: "What can the research helper explain?", m: "Ask about the mechanism", s: "n_init controls the number of starts", l: "Ask about the mechanism" },
+      { k: "What can the research helper explain?", m: "Keep the interpretation", s: "Trace the name to the original-unit profile", l: "Keep the interpretation" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -253,14 +265,17 @@ ${t(331, 46, "ChatGPT assists", 15, "#fff", "middle", 800)}
   };
 
   /* ------------------------------------------------------------ s17 · quiz (panel only) */
-  SC.s17 = { full: true, copy: [{ k: "Quiz", m: "Five questions", s: "", l: "" }], svg: "", render() { } };
+  SC.s17 = { full: true, copy: [
+      { k: "Check your reasoning", m: "Fourteen decisions", s: "Choose an answer to see the explanation", l: "Fourteen decisions" }
+    ],
+    svg: "", render() { } };
 
   /* ------------------------------------------------------------ s18 · takeaways */
   const IDEAS = [
-    ["No answer key", "Clustering always returns clusters, even from noise.", "dice"],
-    ["Standardise first", "Distance decides everything; units must not.", "ruler"],
-    ["Gap = evidence", "Compare with the same clustering on shuffled data.", "shuffle"],
-    ["Name from centres", "Original units. Describe; never claim more.", "tag"]];
+    ["No answer key", "Choose the operating measurements that define similarity.", "dice"],
+    ["Standardise first", "Compare raw and standardised distances.", "ruler"],
+    ["Shuffle baseline", "Compare with the same clustering on shuffled data.", "shuffle"],
+    ["Name from centres", "Read the name against the original-unit centre.", "tag"]];
   const icon = (k, x, y) => ({
     dice: `<rect x="${x - 15}" y="${y - 15}" width="30" height="30" rx="7" fill="#fff" stroke="${NAVY}" stroke-width="3"/>${[[-7, -7], [7, 7], [0, 0], [7, -7], [-7, 7]].map(([a, c]) => `<circle cx="${x + a}" cy="${y + c}" r="2.6" fill="${NAVY}"/>`).join("")}`,
     ruler: `<rect x="${x - 20}" y="${y - 9}" width="40" height="18" rx="3" fill="${GOLD}" stroke="${INK}" stroke-width="2"/>${[-12, -4, 4, 12].map(a => `<path d="M${x + a} ${y - 9} v7" stroke="${INK}" stroke-width="2"/>`).join("")}`,
@@ -269,12 +284,12 @@ ${t(331, 46, "ChatGPT assists", 15, "#fff", "middle", 800)}
   })[k];
   SC.s18 = {
     copy: [
-      { k: "Takeaways", m: "Four ideas to keep from this chapter.", s: "", l: "Four ideas" },
-      { k: "Idea 1", m: "Clustering has no answer key, and it always returns clusters.", s: "Even from noise.", l: "1 · no answer key" },
-      { k: "Idea 2", m: "Distance decides everything: standardise first.", s: "Every variable, every time.", l: "2 · standardise" },
-      { k: "Idea 3", m: "Compare with shuffled data. The gap is the evidence.", s: "A silhouette alone says nothing.", l: "3 · gap = evidence" },
-      { k: "Idea 4", m: "Name each group from its centre, in original units.", s: "Describe; never claim more.", l: "4 · name from the centre" },
-      { k: "Your self-paced session", m: "Now do it yourself.", s: "Four tasks, real data.", l: "Self-paced session" }
+      { k: "Prepare your own ward analysis", m: "Take four ideas with you", s: "Prepare a reproducible description", l: "Take four ideas with you" },
+      { k: "Prepare your own ward analysis", m: "Define similarity", s: "Define the operating inputs", l: "Define similarity" },
+      { k: "Prepare your own ward analysis", m: "Check the ruler", s: "Work a pair by hand in both units", l: "Check the ruler" },
+      { k: "Prepare your own ward analysis", m: "Give the score a comparison", s: "Original file and shuffled comparison", l: "Give the score a comparison" },
+      { k: "Prepare your own ward analysis", m: "Return to the measurements", s: "Connect the profile name to its centre", l: "Return to the measurements" },
+      { k: "Prepare your own ward analysis", m: "Try a different question", s: "Report what changes when the inputs change", l: "Try a different question" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>

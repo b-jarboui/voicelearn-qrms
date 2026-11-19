@@ -1,4 +1,4 @@
-/* Week 12 · Chapter 1 animated scenes, part A (s01–s09).
+/* Week 12 · Chapter 2 animated scenes, part A (s01–s09).
    Each scene: SC[id] = { svg, copy[beat], render(root, beat) } on a 480 x 360 stage.
    render() sets the full state for a beat (so jumping between beats works); CSS transitions do the motion,
    SMIL / CSS keyframes keep the world alive between beats. Data: window.W12DATA (real Al Waha episodes). */
@@ -73,8 +73,8 @@
   const L01 = D.lab2.filter((_, i) => i % 2 === 0);
   SC.s01 = {
     copy: [
-      { k: "Week 12 · Chapter 1", m: "Finding groups in the data that nobody has labelled.", s: "Clustering and segmentation analysis.", l: "4,740 episodes, no labels" },
-      { k: "The harder half", m: "Then proving that those groups are real.", s: "Anyone can find groups. Few people check them.", l: "Real, or invented?" }
+      { k: "What can a ward manager learn from unlabelled visits?", m: "A question from the ward", s: "Al Waha Hospital", l: "A question from the ward" },
+      { k: "What can a ward manager learn from unlabelled visits?", m: "Every dot starts without a label", s: "One dot = one episode of care", l: "Every dot starts without a label" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -89,7 +89,7 @@
   <g class="a o0 qm">${[[262, 90], [330, 80], [400, 92]].map(([x, y], i) => `<g class="bob" style="animation-delay:${i * .4}s"><circle cx="${x}" cy="${y}" r="13" fill="${TERRA}"/>${t(x, y + 6, "?", 17, "#fff", "middle", 800)}</g>`).join("")}</g>
   <g class="a o0 mag"><g><animateMotion dur="7s" repeatCount="indefinite" path="M250 230 C 300 140, 420 140, 420 220 S 300 290, 250 230 Z"/>
     <circle r="24" fill="${SKY}" fill-opacity=".35" stroke="${INK}" stroke-width="5"/><path d="M17 17 L34 34" stroke="${INK}" stroke-width="8" stroke-linecap="round"/></g></g>
-  <g class="a o0 tag" style="transform:scale(1.8)"><g transform="rotate(-6 339 322)"><rect x="244" y="304" width="190" height="34" rx="7" fill="#fff" stroke="${TERRA}" stroke-width="3.5"/>${t(339, 327, "REAL, OR INVENTED?", 16, TERRA, "middle", 800)}</g></g>
+  <g class="a o0 tag" style="transform:scale(1.8)"><g transform="rotate(-6 339 322)"><rect x="244" y="304" width="190" height="34" rx="7" fill="#fff" stroke="${TERRA}" stroke-width="3.5"/>${t(339, 327, "WHAT SUPPORTS IT?", 16, TERRA, "middle", 800)}</g></g>
 </g>`,
     render(r, b) {
       H.draw(r, ".bld .dr", true); H.show(r, ".sun", true); H.show(r, ".bld", true);
@@ -98,42 +98,32 @@
       H.q(r, ".f1").forEach((e, i) => { e.style.fill = b >= 1 ? CL[L01[i]] : ""; });
       H.show(r, ".mag", b >= 1); H.delay(r, ".mag", b >= 1 ? .6 : 0);
       H.show(r, ".tag", b >= 1); H.delay(r, ".tag", b >= 1 ? 1.6 : 0); H.tf(r, ".tag", b >= 1 ? "scale(1)" : "scale(1.8)");
-      H.cam(r, b >= 1 ? 300 : 240, b >= 1 ? 200 : 180, b >= 1 ? 1.12 : 1);
+      H.cam(r,240,180,1);
     }
   };
 
   /* ------------------------------------------------------------ s02 · the answer key disappears */
-  const ROWS = [["AW103952", "1.00", "7.7", "83.6", "5", "67.8", 1], ["AW100447", "1.72", "17.1", "65.1", "2", "93.0", 1], ["AW101099", "1.43", "19.3", "67.2", "3", "71.7", 0], ["AW104431", "1.93", "32.0", "87.9", "2", "87.2", 1], ["AW102630", "0.71", "3.5", "91.0", "5", "53.5", 1]];
-  const CX = [70, 150, 212, 278, 340, 410];
+  const records02=[["A","1.0","90%","Yes","Yes"],["B","1.5","71%","No","Yes"],["C","1.1","87%","No","No"]];
   SC.s02 = {
     copy: [
-      { k: "Weeks 9 to 11", m: "Every dataset came with an answer key: the outcome.", s: "Satisfaction, or whether the patient complained.", l: "The outcome column" },
-      { k: "Weeks 9 to 11", m: "So we could always check our work.", s: "Prediction against the real answer; count the errors.", l: "Check against the answer" },
-      { k: "Week 12", m: "This week, the answer key is gone.", s: "No outcome. Nothing says whether we are right.", l: "No outcome column" },
-      { k: "Unsupervised learning", m: "No answer key changes how the method must be judged.", s: "That is the whole lesson of this week.", l: "Unsupervised learning" }
+      { k: "Where did the answer key go?", m: "A recorded outcome", s: "Inputs describe a visit", l: "A recorded outcome" },
+      { k: "Where did the answer key go?", m: "Check a prediction", s: "Prediction error = observed − predicted", l: "Check a prediction" },
+      { k: "Where did the answer key go?", m: "Cover the answer column", s: "Use the operating columns", l: "Cover the answer column" },
+      { k: "Where did the answer key go?", m: "Learning without labels", s: "Judge the partition by its separation and stability", l: "Learning without labels" }
     ],
-    svg: `
-<rect width="480" height="360" fill="#EFE8DA"/>
-<rect x="22" y="44" width="436" height="214" rx="12" fill="#fff" stroke="#CDBFA6" stroke-width="2"/>
-${["episode", "staff ratio", "training h", "occupancy %", "handoffs"].map((h, i) => t(CX[i], 70, h, 12.5, MUTED, "middle", 700)).join("")}
-<path d="M34 80 H446" stroke="#CDBFA6" stroke-width="2"/>
-${ROWS.map((row, j) => row.slice(0, 5).map((v, i) => t(CX[i], 108 + j * 32, v, 14, INK, "middle", i ? 400 : 600)).join("")).join("")}
-<g class="a key">
-  <rect x="372" y="52" width="76" height="200" rx="8" fill="${TERRA}" fill-opacity=".14" stroke="${TERRA}" stroke-width="2.5"/>
-  ${t(410, 70, "satisfaction", 12.5, TERRA, "middle", 800)}
-  ${ROWS.map((row, j) => t(410, 108 + j * 32, row[5], 15, TERRA, "middle", 800)).join("")}
-  <g class="a o0 ticks">${ROWS.map((row, j) => `<circle cx="452" cy="${103 + j * 32}" r="9" fill="${row[6] ? GREEN : TERRA}"/>` + t(452, 108 + j * 32, row[6] ? "✓" : "✗", 12, "#fff", "middle", 800)).join("")}</g>
-</g>
-<g class="a o0 err">${t(120, 290, "prediction checked against the answer:", 14, MUTED, "start", 400)}${t(120, 312, "4 right · 1 error", 19, GREEN, "start", 800)}</g>
-<g class="a o0 gone">${ROWS.map((_, j) => `<g class="bob" style="animation-delay:${j * .25}s"><circle cx="410" cy="${103 + j * 32}" r="11" fill="none" stroke="${MUTED}" stroke-width="2" stroke-dasharray="4 3"/>${t(410, 109 + j * 32, "?", 15, MUTED, "middle", 800)}</g>`).join("")}</g>
-<g class="a o0 nok">${t(240, 296, "no outcome · no score · no leaderboard", 17, NAVY, "middle", 800)}</g>
-<g class="a o0 stamp" style="transform:scale(1.9)"><g transform="rotate(-7 240 196)"><rect x="96" y="172" width="288" height="48" rx="8" fill="#fff" fill-opacity=".9" stroke="${TERRA}" stroke-width="4"/>${t(240, 204, "UNSUPERVISED LEARNING", 21, TERRA, "middle", 800)}</g></g>`,
-    render(r, b) {
-      H.show(r, ".ticks", b === 1); H.show(r, ".err", b === 1);
-      H.tf(r, ".key", b >= 2 ? "translate(120px,-300px) rotate(28deg)" : "none"); H.show(r, ".key", b < 2);
-      H.show(r, ".gone", b >= 2); H.delay(r, ".gone", b >= 2 ? .7 : 0);
-      H.show(r, ".nok", b >= 2); H.delay(r, ".nok", b >= 2 ? 1.2 : 0);
-      H.show(r, ".stamp", b >= 3); H.tf(r, ".stamp", b >= 3 ? "scale(1)" : "scale(1.9)"); H.delay(r, ".stamp", b >= 3 ? .8 : 0);
+    svg: `<rect width="480" height="360" fill="#F6F1E7"/>
+      ${t(240,34,"Three illustrative ward visits",17,NAVY)}
+      <rect x="18" y="60" width="444" height="193" rx="14" fill="white" stroke="#CDBFA6"/>
+      ${["Visit","Staff ratio","Occupancy","Complaint","Prediction"].map((h,i)=>t(55+i*91,90,h,12,INK,"middle",700,i===3?"answer02":i===4?"guess02":"")).join("")}
+      ${records02.map((row,j)=>row.map((v,i)=>t(55+i*91,127+j*48,v,15,i===4 && row[3]!==v?TERRA:NAVY,"middle",700,i===3?"a answer02":i===4?"a guess02":"")).join("")).join("")}
+      <g class="a o0 cover02"><rect x="292" y="73" width="151" height="157" rx="10" fill="#E9E5DB"/>
+      ${t(368,145,"Outcomes",15,MUTED)}${t(368,167,"set aside",15,MUTED)}</g>
+      ${t(240,294,"",16,INK,"middle",700,"label02")}
+      ${t(240,325,"",13,MUTED,"middle",600,"note02")}`,
+    render(r,b){
+      H.show(r,".guess02",b===1);H.show(r,".answer02",b<2);H.show(r,".cover02",b>=2);
+      r.querySelector(".label02").textContent=["What happened to each visit?","One prediction disagrees with its outcome","Which visits have similar conditions?","Learning from inputs alone"][b];
+      r.querySelector(".note02").textContent=b===1?"Visit B was flagged but had no complaint":b>=2?"The group label will be created from the operating inputs":"An observed outcome acts as the answer key";
     }
   };
 
@@ -141,11 +131,11 @@ ${ROWS.map((row, j) => row.slice(0, 5).map((v, i) => t(CX[i], 108 + j * 32, v, 1
   const PA = [24, 86, 206, 196], PB = [250, 86, 206, 196];   // x, y, w, h
   SC.s03 = {
     copy: [
-      { k: "Your turn", m: "Two clouds of hospital episodes, each squeezed onto a flat map.", s: "Each dot is one episode.", l: "Two pictures" },
-      { k: "Your turn", m: "One of them has real groups in it. Which one?", s: "Choose picture A or picture B under the stage.", l: "Choose A or B" },
-      { k: "Watch", m: "We ask the computer for four groups in each picture.", s: "k-means, k = 4, on both.", l: "k = 4 on both pictures" },
-      { k: "The trap", m: "Four tidy groups in both. But picture A is pure noise.", s: "We shuffled it: it has no structure at all.", l: "A = shuffled noise" },
-      { k: "Remember", m: "Clustering always returns clusters, even from noise.", s: "Finding clusters is not evidence that clusters exist.", l: "Clusters ≠ evidence" }
+      { k: "Which picture preserves the original visits?", m: "Look before the colours arrive", s: "A and B each show a flat projection", l: "Look before the colours arrive" },
+      { k: "Which picture preserves the original visits?", m: "Make a prediction", s: "Choose A or B below", l: "Make a prediction" },
+      { k: "Which picture preserves the original visits?", m: "Request four colours", s: "Requested number of groups = 4", l: "Request four colours" },
+      { k: "Which picture preserves the original visits?", m: "Reveal the shuffle", s: "A = shuffled   ·   B = original", l: "Reveal the shuffle" },
+      { k: "Which picture preserves the original visits?", m: "A comparison to carry forward", s: "Compare against the same fit on rearranged data", l: "A comparison to carry forward" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -157,7 +147,7 @@ ${[["A", PA], ["B", PB]].map(([n, p]) => `<rect class="frame fr${n}" x="${p[0] -
 <g class="a o0 stA" style="transform:scale(1.8)"><g transform="rotate(-8 127 318)"><rect x="40" y="300" width="174" height="34" rx="7" fill="#fff" stroke="${TERRA}" stroke-width="3.5"/>${t(127, 323, "SHUFFLED · NOISE", 16, TERRA, "middle", 800)}</g></g>
 <g class="a o0 stB" style="transform:scale(1.8)"><g transform="rotate(5 353 318)"><rect x="276" y="300" width="154" height="34" rx="7" fill="#fff" stroke="${GREEN}" stroke-width="3.5"/>${t(353, 323, "REAL EPISODES", 16, GREEN, "middle", 800)}</g></g>
 <g class="a o0 k4">${t(240, 30, "k-means · k = 4", 16, NAVY, "middle", 800)}</g>
-<g class="a o0 ban"><rect x="70" y="150" width="340" height="62" rx="12" fill="${INK}" fill-opacity=".9"/>${t(240, 178, "Clusters found ≠ clusters exist", 20, "#fff", "middle", 800)}${t(240, 200, "a method always returns what you ask for", 13.5, "#E7DDCB", "middle", 400)}</g>`,
+<g class="a o0 ban"><rect x="70" y="150" width="340" height="62" rx="12" fill="${INK}" fill-opacity=".9"/>${t(240, 178, "Clusters found ≠ clusters exist", 20, "#fff", "middle", 800)}${t(240, 200, "k-means also partitions the shuffled visits", 13.5, "#E7DDCB", "middle", 400)}</g>`,
     choose(r, p) { H.q(r, ".frame").forEach(f => { f.style.stroke = ""; f.style.strokeWidth = ""; }); const f = r.querySelector(".fr" + p.toUpperCase()); if (f) { f.style.stroke = NAVY; f.style.strokeWidth = "4"; } },
     render(r, b) {
       H.q(r, ".pa,.pb").forEach((e, i) => { e.style.transitionDelay = (i % 240) * .004 + "s"; e.style.opacity = "1"; });
@@ -172,17 +162,17 @@ ${[["A", PA], ["B", PB]].map(([n, p]) => `<rect class="frame fr${n}" x="${p[0] -
   };
 
   /* ------------------------------------------------------------ s04 · the k-means algorithm, animated on real points */
-  const F4 = [22, 46, 300, 278];
+  const F4 = [33, 46, 278, 278];
   const ST4 = H.kmeans(D.pts, [[0.08, 0.9], [0.22, 0.95], [0.12, 0.72]]);
   const STEPS = ["Choose k, drop centres", "Assign to nearest", "Move to the middle", "Repeat until still"];
   SC.s04 = {
     copy: [
-      { k: "k-means", m: "The whole algorithm, in four moves.", s: "240 real episodes on a flat map.", l: "240 episodes" },
-      { k: "Move 1", m: "Choose k. Drop k centres at random.", s: "Here k = 3.", l: "k = 3 centres dropped" },
-      { k: "Move 2", m: "Give every episode to its nearest centre.", s: "Each episode takes the colour of its centre.", l: "Assign to the nearest centre" },
-      { k: "Move 3", m: "Move each centre to the middle of its episodes.", s: "The centre is the average of its members.", l: "Centres move to the middle" },
-      { k: "Move 4", m: "Repeat until nothing changes.", s: "That is the whole algorithm.", l: "Repeat…" },
-      { k: "The key word", m: "Everything rests on the word nearest.", s: "Nearest depends on how we measure distance, and on the units.", l: "Nearest = distance" }
+      { k: "Follow a centre through one round", m: "Group by nearness", s: "One dot per episode", l: "Group by nearness" },
+      { k: "Follow a centre through one round", m: "Place the starting centres", s: "k = number of centres", l: "Place the starting centres" },
+      { k: "Follow a centre through one round", m: "Assign each visit", s: "Assign to the nearest cross", l: "Assign each visit" },
+      { k: "Follow a centre through one round", m: "Move to the mean", s: "Centre = mean of its assigned positions", l: "Move to the mean" },
+      { k: "Follow a centre through one round", m: "Assign again", s: "Assign → move → repeat", l: "Assign again" },
+      { k: "Follow a centre through one round", m: "Read the distances", s: "The choice of ruler changes the geometry", l: "Read the distances" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -195,7 +185,7 @@ ${STEPS.map((s, i) => `<g class="step st${i}"><rect x="340" y="${52 + i * 64}" w
   <circle cx="360" cy="${78 + i * 64}" r="12" fill="${MUTED}"/>${t(360, 83 + i * 64, i + 1, 13, "#fff")}
   <foreignObject x="376" y="${56 + i * 64}" width="92" height="46"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 12.5px Calibri,Segoe UI,sans-serif;color:${INK};line-height:1.15;height:46px;display:flex;align-items:center">${s}</div></foreignObject></g>`).join("")}
 <g class="a o0 rnd">${t(172, 22, "", 15, NAVY, "middle", 800, "rndt")}</g>
-<g class="a o0 near"><rect x="96" y="134" width="156" height="78" rx="12" fill="${INK}" fill-opacity=".9"/>${t(174, 164, "NEAREST?", 22, GOLD, "middle", 800)}${t(174, 190, "in % · hours · ratios?", 14, "#fff", "middle", 400)}</g>`,
+<g class="a o0 near">${t(170,349,"Which units define nearest?",14,NAVY)}</g>`,
     render(r, b) {
       const alive = H.alive(r); clearInterval(r._t4);
       H.q(r, ".p4").forEach((e, i) => { e.style.transitionDelay = (i * .004) + "s"; e.style.opacity = "1"; });
@@ -224,20 +214,25 @@ ${STEPS.map((s, i) => `<g class="step st${i}"><rect x="340" y="${52 + i * 64}" w
       }
       if (b === 4) {
         let k = 2; show(k);
-        r._t4 = setInterval(() => { if (!alive()) { clearInterval(r._t4); return; } k++; if (k > ST4.length - 1) { clearInterval(r._t4); return; } show(k); }, 900);
+        r._t4 = setInterval(() => { if (!alive()) { clearInterval(r._t4); return; } k++; if (k > ST4.length - 1) { clearInterval(r._t4); return; } show(k); }, Math.min(500,4200/ST4.length));
       }
-      if (b >= 5) show(ST4.length - 1);
+      if (b >= 5) {
+        const final=ST4.at(-1),i=150;
+        show(ST4.length-1);
+        const [x,y]=H.px(D.pts[i],...F4), [cx,cy]=H.px(final.c[final.lab[i]],...F4);
+        sp.innerHTML=`<line x1="${x}" y1="${y}" x2="${cx}" y2="${cy}" stroke="${INK}" stroke-width="3"/><circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${INK}" stroke-width="2"/>`;
+      }
       H.show(r, ".near", b >= 5); H.delay(r, ".near", b >= 5 ? .4 : 0);
     }
   };
 
   /* ------------------------------------------------------------ s05 · playground: run k-means yourself */
-  const F5 = [26, 26, 428, 300];
+  const F5 = [90, 26, 300, 300];
   SC.s05 = {
     copy: [
-      { k: "Your turn", m: "Run k-means yourself on 240 real episodes.", s: "Use the buttons under the stage.", l: "Your k-means" },
-      { k: "Your turn", m: "Choose k, then Assign and Move, one step at a time.", s: "Stop when the centres stop moving.", l: "Assign, Move, repeat" },
-      { k: "Your turn", m: "Try a new random start. Do you get the same groups?", s: "Compare the total spread after each run.", l: "Try another start" }
+      { k: "Move the centres yourself", m: "Predict the first assignment", s: "Practice fit uses the 240 displayed positions", l: "Predict the first assignment" },
+      { k: "Move the centres yourself", m: "Test one round", s: "Watch one cross between Assign and Move", l: "Test one round" },
+      { k: "Move the centres yourself", m: "Test the starting position", s: "Keep k fixed for a fair comparison of starts", l: "Test the starting position" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -287,11 +282,11 @@ ${[0, 1, 2, 3, 4, 5].map(j => H.centre(j, "a o0 c5")).join("")}
   const AX = 54, AY = 196, U = 6;          // 6 px per unit, same scale on both axes
   SC.s06 = {
     copy: [
-      { k: "Worked by hand", m: "How far apart are episode A and episode B?", s: "A: occupancy 60%, staff ratio 1.2. B: occupancy 80%, staff ratio 0.9.", l: "Two episodes" },
-      { k: "Step 1", m: "Gap in occupancy: 20 points. Squared: 400.", s: "20 × 20 = 400", l: "Occupancy: 400" },
-      { k: "Step 2", m: "Gap in staff ratio: 0.3. Squared: 0.09.", s: "0.3 × 0.3 = 0.09: a speck you can hardly see.", l: "Staff ratio: 0.09" },
-      { k: "Step 3", m: "Add, take the square root: the distance is 20.00.", s: "√(400 + 0.09) = √400.09 = 20.00", l: "Distance = 20.00" },
-      { k: "The lesson", m: "Occupancy supplied 400 of the 400.09.", s: "Staffing counts for almost nothing, only because its numbers are small.", l: "Units decided the answer" }
+      { k: "How far apart are two visits?", m: "Read the pair", s: "A · 60%, 1.2    B · 80%, 0.9", l: "Read the pair" },
+      { k: "How far apart are two visits?", m: "Square the occupancy gap", s: "20 × 20 = 400", l: "Square the occupancy gap" },
+      { k: "How far apart are two visits?", m: "Square the staffing gap", s: "0.3 × 0.3 = 0.09", l: "Square the staffing gap" },
+      { k: "How far apart are two visits?", m: "Take the square root", s: "√400.09 ≈ 20.00", l: "Take the square root" },
+      { k: "How far apart are two visits?", m: "Interpret the weighting", s: "Occupancy supplies 400 of 400.09 squared units", l: "Interpret the weighting" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -322,7 +317,7 @@ ${[["A", 22, "60%", "1.2", NAVY], ["B", 250, "80%", "0.9", TERRA]].map(([n, x, o
 <g class="a o0 scale">
   <rect x="226" y="104" width="240" height="236" rx="14" fill="#fff" stroke="#CDBFA6" stroke-width="2"/>
   ${t(346, 132, "who decides the distance?", 15, INK, "middle", 800)}
-  <g class="beam" style="transform-origin:346px 200px;transition:transform 1.4s cubic-bezier(.3,1.6,.5,1)">
+  <g class="beam" style="transform-box:view-box;transform-origin:0 0;transition:transform 1.4s cubic-bezier(.3,1.6,.5,1)">
     <path d="M262 200 H430" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>
     <path d="M262 200 L246 236 M262 200 L278 236 M430 200 L414 236 M430 200 L446 236" stroke="${MUTED}" stroke-width="1.5"/>
     <path d="M240 236 H284 L278 244 H246 Z" fill="${INK}"/><path d="M408 236 H452 L446 244 H414 Z" fill="${INK}"/>
@@ -331,7 +326,7 @@ ${[["A", 22, "60%", "1.2", NAVY], ["B", 250, "80%", "0.9", TERRA]].map(([n, x, o
   </g>
   <path d="M346 200 L332 262 H360 Z" fill="${MUTED}"/>
   ${t(262, 290, "occupancy", 13, TERRA, "middle", 800)}${t(430, 290, "staffing", 13, NAVY, "middle", 800)}
-  ${t(346, 322, "99.98% of it comes from occupancy", 14, TERRA, "middle", 800)}
+  ${t(346, 322, "Occupancy · 99.98% of squared distance", 12, TERRA, "middle", 800)}
 </g>`,
     render(r, b) {
       H.show(r, ".cardA,.cardB,.pA,.pB", true); H.delay(r, ".cardB", .4);
@@ -341,7 +336,7 @@ ${[["A", 22, "60%", "1.2", NAVY], ["B", 250, "80%", "0.9", TERRA]].map(([n, x, o
       H.show(r, ".speck", b >= 2); H.show(r, ".f2", b >= 2); H.delay(r, ".f2", b === 2 ? 1 : 0);
       H.draw(r, ".hyp", b >= 3); H.show(r, ".f3", b >= 3); H.delay(r, ".f3", b === 3 ? 1.2 : 0);
       H.show(r, ".speck", b === 2 || b === 3);
-      H.show(r, ".scale", b >= 4); H.tf(r, ".beam", b >= 4 ? "rotate(-16deg)" : "none"); H.delay(r, ".beam", b >= 4 ? .6 : 0);
+      H.show(r, ".scale", b >= 4); H.tf(r, ".beam", b >= 4 ? "translate(346px,200px) rotate(-9deg) translate(-346px,-200px)" : "none"); H.delay(r, ".beam", b >= 4 ? .6 : 0);
       H.show(r, ".f1,.f2,.f3", b >= 3 && b < 4 ? true : false);
       if (b === 1) H.show(r, ".f1", true); if (b === 2) H.show(r, ".f1,.f2", true);
     }
@@ -351,11 +346,11 @@ ${[["A", 22, "60%", "1.2", NAVY], ["B", 250, "80%", "0.9", TERRA]].map(([n, x, o
   const V7 = [["occupancy %", D.sd.occupancy_pct, D.shareRaw.occupancy_pct, TERRA], ["training hours", D.sd.training_hours, D.shareRaw.training_hours, GOLD], ["handoffs", D.sd.handoffs, D.shareRaw.handoffs, GREEN], ["staff ratio", D.sd.staff_ratio, D.shareRaw.staff_ratio, NAVY]];
   SC.s07 = {
     copy: [
-      { k: "The cure, from Week 4", m: "The z-score: subtract the mean, divide by the standard deviation.", s: "Applied to every column.", l: "z = (x − mean) ÷ SD" },
-      { k: "The real file", m: "The columns have very different spreads.", s: "Occupancy SD ≈ 10.4, training ≈ 9.7, staff ratio ≈ 0.34.", l: "Spreads in raw units" },
-      { k: "Without standardising", m: "Two columns supply 99% of every distance.", s: "Staff ratio supplies 0.1%.", l: "99% from two columns" },
-      { k: "After standardising", m: "Every column has SD 1, and each supplies about a quarter.", s: "Four variables, four equal voices.", l: "25% each" },
-      { k: "In Python", m: "One line: StandardScaler().fit_transform(X).", s: "Skip it, and your segments are bands of one variable in disguise.", l: "One line prevents it" }
+      { k: "Give each column a common unit", m: "Measure from the average", s: "Compare a value with its column mean", l: "Measure from the average" },
+      { k: "Give each column a common unit", m: "Compare the spreads", s: "SD · occupancy 10.485, staff ratio 0.344", l: "Compare the spreads" },
+      { k: "Give each column a common unit", m: "Read the raw shares", s: "Average shares across pairs", l: "Read the raw shares" },
+      { k: "Give each column a common unit", m: "Change the ruler", s: "z = (value − mean) / SD", l: "Change the ruler" },
+      { k: "Give each column a common unit", m: "Scale before fitting", s: "StandardScaler().fit_transform(X)", l: "Scale before fitting" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -377,26 +372,27 @@ ${t(240, 48, "z = (x − mean) ÷ SD", 24, "#fff", "middle", 800)}
   ${V7.map(([n, sd, , c], i) => `${t(24, 118 + i * 30, n, 14, INK, "start", 700)}<rect class="a sdb" data-w="${Math.max(3, sd * 20)}" x="140" y="${104 + i * 30}" width="1" height="18" rx="4" fill="${c}" style="transform-origin:140px 0;transition:width 1.2s"/>${t(0, 118 + i * 30, sd.toFixed(2), 13.5, c, "start", 800, "sdv")}`).join("")}
 </g>
 <g class="a o0 share">
-  ${t(24, 252, "share of the distance between two episodes", 12.5, MUTED, "start", 700)}
+  ${t(24, 252, "Average share of squared distance", 12.5, MUTED, "start", 700)}
   <g class="segs">${V7.map(([n, , sh, c], i) => `<rect class="seg" data-i="${i}" y="262" height="34" fill="${c}" style="transition:x 1.2s,width 1.2s"/>`).join("")}</g>
   <g class="sl">${V7.map(([n, , sh, c], i) => t(0, 316, "", 12.5, c, "middle", 800, "segl")).join("")}</g>
   <g class="a o0 br99"><path d="M24 300 V306 H440 V300" fill="none" stroke="${TERRA}" stroke-width="2"/></g>
 </g>
 <g class="a o0 code"><rect x="24" y="294" width="432" height="54" rx="10" fill="${INK}"/>
-  <text x="40" y="327" font-family="Consolas,monospace" font-size="16" fill="#E7DDCB">Z = <tspan fill="${GOLD}">StandardScaler</tspan>().fit_transform(X)</text></g>`,
+  <text x="40" y="327" font-family="Consolas,monospace" font-size="16" fill="#E7DDCB">Z = StandardScaler().fit_transform(X)</text></g>`,
     render(r, b) {
       H.show(r, ".ruler", b === 0); H.draw(r, ".ar7", b === 0);
       H.q(r, ".zr").forEach(e => { e.style.transitionDelay = b === 0 ? ".9s" : "0s"; e.style.opacity = b === 0 ? "1" : "0"; e.style.transform = b === 0 ? "none" : "scaleX(1.9)"; });
       H.show(r, ".zl", b === 0); H.delay(r, ".zl", b === 0 ? 1.8 : 0);
       H.show(r, ".sds", b >= 1);
       const z = b >= 3;
+      const standardShares=[D.shareZ.occupancy_pct,D.shareZ.training_hours,D.shareZ.handoffs,D.shareZ.staff_ratio];
       H.q(r, ".sdb").forEach((e, i) => { const w = z ? 20 : +e.dataset.w; e.setAttribute("width", w); e.style.transitionDelay = b === 1 ? (i * .2) + "s" : "0s"; });
       H.q(r, ".sdv").forEach((e, i) => { const w = z ? 20 : +H.q(r, ".sdb")[i].dataset.w; e.setAttribute("x", 148 + w); e.textContent = z ? "1.00" : V7[i][1].toFixed(2); });
       H.show(r, ".share", b >= 2 && b <= 3); H.show(r, ".br99", b === 2);
       let x = 24; const W = 416;
-      H.q(r, ".seg").forEach((e, i) => { const f = z ? .25 : V7[i][2]; const w = Math.max(1, f * W); e.setAttribute("x", x); e.setAttribute("width", w); x += w; });
-      x = 24; H.q(r, ".segl").forEach((e, i) => { const f = z ? .25 : V7[i][2]; const w = f * W; e.setAttribute("x", x + w / 2); x += f * W;
-        e.textContent = z ? "25%" : (f > .2 ? Math.round(f * 1000) / 10 + "%" : ""); });
+      H.q(r, ".seg").forEach((e, i) => { const f = z ? standardShares[i] : V7[i][2]; const w = Math.max(1, f * W); e.setAttribute("x", x); e.setAttribute("width", w); x += w; });
+      x = 24; H.q(r, ".segl").forEach((e, i) => { const f = z ? standardShares[i] : V7[i][2]; const w = f * W; e.setAttribute("x", x + w / 2); x += f * W;
+        e.textContent = z ? (100*f).toFixed(1)+"%" : (f > .2 ? Math.round(f * 1000) / 10 + "%" : ""); });
       H.show(r, ".code", b >= 4);
     }
   };
@@ -405,8 +401,8 @@ ${t(240, 48, "z = (x − mean) ÷ SD", 24, "#fff", "middle", 800)}
   const VARS = [["staff_ratio", "staff ratio", NAVY, 2], ["training_hours", "training hours", GOLD, 1], ["occupancy_pct", "occupancy %", TERRA, 1], ["handoffs", "handoffs", GREEN, 0]];
   SC.s08 = {
     copy: [
-      { k: "Your turn", m: "Who decides the distance between two episodes?", s: "Pick two real episodes under the stage.", l: "Pick two episodes" },
-      { k: "Your turn", m: "Switch between raw units and standardised units.", s: "Watch the share each variable supplies.", l: "Raw or standardised?" }
+      { k: "Which measurement separates your pair?", m: "Pick two records", s: "The two menus select actual hospital records", l: "Pick two records" },
+      { k: "Which measurement separates your pair?", m: "Keep the pair fixed", s: "Bar length = share of this pair’s squared distance", l: "Keep the pair fixed" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -424,13 +420,13 @@ ${t(36, 336, "distance between the two episodes", 14, MUTED, "start", 600)}
     update(r, ia, ib, z) {
       const E = D.episodes, A = E[ia], B = E[ib]; if (!A || !B) return;
       const sq = VARS.map(([k], j) => { const g = A[j + 1] - B[j + 1]; const s = z ? g / D.sd[k] : g; return { g, s2: s * s }; });
-      const tot = sq.reduce((a, x) => a + x.s2, 0) || 1e-9;
+      const tot = sq.reduce((a, x) => a + x.s2, 0);
       r.querySelector(".e8a").textContent = "A · " + A[0]; r.querySelector(".e8b").textContent = "B · " + B[0];
       r.querySelector(".mode8").textContent = z ? "standardised units: each gap ÷ its standard deviation" : "raw units: % , hours, ratio, count";
       H.q(r, ".row8").forEach((g, j) => {
-        const f = sq[j].s2 / tot, k = VARS[j][0];
+        const f = tot ? sq[j].s2 / tot : 0, k = VARS[j][0];
         g.querySelector(".bar8").setAttribute("width", Math.max(0, f * 240));
-        g.querySelector(".pc8").textContent = (f < .001 && f > 0 ? "<0.1" : (Math.round(f * 1000) / 10)) + "%";
+        g.querySelector(".pc8").textContent = tot ? ((f < .001 && f > 0 ? "<0.1" : Math.round(f * 1000) / 10) + "%") : "—";
         g.querySelector(".gap8").textContent = `${A[j + 1]} vs ${B[j + 1]}` + (z ? ` → gap ${(Math.abs(sq[j].g) / D.sd[k]).toFixed(2)} SD` : ` → gap ${+Math.abs(sq[j].g).toFixed(2)}`);
       });
       r.querySelector(".dist8").textContent = Math.sqrt(tot).toFixed(2) + (z ? " SD" : "");
@@ -445,11 +441,11 @@ ${t(36, 336, "distance between the two episodes", 14, MUTED, "start", 600)}
   const F9 = [276, 70, 184, 160];
   SC.s09 = {
     copy: [
-      { k: "The noise floor", m: "How do we know our groups are real?", s: "We build what 'no structure' looks like.", l: "Build a noise floor" },
-      { k: "Step 1", m: "Shuffle each column on its own.", s: "Like spinning the reels of a slot machine.", l: "Spin each column" },
-      { k: "Step 2", m: "Same values in every column. The links between columns are gone.", s: "Same mean, same spread. Any real group disappears.", l: "Links destroyed" },
-      { k: "Step 3", m: "Run exactly the same clustering on the shuffled data.", s: "Its score is what 'no structure' looks like.", l: "Same method, both files" },
-      { k: "The evidence", m: "The gap between the two scores is your evidence.", s: "Four lines of code. Almost nobody runs them.", l: "Gap = evidence" }
+      { k: "Build a comparison by shuffling", m: "What could the method do by chance?", s: "Construct a reference for the same procedure", l: "What could the method do by chance?" },
+      { k: "Build a comparison by shuffling", m: "Shuffle separately", s: "Permute each operating column separately", l: "Shuffle separately" },
+      { k: "Build a comparison by shuffling", m: "Check what survived", s: "Marginal distributions stay intact", l: "Check what survived" },
+      { k: "Build a comparison by shuffling", m: "Fit the comparison file", s: "Use identical scaling and fitting settings", l: "Fit the comparison file" },
+      { k: "Build a comparison by shuffling", m: "Read the difference", s: "Compare the two silhouette scores", l: "Read the difference" }
     ],
     svg: `
 <rect width="480" height="360" fill="#F6F1E7"/>
@@ -462,7 +458,7 @@ ${SH9.map((h, c) => t(50 + c * 58, 56, h, 13, MUTED, "middle", 700)).join("")}
 <g class="a o0 same">${SH9.map((_, c) => `<g><path d="M${34 + c * 58} 300 v-8 h8 v-14 h8 v8 h8 v-18 h8 v32 Z" fill="${CL[c]}" fill-opacity=".35" stroke="${CL[c]}" stroke-width="1.5"/></g>`).join("")}
   ${t(137, 322, "✓ same values, same mean, same spread", 13, GREEN, "middle", 800)}</g>
 <rect x="${F9[0] - 10}" y="${F9[1] - 38}" width="${F9[2] + 20}" height="${F9[3] + 50}" rx="12" fill="#fff" stroke="#CDBFA6" stroke-width="2"/>
-<text class="sc9" x="${F9[0] + F9[2] / 2}" y="${F9[1] - 16}" font-size="13" fill="${MUTED}" text-anchor="middle" font-weight="700">real episodes: structure</text>
+<text class="sc9" x="${F9[0] + F9[2] / 2}" y="${F9[1] - 16}" font-size="13" fill="${MUTED}" text-anchor="middle" font-weight="700">original combinations</text>
 ${D.pts.map((p, i) => { const a = H.px(p, F9[0], F9[1], F9[2], F9[3]), z = H.px(D.shuf[i], F9[0], F9[1], F9[2], F9[3]); return `<circle class="pt p9" cx="${a[0].toFixed(1)}" cy="${a[1].toFixed(1)}" r="2.4" data-dx="${(z[0] - a[0]).toFixed(1)}" data-dy="${(z[1] - a[1]).toFixed(1)}" style="fill:${CL[D.lab2[i]]};transition:transform 1.6s cubic-bezier(.4,0,.2,1) ${(i % 30) * .02}s,fill .6s"/>`; }).join("")}
 <g class="a o0 meters">
   ${t(24, 292, "silhouette score, k = 2", 12, MUTED, "start", 700)}
@@ -471,15 +467,15 @@ ${D.pts.map((p, i) => { const a = H.px(p, F9[0], F9[1], F9[2], F9[3]), z = H.px(
 </g>
 <g class="a o0 gap9"><path d="M${92 + 200 * .19} 324 H${92 + 200 * .504}" stroke="${TERRA}" stroke-width="3" marker-end="url(#ar9)" marker-start="url(#ar9)"/>
   <defs><marker id="ar9" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="${TERRA}"/></marker></defs>
-  <rect x="318" y="296" width="146" height="52" rx="10" fill="${TERRA}"/>${t(391, 318, "gap +0.31", 18, "#fff", "middle", 800)}${t(391, 338, "= your evidence", 13.5, "#fff", "middle", 700)}</g>
-<g class="a o0 four"><rect x="292" y="248" width="164" height="30" rx="15" fill="${INK}"/>${t(374, 268, "4 lines of code", 14, GOLD, "middle", 800)}</g>`,
+  <rect x="318" y="296" width="146" height="52" rx="10" fill="${TERRA}"/>${t(391, 318, "gap +0.31", 18, "#fff", "middle", 800)}${t(391, 338, "over the shuffle", 13.5, "#fff", "middle", 700)}</g>
+<g class="a o0 four"><rect x="292" y="248" width="164" height="30" rx="15" fill="${INK}"/>${t(374, 268, "Same procedure", 14, GOLD, "middle", 800)}</g>`,
     render(r, b) {
       const shuf = b >= 1;
       H.q(r, ".cell").forEach(g => { const c = +g.dataset.c, j = +g.dataset.j; const nj = shuf ? PERM[c][j] : j; g.style.transform = `translateY(${(nj - j) * 30}px)`; g.style.transitionDelay = shuf ? (c * .35) + "s" : "0s"; });
       H.show(r, ".lever", b === 1); H.tf(r, ".lv", b === 1 ? "rotate(160deg)" : "none"); H.delay(r, ".lv", .3);
       H.show(r, ".same", b === 2);
       H.q(r, ".p9").forEach((e, i) => { e.style.transform = b >= 2 ? `translate(${e.dataset.dx}px,${e.dataset.dy}px)` : "none"; e.style.fill = b >= 2 ? GREY : CL[D.lab2[i]]; });
-      r.querySelector(".sc9").textContent = b >= 2 ? "after shuffling: no structure" : "real episodes: structure";
+      r.querySelector(".sc9").textContent = b >= 2 ? "independently shuffled" : "original combinations";
       H.show(r, ".meters", b >= 3);
       r.querySelector(".m1").setAttribute("width", b >= 3 ? 200 * .504 : 0); r.querySelector(".m2").setAttribute("width", b >= 3 ? 200 * .19 : 0);
       r.querySelector(".m1t").setAttribute("x", 98 + 200 * .504); r.querySelector(".m2t").setAttribute("x", 98 + 200 * .19);
